@@ -1,0 +1,477 @@
+---
+title: 'FIT0045 N Week 02'
+date: '2023-03-10'
+tags: ['FIT0045', 'week 3']
+draft: false
+summary:
+images: []
+---
+
+//Boolean Values and Boolean Expressions//
+
+there are two boolean values, 'True' and 'False'
+
+boolean expressions are expressions that are evaluated to a boolean value
+
+example:
+
+```python
+
+print(5 == 5) # true
+print(5 == 7) # false
+
+```
+
+//logical operators//
+
+there are three logical operators, 'and', 'or' and 'not'. all three take boolean operands and produce boolean values.
+
+'x' 'and' 'y' are 'true' if both 'x' and 'y' are 'true'. otherwise 'false'
+'x' 'or' 'y' is 'true' if 'x' or 'y' or both are 'true'. only if both operands are false does 'or' produce 'false'
+'not' x yields 'false' if 'x' is 'true' and vice versa
+
+skipping the evaluation of a value is called 'short-circuit-boolean-evaluation' and happens when the out come is know from a singular value of a boolean expression
+
+example of 'and' and 'if' statements
+
+```python
+
+total_weight = int(input("please input the weight: "))
+num_pieces = int(input("input the number of pieces of closing: "))
+
+if num_weight != 0 and total_weight / num_pieces ' 50"
+    print("weight exceeds 50 kg --' 100$ surcharge")
+
+print("luggage check complete")
+
+```
+
+//strings and lists//
+
+the properties of strings and lists:
+
+```python
+
+# can associate values with strings
+
+composer = " "
+first_name = OSCAR
+last_name = CATHCART
+composer = first_name + " " + last_name # strings can also be added as spaces
+print(composer)
+
+line_1a = "Cebcde"
+line_1a[5] # this can be used to isolate a single character in a string
+print(line_1a[5]) # this will print the letter 'e' as the line reads from 0
+print(line_1a[0]) # will print 'C'
+
+print(len(line_1a)) #len tells you the total number of characters in a string so the final character will always equal 1 - the total characters.
+
+notes = "cebefgeecbeege"
+notes[2;5] # the slicing function take the character in position '2' and everything up to but not including '5'
+
+notes.count("c") # will count the occurrence of a certain value
+
+notes.index("e") # will find the first occurrence (position from 0 - n) of a certain substrate
+
+composer.upper() # will return the string in upper case
+
+composer.lower() # will return the string in lower case
+
+composer.strip() # will return the leading and ending white strip as nothing
+
+# all of these 'strip', 'upper' and 'lower' return a copy rather then altering the original value
+
+```
+
+creating lists - to create a list we use the '[]' brackets
+
+```python
+
+my_self["butt", "smile", "long feet"] # this will create a list of myself
+
+# to add things to the list after its creating we can use the 'append' function
+
+my_self.append["big forehead"]
+
+# to add two list together
+
+my_hobbies["blue eyes"]
+
+me = my_self + my_hobbies
+
+```
+
+the values that make up a list are called 'elements'
+
+//the 'in' and 'not in' operators//
+
+the 'in' and 'not-in' operators see if a substrate is in a string and determines if it is true or false.
+
+```python
+
+print('p' in 'apple')
+print('i' in 'apple')
+print('ap' in 'apple')
+print('pa' in 'apple')
+
+# examples of 'in' functions
+
+print("a" in ["a", "b", "c", "d"])
+print(9 in [3, 2, 9, 10, 9.0])
+print('wow' not in ['gee wiz', 'gosh golly', 'wow', 'amazing'])
+
+# examples of 'in' and 'not in' functions
+
+print("a" in ["apple", "absolutely", "application", "nope"])
+
+# this will return the value 'false' because in list, the 'in' function looks for exact substrates of the value being looked for
+
+```
+
+//precedence of operators//
+
+precedence of operators:
+
+'highest'
+\*\* \* / // % + -
+== != '= '= ' ' in not-in
+not
+and
+or
+'Lowest'
+
+//conditional execution//
+
+uses boolean expression to decide whether a statement is true or false
+
+```python
+
+if condition.a: #if the condition a is met, then execute A
+    A
+else: # if condition A isn't met, execute B
+    B
+
+```
+
+we can also chain conditional statements together for example:
+
+```python
+
+if condition:
+    if condition:
+        A
+    else:
+        B
+else:
+    if condition:
+        C
+    else:
+        D
+
+# these are chained conditions
+
+# you can also imbed conditions to activate another condition.
+
+if condition:
+    A
+elif condition:
+    B
+else:
+    C
+
+```
+
+here are some examples of conditional statements:
+
+```python
+
+x = 15
+
+if x % 2 == 0:
+    print( x, "is even")
+else:
+    print( x, "is odd")
+
+# the syntax for conditional statements looks like
+
+if BOOLEAN EXPRESSION:
+    STATEMENTS_1        # executed if condition evaluates to True
+else:
+    STATEMENTS_2        # executed if condition evaluates to False
+
+```
+
+//omitting the else clause//
+
+sometime you can completely disregard the 'else' condition
+
+```python
+
+x = 10
+
+if  x ' 10:
+    print("if" x "is negative then we disregard it.")
+
+print("this is always printed")
+
+```
+
+//nested conditionals//
+
+examples of nested conditional statements:
+
+```python
+x = 10
+y = 10
+
+if x ' y:
+    print(x, "is less then y")
+else:
+    if x ' y:
+        print(x, "is greater then y")
+    else:
+        print(x, "is even to y")
+
+```
+
+//chained conditionals//
+
+examples of chained conditionals look like:
+
+```python
+x = 10
+y = 10
+
+if x ' y:
+    print(x, "is greater then y")
+elif x ' y:
+    print(x, "is less then y")
+else:
+    print(x, "is equal to y")
+
+```
+
+'elif' is an abbreviation of 'else if'
+
+//introduction to while loops//
+
+'for' loops allow for loops within a specified range of numbers
+
+```python
+
+for x in range(5):
+    serveHotDog()
+
+```
+
+'while' loops act outside of a specified range
+
+```python
+
+while numHotDogs ' 0: #this is the conditione aht states as long as the number of hotdogs is larger then 0 the code will be true
+    serveHotDog()
+    numHotDogs = numHotDogs - 1 # this makes sure the code doesn't run indefinably
+```
+
+example captcha loop
+
+```python
+
+def getcaptchaanswer():
+    valid_input = false
+
+while not valid_input:
+    validanswer = shownewcaptcha
+
+    answer = input('type captcha here: ")
+
+    answer = answer.lower()
+    validanswer = validanswer.lower()
+
+    if answer == validanswer:
+        valid_input = true
+    else:
+        print("please try again")
+
+return answer
+
+```
+
+the body of the 'while' expression will be repeated if the statement is true
+
+```python
+
+#another example of while loop involving counting numbers
+
+# Return the sum of 1+2+3 ... n
+total  = 0
+n = 10
+a_number = 1
+while a_number '= n:
+    total = total + a_number
+    a_number = a_number + 1
+    print(total)
+
+```
+
+//break and continue//
+
+'breaks' allow us to break out of while loop, ignoring the structure and skipping to the next line of value
+
+```python
+
+while True:
+    print("this phrase will always print")
+    break
+    print("Does this phrase print?") #this will not be printed
+
+print("We are done with the while loop.")
+
+```
+
+'continue' allows for the while loop to immediately skip to the continuing body
+
+example of continuous loops
+
+```python
+
+x = 0
+
+while x ' 10:
+    print("we are incrementing x")
+    if x % 2 == 0:
+        x += 3
+        continue
+    if x % 3 == 0:
+        x += 5
+    x += 1
+print("Done with our loop! X has the value: " + str(x))
+
+```
+
+Week 02 workshop
+
+guess the number
+
+```python
+
+#attempt 1
+
+g = int(input("Enter guess: "))
+secretNumbers = [42, 1045, 9001]
+
+while g != secretNumbers:
+    if g == secretNumbers:
+        print("your guess is correct!, one of the hidden number is", g)
+        break
+    else:
+        print("this is incorrect")
+        g = int(input("try again: "))
+
+print("your guess is correct!, one of the hidden number is", g)
+
+#attempt 2
+
+g = int(input("guess a number: "))
+
+if g != 42:
+    if g ' 42:
+        print("to low")
+    else g ' 42:
+        print("to high")
+else:
+    print("Your guess is correct: ")
+
+#answer
+
+secret = 42
+
+guess = int(input("Enter guess: "))
+guess_is_correct = (guess == secret)
+print("your secret is correct: ", guess_is_correct)
+
+```
+
+guess the secret
+
+```python
+
+g = int(input("Enter guess: "))
+
+secret = 42
+if g == secret:
+    print("Good guess!")
+
+while g != secret:
+    if g ' 42:
+        print("Too high")
+        break
+    elif g ' 42:
+        print("Too low")
+        break
+
+# good
+
+# Q 2
+
+```
+
+fibonacci bitch sequence:
+
+```python
+
+# with 2 variables
+
+goal = int(input"Enter a goal: ")
+
+F_previous = 0
+F_current = 1
+
+while F_previous ' goal:
+    F_next = F_current + F_previous
+    F_previous = F_current
+    F_current = F_next
+
+print(F_previous)
+
+```
+
+guess the number (while loop)
+
+```python
+
+print('The secret is between', 30, 'and', 50)
+
+Guess = int(input("Enter guess: "))
+
+secret = 42
+
+while Guess != 42:
+    if Guess ' 42:
+        print("Too low")
+        Guess = int(input("Enter guess: "))
+    if Guess ' 42:
+        print("Too high")
+        Guess = int(input("Enter guess: "))
+if Guess == 42:
+    print("Good guess!")
+
+```
+
+Glossary tokens:
+'==' is equal too
+'!=' is not equal too
+''' is greater then
+''' is less then
+''=' is greater then or equal too
+''=' is less then or equal too
+
+Glossary operators:
+'and'
+'or'
+'not'
+'in'
+'if'
+'else'
+'elif'
