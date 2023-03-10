@@ -1,0 +1,560 @@
+---
+title: 'FIT0045 N Week 01'
+date: '2023-03-4'
+tags: ['FIT0045', 'Week 1', 'Notes']
+draft: false
+summary: 'Week 1 nots from FIT0045'
+images: []
+---
+
+# Introduction
+
+Values are fundamental to programming, they consist of words and numbers that the program manipulates.
+
+in
+
+```python
+
+print("hello, world ")
+
+# The value is "hello world"
+
+```
+
+These objects are classified into different classes, where numbers are integers and world enclosed by quotation marks are strings.
+
+In programs we can specify values by typing them in literally. we can specify words or letter by enclosing them in quotation marks or numbers by typing them in exactly.
+
+we can internal representations of literals 'objects ' or 'values '.
+
+this internal representation is created when the program is executed
+
+you can't directly view the internal representations however you can see the printed representation using the 'print ' function
+
+```python
+
+print(3.2)
+print("hello world ")
+
+# the string is enclosed by quotation marks.
+# the quotation marks are omitted in the print.
+# the number is directly printed.
+
+```
+
+//Operators and Operands//
+
+u can build complex expressions out simpler ones using operators. 'operators ' are special tokens that represent computations like addition, multiplication and division. The values the operator works on is called the operand.
+
+some tokens include
+
+```python
+
+20 + 32
+5 ** 2
+(5 + 9) * (15 - 7)
+5 / 5
+
+# the +, -, and () mean the same things they do in maths
+# the (*) means multiplication
+# the ** token is for exponentiation
+# the / token means divide
+# all of these token behave as they would in normal maths
+
+# No computations above will be printed as the print function is missing
+
+print(7 + 5)
+
+# this will be printed as
+
+12
+
+#--------------------------------------------------------------
+
+print(9 / 5)
+print(5 / 9)
+print(9 // 5)
+
+# the / will always print integers with a decimal point
+# the // function will print integers as integers
+
+#---------------------------------------------------------------
+
+print(7 // 3)
+print(7 % 3)
+
+# the % function is called the modulus operator
+# % returns the remainder of an object divided by a number
+
+print(10 // 4)
+
+2
+
+# So there is a remainder of 2 left because 2 sets have been made by 4 totalling 8
+
+print(10 % 4)
+
+2
+
+```
+
+The modulus operator allows you to see if a number is divisible by another.
+
+//function calls//
+
+functions are like factories that take in material, do a operations, and then send out the resulting object.
+
+the material is also referred to as 'arguments ' or 'inputs ' and the resulting object is known as the 'output ' or 'resulting-value '.
+
+input and output values
+
+```python
+
+def square(x):
+    return x * x
+
+print(square(5))
+# in the above example we have the function square which takes a single input and returns that input multiplied by itself
+
+def sub(x,y):
+    return x - y
+
+print(sub(6,7))
+# in this example the sub function takes two inputs and returns them as the second input subtracted from the first input.
+#the order of inputs matters as it determines how it is read.
+
+```
+
+//function calls as part of complex expressions//
+
+anywhere you can write a literal you can also write a function to invoke a output value.
+
+```python
+
+def square(x):
+    return x * x
+
+def sub(x,y):
+    return x - y
+
+print(square(3) + 2)
+print(sub(square(3), square(1 + 1)))
+
+```
+
+//functions are objects; parentheses invoke functions//
+
+don't fuck with parentheses because then you have sad function like sad cherru.
+
+//Data type//
+
+to understand what type of data or class a clue falls into we can write:
+
+```python
+
+print(type("Hello,world "))
+print(type(17))
+print(type(3.2))
+# each of these, rather then having an output value with produce a sentence like  'class 'str' ' representing "hello, world " as a string
+# for 17 it will be  'class'int' ' for integer
+# for 3.2 it will be  'class  'float' '
+
+```
+
+if strings are enclosed by quotation marks, single or double, then they are classified as strings
+
+```python
+
+print(type("17"))
+print(type("3,2"))
+# both of these numbers will be classified as strings  'class 'str' '
+
+```
+
+quotation marks can contain different multiple strings inside them:
+
+```python
+
+print('''"oh no", she exclaimed, "ben's bike is broken "''')
+# the out put wil be "oh no, she exclaimed, "ben's bike has been broke "
+
+# another example is:
+
+print("""this message will span
+several lines
+of the text.""")
+
+#this would look like
+
+# this message will span
+# several lines
+# in the text.
+
+# obviously without the hashtags
+
+```
+
+commas contained within integers, which would normally be viewed as a separation between digits, acts as a break separating two integers.
+
+```python
+
+print(42500)
+# the output will be 42500
+
+print (42,500)
+#the output will be 42 500 as separate integers
+
+```
+
+//type conversion functions//
+
+you can convert different types of values into others with function's called 'type-conversion '
+
+```python
+
+# turning a float value into a inter involves the 'int' function
+
+print(3.14, int(3.14))
+# the output being '3,14' and '3'
+
+print(3.99999, int(3.99999))
+# the output being '3.99999', and '3'.
+# note that it bring the number closer to 0 rather then rounding to the closest integer.
+
+print(float(3), 3)
+#this will print the integer '3' and the float '3'
+
+print(str(3), 3)
+#this will print the string '3' and integer '3'
+
+```
+
+type-conversion: 'int'
+
+type-conversion: 'float'
+
+type-conversion: 'str'
+
+each of these 'type-conversions ' converts an integer, float, or string into a syntactically legal string, float or integer
+
+//variables//
+
+variables are given to recurring objects symbolized by the token '='
+
+you can assign different things tro variables such as:
+
+```python
+
+frogs = 4
+
+# when 'frogs' its typed it will produce 4
+
+print(frogs)
+    4
+
+# if i want to increase the value of the variable i can make it add or subtract a value
+
+frogs += 1
+
+print(frogs)
+    5
+
+frogs -=2
+
+print(frogs)
+    3
+
+#each of these allows us to increment our variable
+
+```
+
+the 'type ' of a current value ofa variable will be express3ed as the variable associated with the value.
+
+```python
+
+frogs = 4
+
+print(type(frogs))
+#this will be expressed as  'class 'int' '
+
+```
+
+when printing associated values, it will print the most resent variable associated with the value.
+
+```python
+
+day = thursday
+day = 32.5
+day =19
+print(day)
+#the product will be 19 because it is the most recent variable associated with 'day'
+
+```
+
+//variable names and keywords//
+
+when naming variables, lower case and upper case mean different things and we never use spaces. Numbers and underscores can be used.
+
+some variable names (values) are unusable because they are already associated with a certain variable.
+
+list of python keywords:
+and
+as
+assert
+break
+class
+continue
+def
+del
+elif
+else
+except
+exec
+finally
+for
+from
+global
+if
+input
+in
+is
+lambda
+nonlocal
+not
+or
+pass
+raise
+return
+try
+while
+with
+yield
+true
+false
+none
+
+//choosing the right variable name//
+
+choose variable names that have meaning to human readers and will make the program easier to read.
+
+//statements and expressions//
+
+a 'statement ' is an instruction that the python interpreter can execute
+
+an 'expression ' is a combination of literals, variable names, operators and calls to functions. the result of evaluating an expression is a value or object
+
+interpreters evaluate a expression and displays the result
+
+```python
+
+print(1 + 1 + (2 *3))
+print(len("hello"))
+#in this example 'len' is a function that returns the number of characters in a string
+
+```
+
+//order of operations//
+
+the order that programming follows is the same at mathematics
+
+1. parentheses
+
+2. exponentiation - this also has a exception to the rules where code will be read right to left when there are two exponentiation
+
+3. multiplication
+
+4. operators
+
+//reassignment//
+
+order matters
+
+//updating variables//
+
+you can update values for example
+
+```python
+
+x = 6
+print(x)
+# this will print '6'
+x = x + 1
+print(x)
+# this will print 7
+
+```
+
+updating a variable by adding something is called an 'increment ', subtracting is called a 'decrement '
+
+for 'increments ' and 'decrements ' there are syntax for them in python '+=' for increment, '-=' for decrement
+
+//Hard Coding//
+
+Don't do it
+
+//input//
+
+example '-' allows for interactive code that assigns present values
+
+```python
+
+n = input("please print your name: ")
+print("hello", n)
+
+#this will print 'hello  'the value associated with n ''
+
+```
+
+//Week 01 Workshop//
+
+being concise
+
+example:
+
+```python
+
+age = int(input("input your age: "))
+age = age + 1
+print("you will turn", age, "this or next year")
+
+# by defining age outside of the print function we make it easier to reuse age outside of the print.
+
+age = int(input("input your age: "))
+print("you will turn", age + 1, "this or next year")
+
+#if i printed age again in the program it would be the number i input
+
+```
+
+Average_mark_activity
+
+```python
+
+x = int(input("Enter your first mark: "))
+y = int(input("Enter your second mark: "))
+z = ((x + y) // 2)
+print("Your unit mark is", int(z))
+
+```
+
+bit_conversion_activity
+
+```python
+
+str_total_bits = input("Input a number of bits: ")
+total_bits = int(str_total_bits)
+
+gigabyte_total = total_bits // (8*1024*1024*1000)
+bits_remaining = total_bits % (8*1024*1024*1000)
+
+megabytes_total = total_bits // (8*1024*1024)
+bits_remaining = total_bits % (8*1024*1024)
+
+kilobytes_total = bits_remaining // (8*1024)
+bits_remaining = total_bits % (8*1024)
+
+bytes_total = bits_remaining // 8
+bits_final_remaining = bits_remaining % 8
+
+
+print(total_bits ,"b", "=", gigabyte_total, "GB", megabytes_total ,"MB", kilobytes_total ,"KB", bytes_total ,"B", bits_final_remaining ,"b")
+
+```
+
+Fibonacci_sequence_activity
+
+```python
+
+F_num = 0
+F_fib0 = 0
+F_fib1 = 1
+print("F", F_num, "=", F_fib0)
+F_num += 1
+print("F", F_num, "=", F_fib1)
+
+F_num += 1
+F_fib2 = F_fib0 + F_fib1
+print("F", F_num, "=", F_fib2)
+F_fib0 = F_fib1 #why does switching this and the line below it screw it up entirely
+F_fib1 = F_fib2
+
+F_num += 1
+F_fib2 = F_fib0 + F_fib1
+print("F", F_num, "=", F_fib2)
+F_fib0 = F_fib1
+F_fib1 = F_fib2
+
+F_num += 1
+F_fib2 = F_fib0 + F_fib1
+print("F", F_num, "=", F_fib2)
+F_fib0 = F_fib1
+F_fib1 = F_fib2
+
+F_num += 1
+F_fib2 = F_fib0 + F_fib1
+print("F", F_num, "=", F_fib2)
+F_fib0 = F_fib1
+F_fib1 = F_fib2
+
+F_num += 1
+F_fib2 = F_fib0 + F_fib1
+print("F", F_num, "=", F_fib2)
+F_fib0 = F_fib1
+F_fib1 = F_fib2
+
+F_num += 1
+F_fib2 = F_fib0 + F_fib1
+print("F", F_num, "=", F_fib2)
+F_fib0 = F_fib1
+F_fib1 = F_fib2
+
+F_num += 1
+F_fib2 = F_fib0 + F_fib1
+print("F", F_num, "=", F_fib2)
+F_fib0 = F_fib1
+F_fib1 = F_fib2
+
+```
+
+Gigabyte.py
+
+```python
+
+str_total_gigabytes = input("Input a number of gigabytes: ")
+total_gigabytes = float(str_total_gigabytes)
+
+total_bits = total_gigabytes * (8*1024*1024*1024)
+
+remain_gigabytes = int(total_bits // (8*1024*1024*1024))
+bits_remaining = total_bits % (8*1024*1024*1024)
+
+remain_megabyte = int(bits_remaining // (8*1024*1024))
+bits_remaining = total_bits % (8*1024*1024)
+
+remain_kilobyte = int(bits_remaining // (8*1024))
+bits_remaining = total_bits % (8*1024)
+
+remain_byte = int(bits_remaining // 8)
+
+print(total_gigabytes,"GB", "=", remain_gigabytes, "GB,", remain_megabyte, "MB,", remain_kilobyte, "KB,", remain_byte, "B")
+
+```
+
+glossary of functions:
+'int
+'str'
+'float'
+'print'
+'len'
+'def'
+'input'
+'type'
+
+Glossary of tokens:
+'=' assign
+'+' plus
+'\*' multiply
+'%'
+'-' subtract
+'-=' decrement
+'+=" increment

@@ -1,0 +1,182 @@
+---
+title: 'HTML notes'
+date: '2022-12-31'
+tags: ['HTML', 'course', 'web design', 'notes']
+draft: false
+summary:
+images: []
+---
+
+# HTML
+
+headings - <h1> Heading </h1>
+
+progressive size change <h1> <h2> <h3>... ~ <h6>
+
+breaks in txt - <br>
+
+Anatomy of HTML tags
+
+opening tag <h1>
+closing tag </h1>
+between them is teh contents to which the tags are applied ~ <h1> Heading </h1>
+
+Self closing tags <br> that have no closing tag
+
+Horizontal rule <hr> which add lines above and below the enclosed text
+
+HTML atributes are contained within elements and adjust those element
+
+Example:
+
+<hr size = "3"> or <hr size = 3> <!--which would increase the size of the horizontal line-->
+
+other attributes for <hr> include:
+
+<hr align = value> - <!--sets the allignment of the rule on the page -->
+<hr noshade = value> -  <!--sets the rule to have no shading -->
+<hr color = value (hexidecimal)>
+<hr width = value>
+
+<element attribute = value attribute...>
+
+changing the position of text:
+
+<centre> closing tag </centre> <!-- moves all text in between the tags to the centre of the -->
+
+<!-- --> encloses text and doesn't interpret it into the code - essentially adding a comment
+
+HTML sites
+
+Boilerplate code <!-- repeating code that acts as a basic structure for the rest of the site -->
+
+HTML:
+
+<html> is the doctype
+
+everything between the <html> and </html> tags will be read as html
+
+this typically consist of a <head> and a <body>
+
+<head> hold information about the browser
+
+inside the head tags <head> and </head> will be the <title></title> which is the title of the page
+
+<meta> gives extra awssociated data to the elements
+
+<meta charset = utf-8> says that everything within the text document is encoded in utf8
+
+encoding is unique to diffrent languages and can become jumbled if the wrong encoding is used to translate an language that uses a diffrent one
+
+<utf-8> is the standard coding to use when codnig using html 5
+
+this is becuase <meta charset = utf-8> includes all symbols from unicode including international symbols
+
+In <body></body> we can write <p> for a paragraph line
+
+when writing <p>, to italizise word or apragraphs write <em></em>
+
+<i></i> can be used to do the same thing by only slants the text
+
+similarly the <strong></strong> and <b></b> mak e text bold however <strong></strong> is rpefered as it behaviours similarly to <em></em>
+
+List:
+
+there are three types of list
+
+unordered list <ul></ul>
+
+ordered list <ol></ol>
+
+discription list <dl></dl>
+
+between these takes will be the items which fall between <li></li> tags - <!-- this only applies to unordered and ordered lsit --> <!-- this was a lie -->
+
+for description list, you will have <dl></dl> and whitin these you will have <dt></dt> which implemnts a term and under that will be <dd></dd> which is the following decription.
+
+I lied before:
+
+uoi can just make a list within a list which looks like this:
+
+<ul>
+  <li></li>
+  <ul>
+    <li></li>
+  </ul>
+</ul>
+
+For ordered list you can also change the starting order by writing <ol type = i> the attribute of "type" being to change the order
+
+u can combine all the types of list
+
+To insert images within the piece we would use the image html element which is <img>
+
+from here we need the attribute of source <img src> which is the image displayed
+
+then the value would be a url are or a local image
+
+for easier access to iamges we can create a file within the file of personalise website that would look like this
+
+<img src = image/gangsta.png>
+
+you may need to be more precise <!-- an easy way to get around this is to copy image pathway -->
+
+<img src = "C:\Users\MSI\Downloads\Gansta-modified.png" alt = "gangsta type sht" >
+
+<a></a> a tags or anchor tag amkes hyperliks to websites, emails, phones etc...
+
+example to website
+
+<a href = https://devdocs.io/html/element/a> helpful website </a> <!-- the "helpful website" will be what the hyperlink appears as -->
+
+Tables:
+
+tables are seperated into table rows and table cells
+
+They are also seperated into a head, a body and a foot that the cells are contained within expressed through <thead></thead> and <tbody></tbody> and <tfoot></tfoot>
+
+table rows are defined as <tr>
+
+table cells are contained within te table rows and are defined as <td>
+
+the title head <thead></thead> acts as the top row titles
+
+in the <thead> you create table header cells or <th>
+
+Tables can have attributes howeer they are bit reccomended as CSS is more used for stylising appearence
+
+Forms:
+
+use <form></forms>
+
+Forms have many attributes
+
+Forms are used for collecting data however cannot be fully utilised without javascript
+
+<form action = URL> this URL will be the site that the user is taken to once the inputs are saved 
+<form method = value> is the method information from the form is submitted as
+<form enctype = value> this makes the language iof the form easier to read
+
+forms need lables which are writen as <label> value </label>
+
+as well as the value there will also be a section to input data which is described as:
+
+<input name = "submitted name" autocomplete = name />
+
+the attributes of "name" and "autocomplete" describe what the data is and whether it can be auto completed or not
+
+for "yes" or "no" forms, they are described as such:
+
+they have a legend <legend></legend> which is essentially a label but a question instead
+
+this will be contatined within the <fieldset></fieldset> element which groups HTML forms with a nested legend <!-- a statment or question at the top of the nest -->
+
+for fieldset forms, input is decribed as such
+
+<input type = radio> there are many diffrent types of inputs, for field set use "radio"
+<input name = checklist id = checklist> name and id are unique identifiers to link the imput to the label <!-- they also act to seperate text -->
+and of course <input value = "value" > which adds a value to the said check
+
+making wirtten forms ivolves the elemnt <textarea> which creastes a box for writing
+
+under it should be a submission button or some form of saving e.g <input type = botton value = save> or <input type = submit>
