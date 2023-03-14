@@ -1,0 +1,133 @@
+---
+title: FIT0045 N Week 3
+date: '2023-03-14'
+tags: ['FIT0045', 'Week 3', 'Notes']
+draft: false
+summary:
+---
+
+# Iteration
+
+**iterators** are one of the most powerful tools in programming
+
+**iterables** are objects that can be iterated upon, meaning that contain a set of countable values that can be traversed in order
+
+lists, strings, tuples and dictionaries are all examples of iterable python objects.
+
+## the for loop
+
+allows you too
+
+- iterate through each element of a list or tuples
+- iterate through each character of a string
+- iterate through each key and its associated value in a dictionary
+
+### loops variables
+
+```python
+
+#hard coding
+
+print('zuri').count('e')
+print('zoe').count('e')
+print('lee').count('e')
+
+# with the implementation of the for loop it becomes two lines of code instead of hard coding
+
+for name in ['zuri', 'joe', 'lee']:
+    print(name.count('e'))
+
+#other examples of the for loop include
+
+for idx in range(4):
+    square = idx*idx
+    print(square)
+
+```
+
+another example for the for loop include repeating simple task with diffrent outcomes
+
+```python
+
+for name in ["Joe", "Amy", "Brad", "Angelina", "Zuki", "Thandi", "Paris"]:
+    print("Hi", name, "Please come to my party on Saturday!")
+
+```
+
+in this example **name** is called the loop variable or alternatively **iterator variable**
+the list of names in the square brackets is the sequence over which we will iterate
+
+the general syntax for 'for loops' is:
+
+```python
+
+for <loop_var_name> in <sequence>:
+
+```
+
+### flow of execution of the for loop
+
+```python
+
+for <loop_var_name> in <sequence>: #have all items had their turn?
+    <statment> #if no assign next item to loop variable and execute all statements in th loop vody
+
+#if yes, read next line
+
+```
+
+### strings and for loops
+
+### lists and for loops
+
+examples:
+
+```python
+
+#this will print a list of each fruit within the value of fruits
+
+fruits = ["apple", "orange", "banana", "cherry"]
+for fruit in fruits:     # by item
+    print(fruit)
+
+#using the range function we can repeat a loop for a set amunt of times
+
+print("This will execute first")
+
+for _ in range(3): #instead of 'range 3' we could of writen 'range [0, 1, 2]'
+    print("This line will execute three times")
+    print("This line will also execute three times")
+
+print("Now we are outside of the for loop!")
+
+# the loop variable '_' is bound to 0 for the first times line 4 and 5 execute
+
+```
+
+coding problem
+
+```python
+
+#these are all the same thing, or atleast will get the same answer
+i = 1
+while i < 6:
+    print("hello")
+    i += 1
+#this staes that as long as 1 is below 6 then 'hello' will be printed
+
+for n in range(5):
+    print("hello")
+#the 'range(x)' counts from 0 up to but not including 'x' so 'hello' will be printed 5 times
+
+hi = "hello"
+for c in hi:
+    print(hi)
+#there are 5 characters in hello so 'hello' will be printed 5 times for every character in hello print 'hello'
+
+```
+
+### accumulating values
+
+### Glossary
+
+- **for** is used in 'for loops'
