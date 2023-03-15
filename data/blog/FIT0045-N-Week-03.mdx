@@ -128,6 +128,150 @@ for c in hi:
 
 ### accumulating values
 
+has three steps
+
+- **initializing** an 'accumulator' variable to an initial value (such as 0 if accumulating a sum)
+- **interating** (e.g traversing the items in a sequence)
+- **updating** the accumulator variable on each Iteration
+
+for example:
+
+```python
+
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+accum = 0
+for w in nums: # 'w' has the current item
+    accum = accum + w
+print(accum)
+
+#where the accumulated value is '55'
+
+```
+
+this is commonly known as a accumulator pattern
+
+and example of the use of 'range'
+
+```python
+
+# 1
+print("range(5): ")
+for i in range(5):
+    print(i)
+
+# 2
+print("range(0,5): ")
+for i in range(0, 5):
+    print(i)
+
+# '1' and '2' will print the same thing
+
+# Notice the casting of `range` to the `list`
+print(list(range(5))) # 3
+print(list(range(0,5))) # 4
+
+# '3' and '4' will print the same thing
+
+print(range(5))
+
+```
+
+and here's an example of using range with accumulation:
+
+```python
+
+accum = 0
+for w in range(11):
+    accum = accum + w
+print(accum)
+
+# or, if you use two inputs for the range function
+
+sec_accum = 0
+for w in range(1,11):
+    sec_accum = sec_accum + w
+print(sec_accum)
+
+```
+
+we can also use loops for counting how many values are in a list:
+
+```python
+
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+count = 0
+for w in nums:
+    count = count + 1
+print(count)
+
+# in this example we dont make use of w but instead for every change in w we add 1 to the total count
+
+```
+
+## coding challanges
+
+```python
+
+numbers = range(53)
+print(list(numbers))
+
+```
+
+## coding challanges 2
+
+```python
+
+str1 = "I like nonsense, it wakes up the brain cells. Fantasy is a necessary ingredient in living."
+total_characters = 0
+for c in str1:
+    total_characters += 1
+
+print(total_characters)
+
+```
+
+## coding challange 3
+
+```python
+
+numbers = range(41)
+sum1 = 0
+for n in numbers:
+    sum1 = sum1 + n
+
+print(sum1)
+
+```
+
+### traversal and the for loop: By index
+
+```python
+
+fruits = ['apple', 'pear', 'apricot', 'cherry', 'peach']
+for n in range(5):
+    print(n, fruits[n])
+
+```
+
+considering this list we have each fruit at a certain position, 'apple' is at position 0, 'pear' at 1 and so on.
+from this we can iterate through the indexes by geenrating a sequence using teh range function
+
+example problem:
+
+```python
+
+s = "python"
+for idx in range(len(s)):
+   print(s[idx % 2])
+
+```
+
+in this problem, everytime idx is even we get a 0 becuase there are no lefovers and so it print the character at position 0 which is 'p'
+
+## extra tips with debugging for loops
+
+### printing intermediate results
+
 ### Glossary
 
 - **for** is used in 'for loops'
