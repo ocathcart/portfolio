@@ -292,7 +292,7 @@ print("Final total:", tot)
 
 ```
 
-### nmaing variables in for loops
+### naming variables in for loops
 
 using singular nouns
 
@@ -494,7 +494,161 @@ print(julia)
 
 ### concatenation and repetition
 
+```python
+
+fruit = ["apple","orange","banana","cherry"]
+print([1,2] + [3,4]) # adds two list together
+print(fruit+[6,7,8,9]) # adds number to the list
+
+print([0] * 4) # repeats the list 4 times giving a total number of element to '4'
+
+```
+
+### count and index
+
+count and index are short cuts in python. **count** will collect how many time a certain character or element appears in a string or list
+
+```python
+
+a = "I have had an apple on my desk before!"
+print(a.count("e")) # Example of using .count() method on Strings
+print(a.count("ha"))
+
+# another example
+
+z = ['atoms', 4, 'neutron', 6, 'proton', 4, 'electron', 4, 'electron', 'atoms']
+print(z.count("4"))
+print(z.count(4)) # Example of using .count() method on lists
+print(z.count("a"))
+print(z.count("electron"))
+
+```
+
+index on the other hand collects to index positions of characters and elements
+
+```python
+
+music = "Pull out your music and dancing can begin"
+bio = ["Metatarsal", "Metatarsal", "Fibula", [], "Tibia", "Tibia", 43, "Femur", "Occipital", "Metatarsal"]
+
+print(music.index("m"))
+print(music.index("your"))
+
+print(bio.index("Metatarsal"))
+print(bio.index([]))
+print(bio.index(43))
+
+```
+
+### splitting and joining
+
+the **split** method breaks apart a string at blank spaces
+
+```python
+
+song = "The rain in Spain..."
+wds = song.split()
+print(wds)
+
+#and can also be broken at specified characters
+
+song = "The rain in Spain..."
+wds = song.split('ai')
+print(wds)
+
+```
+
+with **join**, you choose a desired seperator string, often called 'glue' and join the list with the glue inbetween
+
+```python
+
+wds = ["red", "blue", "green"]
+glue = ';'
+s = glue.join(wds)
+print(s)
+print(wds)
+
+print("***".join(wds))
+print("".join(wds))
+
+```
+
+### syntax error
+
+syntax erros occur when there is an issue with a syntax of a line for example strings not being enclosed, missing parenthese or intergers etc..
+
+example:
+
+```python
+
+print("Hello, World!")
+print(5 + ) #this will cause a syntax error
+print("All finished!")
+
+```
+
+### runtime error
+
+usually indicate something big has gone wrong
+
+they happen after the program has passed the syntax check
+
+examples of runtime error causes:
+
+- Misspelled or incorrectly capitalized variable and function names
+- Attempts to perform operations (such as math operations) on data of the wrong type (ex. attempting to subtract two variables that hold string values)
+- Dividing by zero
+- Attempts to use a type conversion function such as int on a value that can’t be converted to an int
+
+```python
+
+subtotal = input("Enter total before tax:")
+tax = 0.08 * subTotal
+print("tax on", subtotal, "is:", tax)
+
+#fixed
+
+subtotal = int(input("Enter total before tax:")) #turned the input into a interger instead of a 'str'
+tax = 0.08 * subtotal #uncaptilised the 't'
+print("tax on", subtotal, "is:", tax)
+
+```
+
+diagnose and repair:
+
+- If the error message mentions SyntaxError, you know that the problem has to do with syntax: the structure of the code, the punctuation, etc.
+- If the program runs partway and then crashes, you know the problem is a runtime error. Programs with syntax errors don't execute even one line.
+
+### semantic error
+
+also called a logic error
+
+no error message will run, but the computer will do what you told it to do instead of doing what you meant it to do.
+
+```python
+
+num1 = input('Enter a number:')
+num2 = input('Enter another number:')
+sum = num1 + num2
+
+print('The sum of', num1, 'and', num2, 'is', sum)
+
+#this code will produce a semantic error becuase the numbers entered are intered as strings instead of intergers
+
+```
+
+### some more errors
+
+**name error** is when u use a name before it has an associated value
+
+**type error** is when u try to combine two types that are incompatible
+
+**value error**
+
+# week 3 workshop
+
 ### Glossary
 
 - **for** is used in 'for loops'
 - **len** finds the amount of characters in a string
+  ~
