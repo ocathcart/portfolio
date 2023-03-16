@@ -272,6 +272,229 @@ in this problem, everytime idx is even we get a 0 becuase there are no lefovers 
 
 ### printing intermediate results
 
+when values are unknown the best thing to add are print statments to keep track of each changing value
+
+example:
+
+```python
+
+w = range(10)
+
+tot = 0
+print("***** Before the For Loop ******")
+for num in w:
+    print("***** A New Loop Iteration ******")
+    print("Value of num:", num)
+    tot += num
+    print("Value of tot:", tot)
+print("***** End of For Loop *****")
+print("Final total:", tot)
+
+```
+
+### nmaing variables in for loops
+
+using singular nouns
+
+example:
+
+```python
+
+genres = ['horror', 'action', 'drama', 'comedy', 'romance', 'documentary']
+
+for genre in genres: # 'genre' is the iterator variable and 'genres' is the sequence variable
+    print(genre)
+
+```
+
+the general syntax for 'for loops' is
+
+```python
+
+for iter_var_name in some_seq:
+    # code block line 1
+    # code block line 2
+    # ...
+
+```
+
+after the word in there can be any python expression that evaluates to a sequence
+
+### structure of for loops
+
+the iterable appears after the 'in' keyword
+
+the iterable variable appears after the 'for'
+
+## strings, Lists and tuples
+
+strings are defined as sequential collections of characters, this means that the characters that make up a list are in a certain order
+
+a list is a sequential collection of python data values where each value is defined as an index.
+the values that mkae up a list are called elements. list are similar to stings except the elements of a list can have an type and for any one list, the items can be diffrent types
+
+### tuples
+
+is a sequence of items of any type
+
+a tuples is represented by parentheses instead of squre brackets
+
+the key diffrence between tuples and list is that tuples are immutable, meaning that its content cant be changed after the tuple is created.
+
+exmples tuple:
+
+```python
+
+t = (5,)
+print(type(t)) # tuple
+
+x = (5)
+print(type(x)) # interger or 'int'
+
+```
+
+## index operator: working with the characters of a string
+
+the indexing operator, defined by square brackets [], is used to single out a character or element at the specified position
+
+from left to right the positions are a so[0, x] from right to left the positions are as so [x - -1]
+
+```python
+
+school = "Luther College"
+m = school[2] #the statment school[2] selects the character at index  2
+print(m)
+
+lastchar = school[-1]
+print(lastchar)
+
+```
+
+genereally the 'n'th charcter is a the index 'n-1'
+
+examples of indexing operators used on list:
+
+```python
+
+numbers = [17, 123, 87, 34, 66, 8398, 44]
+print(numbers[2])
+print(numbers[9-8])
+print(numbers[-2])
+
+prices = (1.99, 2.00, 5.50, 20.95, 100.98)
+print(prices[0])
+print(prices[-1])
+print(prices[3-5])
+
+```
+
+## disambiguating []: creation vs indexing
+
+indexing vs creation:
+
+```python
+
+new_lst = [] #creation
+
+new_lst = ["NFLX", "AMZN", "GOOGL", "DIS", "XOM"]
+part_of_new_lst = new_lst[0] #indexing
+
+lst = [0]
+n_lst = lst[0]
+
+print(lst)
+print(type(lst)) #'list'
+print(n_lst)
+print(type(n_lst)) #'int'
+
+```
+
+### length
+
+returns the number of characters in a string with the **len** function
+
+```python
+
+fruit = "Banana"
+print(len(fruit))
+
+#to get the last character of the string
+
+fruit = "Banana"
+sz = len(fruit)
+lastch = fruit[sz-1]
+print(lastch)
+
+#typically this would be combined into a single line
+
+lastch = fruit[len(fruit)-1]
+
+#to get the middle character of a sting we might use
+
+fruit = "grape"
+midchar = fruit[len(fruit)//2]
+# the value of midchar is "a"
+```
+
+**len** will only give the amount of character of the top most value
+
+```python
+
+alist =  ["hello", 2.0, 5]
+print(len(alist)) # '4'
+print(len(alist[0])) # 'hello'
+
+```
+
+### the slice operator
+
+the **slice** operator **[n:m]** returns the part of the string starting with the character at index 'n' and ending with the character at index 'm'
+
+Example:
+
+```python
+
+singers = "Peter, Paul, and Mary"
+print(singers[0:5])
+print(singers[7:11])
+print(singers[17:21])
+
+fruit = "banana"
+print(fruit[:3])
+print(fruit[3:])
+
+# if the 'n' value is omitted then the slicing will begin at the start and vice versa for the 'm' value
+
+```
+
+this is the same for list and tuple slicing:
+
+```python
+
+#list slice
+
+a_list = ['a', 'b', 'c', 'd', 'e', 'f']
+print(a_list[1:3])
+print(a_list[:4])
+print(a_list[3:])
+print(a_list[:])
+
+#tuple slice
+
+julia = ("Julia", "Roberts", 1967, "Duplicity", 2009, "Actress", "Atlanta, Georgia")
+print(julia[2])
+print(julia[2:6])
+
+print(len(julia))
+
+julia = julia[:3] + ("Eat Pray Love", 2010) + julia[5:]
+print(julia)
+
+```
+
+### concatenation and repetition
+
 ### Glossary
 
 - **for** is used in 'for loops'
+- **len** finds the amount of characters in a string
