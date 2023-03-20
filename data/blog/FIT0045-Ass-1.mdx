@@ -1,3 +1,13 @@
+---
+title: FIT0045 Assignment 01
+date: '2023-03-20'
+tags: ['FIT0045', 'assignment', 'week 3']
+draft: false
+summary: Example of a markdown file with code blocks and syntax highlighting
+---
+
+```python
+
 def validate_input(prompt, valid_inputs):
     """
 	Repeatedly ask user for input until they enter an input
@@ -14,7 +24,7 @@ def validate_input(prompt, valid_inputs):
 
         else:
             return(chosen_input)
-        
+
 if __name__ == "__main__":
     user_input = validate_input("Please select an option (a, b, c): ", ["a", "b", "c"])
 
@@ -82,7 +92,7 @@ def drop_piece(board,player,column):
         return True
     elif(counter == -5):
         return False
-    
+
 if __name__ == "__main__":
 	board = create_board()
 	for row in board:
@@ -95,11 +105,7 @@ def execute_player_turn(player, board):
         player_column = int(input("Player 1, please enter the column you would like to drop your piece into: "))
         print(drop_piece(board, player_column, 4) )
         turn += 1
-    elif turn == 1:
-        player_column = int(input("Player 1, please enter the column you would like to drop your piece into: "))
-        print(drop_piece(board, player_column, 4 ))
-        turn -= 2
-    
+
     raise NotImplementedError
 
 if __name__ == "__main__":
@@ -107,3 +113,8 @@ if __name__ == "__main__":
 	board = create_board()
 	move = execute_player_turn(1, board)
 	print(move)
+
+
+
+
+```
