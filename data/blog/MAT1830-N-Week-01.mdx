@@ -1,0 +1,95 @@
+---
+title: MAT1830 N week 01
+date: '2023-03-19'
+tags: ['MAT1830', 'Week 1', 'Notes']
+draft: false
+summary:
+---
+
+# number theory
+
+- pseudorandom number generations
+- hash functions
+- memory managment
+- error correction
+- fast arithmetic operations- cryptogtaphy and authentication
+
+an **interger** is a **whole number**. It may be positive or negative or zero
+
+```
+
+. . . . . . , −3, −2, −1, 0, 1, 2, 3, . . . . . . .
+
+```
+
+the set of all intergers is often written as **Z**
+
+we say that interger **a** divides interger **b** if **b = qa** for some interger **q**
+
+2 divides 6 becuase 6 = 3 x 2
+
+this is the same sa saying division with remainders gives remainder 0
+
+when a divides b we also say
+
+- a is a divisor of b
+- a is a factor of a
+- b is divisible by a
+- b is a multiple of a
+
+## primes
+
+A positive interger **p > 1** is a prime if its only positive interger divisor are **1** and **p**
+
+1 isn't an interger as it would ruin the fundamental theorem of arithmetic
+
+```
+
+Each interger > 1 can be expressed in exactly one way, up to order, as a product of primes
+
+example:
+
+210 = 2 x 3 x 5 x 7
+
+the first few primes are:
+
+2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, . . .
+
+
+```
+
+### recognising primes
+
+if any interger n > 1 has a divisor, it had a divisor that is **larger or equal too the square root of n** because for any divisor, **a is lager then the square root of n** we also have the divisor **n/a, which is smaller then the square root of n**
+
+thus to test whether 1001 is a prime, we only have to see whether any of the numbers **\*2,3,4... smaller or equal too 100** devide **1001** since **the square root of 1001 is less then 101**
+
+this explains a common algorithim for recognising whether n is a prime number.
+
+the algorithm is written with a boolean variable **_prime_**, and **n** is prime if **_prime_** **= true(T)** when the algorithm terminates
+
+assign **a** the value of **2**
+assign **_prime_** the value of **T**
+while **a <= the square root of n** and **_prime_** **= T**
+if **a/n**
+give **_prime_** the value **False(F)**
+else:
+increase the value of **a** by **1**
+
+so:
+
+```python
+
+a = 2
+prime = True
+while a math.sqrt(n):
+    if a / n:
+        prime = False
+    else:
+        a += 1
+
+```
+
+### finding divisors
+
+this algorith also finds a prime devisor of **n**
