@@ -1,0 +1,602 @@
+---
+title: 'FIT0045 N Week 04'
+date: '2023-03-12'
+tags: ['FIT0045', 'week 4', 'Notes']
+draft: False
+summary:
+images: []
+---
+
+# introduction to functions
+
+**functions** allow you to define and recall a defined value
+
+**functions** are defined as chunks of code that perform some operation that is meangful for a person to thin about as a whole unit
+
+the syntax for creating a named function, a function definition is:
+
+```py
+
+def name( parameters ):
+    statement
+
+```
+
+the parameters specify what the function needs to do to work
+
+```py
+
+def hello():
+    """This function says hello and greets you"""
+    print("Hello")
+    print("Glad to meet you")
+print(hello())
+
+```
+
+## function invocation
+
+to print or run a function we nee to use **function calls** or **function invocation**
+
+to call a function we refer to it by its name, followed by parentheses
+
+## parameters
+
+example:
+
+```py
+
+def sub(p1, p2):
+    total = p1 - p2
+    return total
+
+sub(6, 8) # will return -2
+
+```
+
+the parameter list is sometimes reffered to as the **formal parameters** or **parameter names**.
+
+u can assign values to parameters which then produce an output created by what the created function has been programmed to do
+
+## returning a value from a function
+
+functions that return values are called **fruitful function**
+
+a function that doesn't return a value is called a **precedure**
+
+in functions use the **return** functionj to assign a value rather then print a value.
+
+**temporary variable** are also known as **local variables**
+
+### coding challange 1
+
+```py
+
+# your function definition goes here
+def subtractThree(n):
+    n = int(n)
+    return n - 3
+
+# do not modify code below this line
+print(subtractThree(input()))
+
+```
+
+### coding challange 2
+
+```py
+
+def intro(name):
+    greetingStr = "Hello, my name is " + name + " and I love FIT1045."
+    return greetingStr
+me = "John wick"
+intro(me)
+
+```
+
+### coding chalnnage 3
+
+```py
+
+def decision(string):
+    length = len(string)
+    if length > 17:
+        return "This is a long string"
+    elif length < 17:
+        return "This is a short string"
+
+sentence = "hello my name is oscar!"
+decision(sentence)
+
+```
+
+## Decoding a function
+
+some things to look out for when creating a function:
+
+- How many parameters does it have?
+
+- What is the type of values that will be passed when the function is invoked?
+
+- What is the type of the return value that the function produces when it executes?
+
+so things that can help you figure out the type of object associated with any variable:
+
+- len(x), then x must be a string or a list. (Actually, it can also be a dictionary, in which case it is equivalent to the expression len(x.keys()). Later in the course, we will also see some other sequence types that it could be). x can’t be a number or a Boolean.
+
+- x - y, x and y must be numbers (integer or float)
+
+- x + y, x and y must both be numbers, both be strings, or both be lists
+
+- x[3], x must be a string or a list containing at least four items, or x must be a dictionary that includes 3 as a key.
+
+- x['3'], x must be a dictionary, with '3' as a key.
+
+- x[y:z], x must be a sequence (string or list), and y and z must be integers
+
+- x and y, x and y must be Boolean
+
+- for x in y, y must be a sequence (string or list) or a dictionary (in which case it's really the dictionar's keys); x must be a character if y is a string; if y is a list, x could be of any type.
+
+## type annotations
+
+u can assign a what a value need to be for a function to be carried out with this annotation:
+
+```py
+
+def duplicate(msg: str) -> str:
+    """Returns a string containing two copies of `msg`"""
+
+    return msg + msg
+
+result = duplicate('Hello')
+print(result)
+
+```
+
+in this example the annotation of 'str' on the 'msg: str' indicates that the caller should pass a sting and produce a string with '-> str'
+
+other examples:
+
+```py
+
+def add(x: int, y: int) -> int:
+    """Returns the sum of `x` and `y`"""
+
+    return x + y
+
+def get_number(msg: str) -> float:
+    """Prompts with `msg` for input; returns numeric response."""
+
+    return float(input(msg))
+
+def display_msg(msg: str):
+    """Displays `msg` with dashed line underneath"""
+
+    print(msg)
+    print('-------------------------------------')
+
+
+```
+
+the type annotations have no effect on the programs behavior but instaead act like guide lines as to what value need to be inputed.
+
+## A function that accumulates
+
+defined 'len'
+
+```py
+
+def mylen(seq):
+    c = 0 # initialize count variable to 0
+    for _ in seq:
+        c = c + 1   # increment the counter for each item in seq
+    return c
+
+print(mylen("hello"))
+print(mylen([1, 2, 7]))
+
+```
+
+### coding challange 5
+
+```py
+
+def total(intList: list):
+    accumList = 0
+    for numbers in intList:
+        accumList = numbers + accumList
+
+    return accumList
+
+total([57, 67, 89])
+
+```
+
+### coding challange 6
+
+```py
+
+def count_even(intList: list):
+    evenNumbers = 0
+    for number in intList:
+        if (number % 2) == 0:
+            evenNumbers += 1
+        elif (number % 2) != 0:
+            evenNumbers += 0
+    return evenNumbers
+
+count_even([56, 43, 89, 54, 23])
+
+```
+
+## variables and parameters are local
+
+**built in**, **global** and **local** spaces are the three spaces in which names exist
+
+### global variables
+
+## functions can call other functions
+
+each group of local variables i called a **stack frame**
+
+## dictionaries
+
+dictionaris find keysd and assign values to those keys
+
+one way to create a dictionary to to start wtih an empty {}
+
+to add to this empty dictionary we would write this
+
+```py
+
+eng2sp ={}
+eng2sp['one'] = 'uno'
+eng2sp['two'] = 'dos'
+eng2sp['three'] = 'tres'
+
+```
+
+another way to create a dictionary to to provide a bunch of key-value Paris
+
+```py
+
+eng2sp = {'three': 'tres', 'two': 'dos', 'one': 'uno'}
+
+```
+
+how we use dictionaries is as such
+
+```py
+
+eng2sp = {'three': 'tres', 'two': 'dos', 'one': 'uno'}
+
+value = eng2sp['two']
+print(value)
+print(eng2sp['one'])
+
+```
+
+the 'del' function deletes a value from a dictionary or list as thye are both mutable
+
+if the 'len' function is used on a dictionari it will return the number of key-value pairs
+
+values can be eddited by chaging what a certain key is associated with
+
+## dictionary methods
+
+### interrating over dictionaries
+
+if we where to search fro a specific value in a dictionari it would look something like this:
+
+```py
+
+inventory = {'apples': 430, 'bananas': 312, 'pears': 217, 'oranges': 525}
+
+for akey in inventory.keys():     # the order in which we get the keys is not defined
+    print("Got key", akey, "which maps to value", inventory[akey])
+
+ks = list(inventory.keys())       # Make a list of all of the keys
+print(ks)
+print(ks[0])                      # Display the first key
+
+```
+
+methods are a useful tool that can be used with many fucntions and allows for more accessablility within the fucntion
+
+# Week 04 workshop
+
+### understanding fucntions
+
+original:
+
+```py
+
+def my_func(x):
+    x = x*x
+
+x = float(input("Input number to square: "))
+my_func(x)
+print(x)
+
+```
+
+mine:
+
+```py
+
+def my_func(x: float):
+    return x * x
+
+x = float(input("Input number to square: "))
+print(my_func(x))
+print(x)
+
+```
+
+### adventure
+
+original:
+mine #1:
+
+```py
+
+def go_to_lobby(gold_coins: int):
+    """ The start of the adventure """
+    print_gold_amount(gold_coins)
+    print("You are in the lobby of the dungeon. What do you do?")
+    print("1. Examine the lobby.")
+    print("2. Go to the throne hall.")
+    print("3. Leave.")
+    option = int(input())
+    choice = True
+    while choice == True:
+        if option == 1:
+            examine_lobby(gold_coins)
+            choice = False
+        elif option == 2:
+            go_to_throne_hall(gold_coins)
+            choice = False
+        elif option == 3:
+            leave(gold_coins)
+            choice = False
+        else:
+            print("Not a valid option please try again")
+            choice = True
+
+def examine_lobby(gold_coins: int):
+    """ The user examines the lobby """
+    print_gold_amount(gold_coins)
+    rob_amount = 10
+    print("A band of goblins rob " + str(rob_amount) + " gold from you.")
+    gold_coins = gold_coins - 10
+    go_to_lobby(gold_coins)
+
+def leave(gold_coins: int):
+    """ The end of the adventure """
+    print_gold_amount(gold_coins)
+    print("You leave the dungeon.")
+    exit()
+
+def go_to_throne_hall(gold_coins: int):
+    """ The middle of the adventure """
+    print_gold_amount(gold_coins)
+    print("You are in the throne hall. What do you do?")
+    print("1. Examine the throne hall.")
+    print("2. Go back to the lobby.")
+    option = int(input())
+    choice = True
+    while choice == True:
+        if option == 1:
+            examine_throne_hall(gold_coins)
+            go_to_throne_hall(gold_coins)
+            choice = False
+        elif option == 2:
+            go_to_lobby(gold_coins)
+            choice = False
+        else:
+            print("invalid input please try again")
+            choice = True
+            go_to_throne_hall(gold_coins)
+
+
+def examine_throne_hall(gold_coins: int):
+    """ The user examines the throne hall """
+    print_gold_amount(gold_coins)
+    rob_amount = 40
+    print("You disturb the dungeon keeper who makes you pay " + str(rob_amount) + " gold.")
+    gold_coins = gold_coins - 40
+    go_to_throne_hall(gold_coins)
+
+
+def print_gold_amount(gold_coins: int):
+    """ Prints to the user their current amount of gold """
+    print("You have " + str(gold_coins) + " gold.")
+
+go_to_lobby(50)
+
+```
+
+mine: kitchen update:
+
+```py
+
+def go_to_lobby(gold_coins: int):
+    """ The start of the adventure """
+    print_gold_amount(gold_coins)
+    print("You are in the lobby of the dungeon. What do you do?")
+    print("1. Examine the lobby.")
+    print("2. Go to the throne hall.")
+    print("3. Leave.")
+    option = int(input())
+    choice = True
+    while choice == True:
+        if option == 1:
+            examine_lobby(gold_coins)
+            choice = False
+        elif option == 2:
+            go_to_throne_hall(gold_coins)
+            choice = False
+        elif option == 3:
+            if gold_coins < 0:
+                print("you have to wash dishes to leave")
+                go_to_kitchen(gold_coins)
+            else:
+                leave(gold_coins)
+                choice = False
+        else:
+            print("Not a valid option please try again")
+            choice = True
+
+def examine_lobby(gold_coins: int):
+    """ The user examines the lobby """
+    print_gold_amount(gold_coins)
+    rob_amount = 10
+    print("A band of goblins rob " + str(rob_amount) + " gold from you.")
+    gold_coins = gold_coins - 10
+    go_to_lobby(gold_coins)
+
+def leave(gold_coins: int):
+    """ The end of the adventure """
+    print_gold_amount(gold_coins)
+    print("You leave the dungeon.")
+    exit()
+
+def go_to_throne_hall(gold_coins: int):
+    """ The middle of the adventure """
+    print_gold_amount(gold_coins)
+    print("You are in the throne hall. What do you do?")
+    print("1. Examine the throne hall.")
+    print("2. Go back to the lobby.")
+    option = int(input())
+    choice = True
+    while choice == True:
+        if option == 1:
+            examine_throne_hall(gold_coins)
+            go_to_throne_hall(gold_coins)
+            choice = False
+        elif option == 2:
+            go_to_lobby(gold_coins)
+            choice = False
+        else:
+            print("invalid input please try again")
+            choice = True
+            go_to_throne_hall(gold_coins)
+
+
+def examine_throne_hall(gold_coins: int):
+    """ The user examines the throne hall """
+    print_gold_amount(gold_coins)
+    rob_amount = 40
+    print("You disturb the dungeon keeper who makes you pay " + str(rob_amount) + " gold.")
+    gold_coins = gold_coins - 40
+    go_to_throne_hall(gold_coins)
+
+def go_to_kitchen(gold_coins: int):
+    """the user washes dishes for money"""
+    print_gold_amount(gold_coins)
+    paid = 10
+    print(" you wash dishes for money and get paid " + str(paid) + " gold.")
+    gold_coins = gold_coins + 10
+    go_to_lobby(gold_coins)
+
+
+def print_gold_amount(gold_coins: int):
+    """ Prints to the user their current amount of gold """
+    print("You have " + str(gold_coins) + " gold.")
+
+go_to_lobby(50)
+
+```
+
+mine: simplified:
+
+```py
+
+def go_to_lobby(gold_coins: int):
+    """ The start of the adventure """
+    print_gold_amount(gold_coins)
+    print("You are in the lobby of the dungeon. What do you do?")
+    print("1. Examine the lobby.")
+    print("2. Go to the throne hall.")
+    print("3. Leave.")
+    option = int(input())
+    choice = True
+    while choice == True:
+        if option == 1:
+            examine_lobby(gold_coins)
+            choice = False
+        elif option == 2:
+            go_to_throne_hall(gold_coins)
+            choice = False
+        elif option == 3:
+            if gold_coins < 0:
+                print("you have to wash dishes to leave")
+                go_to_kitchen(gold_coins)
+            else:
+                leave(gold_coins)
+                choice = False
+        else:
+            print("Not a valid option please try again")
+            choice = True
+
+def examine_lobby(gold_coins: int):
+    """ The user examines the lobby """
+    print_gold_amount(gold_coins)
+    rob_amount = 10
+    print("A band of goblins rob " + str(rob_amount) + " gold from you.")
+    gold_coins = gold_coins - 10
+    go_to_lobby(gold_coins)
+
+def leave(gold_coins: int):
+    """ The end of the adventure """
+    print_gold_amount(gold_coins)
+    print("You leave the dungeon.")
+    exit()
+
+def go_to_throne_hall(gold_coins: int):
+    """ The middle of the adventure """
+    print_gold_amount(gold_coins)
+    print("You are in the throne hall. What do you do?")
+    print("1. Examine the throne hall.")
+    print("2. Go back to the lobby.")
+    option = int(input())
+    choice = True
+    while choice == True:
+        if option == 1:
+            examine_throne_hall(gold_coins)
+            go_to_throne_hall(gold_coins)
+            choice = False
+        elif option == 2:
+            go_to_lobby(gold_coins)
+            choice = False
+        else:
+            print("invalid input please try again")
+            choice = True
+            go_to_throne_hall(gold_coins)
+
+
+def examine_throne_hall(gold_coins: int):
+    """ The user examines the throne hall """
+    print_gold_amount(gold_coins)
+    rob_amount = 40
+    print("You disturb the dungeon keeper who makes you pay " + str(rob_amount) + " gold.")
+    gold_coins = gold_coins - 40
+    go_to_throne_hall(gold_coins)
+
+def go_to_kitchen(gold_coins: int):
+    """the user washes dishes for money"""
+    print_gold_amount(gold_coins)
+    paid = 10
+    print(" you wash dishes for money and get paid " + str(paid) + " gold.")
+    gold_coins = gold_coins + 10
+    go_to_lobby(gold_coins)
+
+
+def print_gold_amount(gold_coins: int):
+    """ Prints to the user their current amount of gold """
+    print("You have " + str(gold_coins) + " gold.")
+
+go_to_lobby(50)
+
+```

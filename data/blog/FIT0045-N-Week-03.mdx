@@ -1,5 +1,5 @@
 ---
-title: FIT0045 N Week 3
+title: FIT0045 N Week 03
 date: '2023-03-14'
 tags: ['FIT0045', 'Week 3', 'Notes']
 draft: false
@@ -646,6 +646,75 @@ print('The sum of', num1, 'and', num2, 'is', sum)
 **value error**
 
 # week 3 workshop
+
+average mark
+
+```python
+
+# this is a fail but was fun
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+marks = [65, 78, 89, 67, 90, 28]
+
+total_mark = 0
+for mark in marks:
+    total_mark = mark + total_mark
+
+average_mark = total_mark / len(marks)
+print("The average mark is", average_mark)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#this was the actual real well done asnwer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+total_marks = int(input("Input the number of marks: "))
+
+added_marks = 0
+
+for mark in range(total_marks):
+    inputString = "Input mark " + str(mark + 1) + ": "
+    marks = input(inputString)
+    marks = float(marks)
+    added_marks = marks + added_marks
+
+print("The average mark is", added_marks / total_marks)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+```
+
+list_reversal
+
+```python
+#this one was a little too easy although maybe am wrong
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+input_list = ['e', 'd', 'c', 'b', 'a']
+
+i = len(input_list) #5
+while i > 0 :
+    i -= 1
+    print(input_list[i])
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+```
+
+average.py
+
+```py
+
+numberMarks = int(input("Input the number of marks: "))
+
+listMarks = []
+
+for mark in range(numberMarks):
+    inputStr = "Input mark " + str(mark + 1) + ": "
+    marks = float(input(inputStr))
+    listMarks = listMarks + [marks]
+
+average = sum(listMarks) / len(listMarks)
+
+print("The average mark is", average)
+
+```
 
 ### Glossary
 
