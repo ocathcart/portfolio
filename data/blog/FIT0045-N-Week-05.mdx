@@ -150,7 +150,7 @@ print(nested1[1][0])
 
 with nested list you can use complex expression to single out certain values from a specific nested list.
 
-### coding challange
+### coding challange 1
 
 ```py
 
@@ -161,7 +161,7 @@ print(idx1)
 
 ```
 
-### coding challange
+### coding challange 2
 
 ```py
 
@@ -185,3 +185,36 @@ for x in nested1:
        print("     level2: " + y)
 
 ```
+
+## structuring nested data
+
+the structure need to be consisten:
+
+this example will not work becuase of the type error in the list
+
+```py
+
+nested1 = [1, 2, ['a', 'b', 'c'],['d', 'e'],['f', 'g', 'h']]
+for x in nested1:
+    print("level1: ")
+    for y in x:
+        print("     level2: {y}")
+
+```
+
+this one is the fixed version
+
+```py
+
+nested1 = [1, 2, ['a', 'b', 'c'],['d', 'e'],['f', 'g', 'h']]
+for x in nested1:
+    print("level1: ")
+    if type(x) is list:
+        for y in x:
+            print(f"     level2: {y}")
+    else:
+        print(x)
+
+```
+
+# Week 5 workshop
