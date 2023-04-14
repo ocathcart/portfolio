@@ -1,0 +1,235 @@
+---
+title: FIT0045 N Week 06
+date: '2023-03-23'
+tags: ['FIT0045', 'Week 6', 'Notes']
+draft: false
+summary:
+---
+
+# mutability
+
+**mutatability** refers the the ability to change and alter an object.
+
+list are **mutable** while strings are **immutable**.
+
+example:
+
+```py
+
+fruit = ["banana", "apple", "cherry"]
+print(fruit)
+
+fruit[0] = "pear"
+fruit[-1] = "orange"
+print(fruit)
+
+```
+
+list can be altered and spliced
+
+```py
+
+alist = ['a', 'b', 'c', 'd', 'e', 'f']
+alist[1:3] = ['x', 'y']
+print(alist)
+
+#we can aslo remove elemtnts
+
+alist = ['a', 'b', 'c', 'd', 'e', 'f']
+alist[1:3] = []
+print(alist)
+
+# and insert new elements
+
+alist = ['a', 'd', 'f']
+alist[1:1] = ['b', 'c']
+print(alist)
+alist[4:4] = ['e']
+print(alist)
+
+```
+
+## strings are immutable
+
+this means that strings can't simply have their elements changed by a simple function
+
+```py
+
+greeting = "Hello, world!"
+greeting[0] = 'J'            # ERROR!
+print(greeting)
+
+#they can be changed through
+
+greeting = "Hello, world!"
+newGreeting = 'J' + greeting[1:]
+print(newGreeting)
+print(greeting)
+
+```
+
+if you choose the strings it can be come messier then it would if you just had a string.
+
+```py
+
+phrase = "many moons"
+phrase_expanded = phrase + " and many stars"
+phrase_larger = phrase_expanded + " litter"
+phrase_complete = "M" + phrase_larger[1:] + " the night sky."
+excited_phrase_complete = phrase_complete[:-1] + "!"
+
+```
+
+## tuples are immutable
+
+tuples are also immutable
+
+```py
+
+fruit = ("banana", "apple", "cherry")
+print(fruit)
+
+fruit[0] = "pear"
+fruit[-1] = "orange"
+print(fruit)
+
+```
+
+## List element deleteion
+
+example of deletion in list
+
+```py
+
+a = ['one', 'two', 'three']
+del a[1]
+print(a)
+
+alist = ['a', 'b', 'c', 'd', 'e', 'f']
+del alist[1:5]
+print(alist)
+
+```
+
+# objects and refrences
+
+to see whether two names have the same value we use the "is" function.
+
+```py
+
+a = "banana"
+b = "banana"
+
+print(a is b)
+
+# this will return the true if a and b share the same value.
+
+```
+
+what python does when we ask for the 'is' function, python checks the id's of both values to see if they mathematical.
+
+we can manually check this with the 'id' function
+
+```py
+
+a = "banana"
+b = "banana"
+
+print(id(a))
+print(id(b))
+
+```
+
+however this only happens because strings are immutable,
+
+this situation is diffrent for list.
+
+```py
+
+a = [81,82,83]
+b = [81,82,83]
+
+print(a is b)
+
+print(a == b)
+
+print(id(a))
+print(id(b))
+
+```
+
+## aliasing
+
+idk, list are like mutable but because their mutable, when they share the same values they aren't the same object because they can be changed without creating a copy. because of this if we make b = a and a is equal to a list, then they are the same object, so in this case a 'is' fucntion would return true
+
+## creating clone lists.
+
+this is how we go about creating a clone of a list, as if we change the list, we also have an original
+
+```py
+
+a = [81,82,83]
+
+b = a[:]       # make a clone using slice
+print(a == b)
+print(a is b)
+
+b[0] = 5
+
+print(a)
+print(b)
+
+```
+
+## mutating methods
+
+some mutating methods
+
+```py
+
+mylist = []
+mylist.append(5)
+mylist.append(27)
+mylist.append(3)
+mylist.append(12)
+print(mylist)
+
+mylist.insert(1, 12)
+print(mylist)
+print(mylist.count(12))
+
+print(mylist.index(3))
+print(mylist.count(5))
+
+mylist.reverse()
+print(mylist)
+
+mylist.sort()
+print(mylist)
+
+mylist.remove(5)
+print(mylist)
+
+lastitem = mylist.pop()
+print(lastitem)
+print(mylist)
+
+###########################################
+
+mylist = []
+mylist.append(5)
+mylist.append(27)
+mylist.append(3)
+mylist.append(12)
+print(mylist)
+
+newList = mylist.sort()   #probably an error (fixed by changing the new sorted list to have a diffrent object name)
+print(mylist)
+
+```
+
+## applied vs concantenate
+
+i don't even know
+
+## deep and shallow copies
