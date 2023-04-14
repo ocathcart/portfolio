@@ -1,6 +1,6 @@
 ---
 title: FIT0045 N Week 06
-date: '2023-03-23'
+date: '2023-04-04'
 tags: ['FIT0045', 'Week 6', 'Notes']
 draft: false
 summary:
@@ -233,3 +233,109 @@ print(mylist)
 i don't even know
 
 ## deep and shallow copies
+
+assuming you dont want a coppied list that can be altered by changing the values of the original list. you can do a nested iteration which can be visualised as such:
+
+```py
+
+original = [['dogs', 'puppies'], ['cats', "kittens"]]
+copied_outer_list = [] #creates new list
+for inner_list in original:
+    copied_inner_list = []
+    for item in inner_list:
+        copied_inner_list.append(item) # the for loops cycles through the elements in the list and append them to the new list creating a copy that isnt directly affected by the original
+    copied_outer_list.append(copied_inner_list)
+print(copied_outer_list)
+original[0].append(["canines"])
+print(original)
+print("-------- Now look at the copied version -----------")
+print(copied_outer_list)
+
+```
+
+you can also take advantage of the slicing operation to create a new independant list:
+
+```py
+
+original = [['dogs', 'puppies'], ['cats', "kittens"]]
+copied_outer_list = []
+for inner_list in original:
+    copied_inner_list = inner_list[:]
+    copied_outer_list.append(copied_inner_list) #this creates an independant list that isnt effected by changes to the original
+print(copied_outer_list)
+original[0].append(["canines"])
+print(original)
+print("-------- Now look at the copied version -----------")
+print(copied_outer_list)
+
+```
+
+if list have more then two levels it is reccomended that we import the module copy which has a function called **_deepcopy_**:
+
+```py
+
+import copy
+original = [['canines', ['dogs', 'puppies']], ['felines', ['cats', 'kittens']]]
+shallow_copy_version = original[:]
+deeply_copied_version = copy.deepcopy(original)
+original.append("Hi there")
+original[0].append(["marsupials"])
+print("-------- Original -----------")
+print(original)
+print("-------- deep copy -----------")
+print(deeply_copied_version)
+print("-------- shallow copy -----------")
+print(shallow_copy_version)
+
+```
+
+## non-mutation methods on strings
+
+there are a wide variety of methods for strings for example:
+
+```py
+
+ss = "Hello, World"
+print(ss.upper())
+
+tt = ss.lower()
+print(tt)
+print(ss)
+
+```
+
+# Week 6 Workshop
+
+### implement deepcopy
+
+```py
+
+exampleList = [['a', 'b', 'c'], ['d'], ['e', 'f']]
+
+def deepcopy_exactly_2(lst: list):
+    loopValue = True
+    newList = []
+
+    while loopValue == True:
+        for lists in lst:
+            newListinner = []
+            for elements in lists:
+                newListinner.append(elements)
+            newList.append(newListinner)
+            if newList == lst:
+                loopValue = False
+            else:
+                loopValue = True
+
+    return newList
+
+print(exampleList)
+deepcopy_exactly_2(exampleList)
+
+print(id(deepcopy_exactly_2(exampleList)))
+
+print(id(exampleList))
+
+#both list have diffrent id's
+
+```
