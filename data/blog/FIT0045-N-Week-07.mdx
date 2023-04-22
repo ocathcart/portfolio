@@ -132,3 +132,154 @@ t = NumberSet(6, 10)
 ```
 
 ## adding other methods to a class
+
+jsut do it: call them seperately with **object of the class . method u want to use ()**
+
+## objects as Arguments and parameters
+
+having methods within classes creates much more simple to understand codes and can also make code less messy
+
+```py
+#method outside of class
+import math
+
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self, initX, initY):
+
+        self.x = initX
+        self.y = initY
+
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
+
+    def distanceFromOrigin(self):
+        return ((self.x ** 2) + (self.y ** 2)) ** 0.5
+
+def distance(point1, point2):
+    xdiff = point2.getX()-point1.getX()
+    ydiff = point2.getY()-point1.getY()
+
+    dist = math.sqrt(xdiff**2 + ydiff**2)
+    return dist
+
+p = Point(4,3)
+q = Point(0,0)
+print(distance(p,q))
+
+#method inside class
+import math
+
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self, initX, initY):
+
+        self.x = initX
+        self.y = initY
+
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
+
+    def distanceFromOrigin(self):
+        return ((self.x ** 2) + (self.y ** 2)) ** 0.5
+
+    def distance(self, point2):
+        xdiff = point2.getX()-self.getX()
+        ydiff = point2.getY()-self.getY()
+
+        dist = math.sqrt(xdiff**2 + ydiff**2)
+        return dist
+
+p = Point(4,3)
+q = Point(0,0)
+print(p.distance(q))
+
+```
+
+## converting an object to a string
+
+turning objects into strings or other states:
+
+```py
+
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self, initX, initY):
+
+        self.x = initX
+        self.y = initY
+
+    def getX(self):
+        return self.x
+
+    def getY(self):
+        return self.y
+
+    def distanceFromOrigin(self):
+        return ((self.x ** 2) + (self.y ** 2)) ** 0.5
+
+    def __str__(self):
+        return f"Point(x = {self.x}, y = {self.y})"
+
+p = Point(7,6)
+print(p)
+
+```
+
+## instances as return values
+
+MMMMMMMMMMMMMM
+
+## class variables and instance variables
+
+# worshop
+
+# Q1:
+
+```py
+
+class Post:
+    """ Post class for representing and manipulating posts. """
+
+    caption = "" # Class Variable.
+
+    def __init__(self, image): # Constructor (with parameters).
+        """ Create a new post. """
+        self.image = image
+        self.caption = self.caption
+        self.likes = 0
+
+    # Methods
+    def get_caption(self):
+        return self.caption
+
+    def get_image(self):
+        return self.image
+
+    def set_caption(self, caption):
+        self.caption = caption
+
+    def set_image(self, image):
+        self.image = image
+
+    def get_likes(self):
+        return self.likes
+
+    def increment_likes(self):
+        self.likes += 1
+
+
+    def __str__(self): # Overrides the __str__ method.
+        return "Image directory = {}, Caption = {}".format(self.image, self.caption)
+
+
+```
