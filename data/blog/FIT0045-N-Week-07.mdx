@@ -6,4 +6,129 @@ draft: false
 summary:
 ---
 
-# intorduction
+# introduction
+
+python is an object oriented programming languge meaning it provides features that support object oriented programming
+
+object oriented programming was used to handle the rapidly 8
+
+OOP is focused around the creation of objects which have both fucntionality and data
+
+## objects revisited
+
+we have been using objects this whole time, list, tuples, intergers and dictionaries are all objects. programs manipulate objects either by performing computations with them or by asking them to perform methods.
+
+we start by saying an objects has a state and a collection of methods that it can perform.
+
+the **state** of the object represents what the object known about itself, the state is stored in **instance variables**.
+
+for example if we have a person object, each person has a state consisting of the person's name, thier age and thier X and Y coordinates and so on...
+
+## user defined class
+
+typically when solving our problems we'll need to create data objects that are related to our problem we are trying to solve. For this we need to create our own **class**
+
+think of it like this: the object is the point, treated as a single object made up of two seperate points. the X and Y cooridinate are the states of the object.
+
+a creation of a first class would look like this with the refrence of the point method:
+
+```py
+
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self):
+        """ Create a new point at the origin """
+        self.x = 0
+        self.y = 0
+
+```
+
+`py__init__(self):` this is a **initializer statement**, often refered to as the **constructor**, this is automatically called when a new instance of 'point' is created. it give the programmer the opertunity to set up the attributes required within the new instance by giving them their initial state values.
+
+the **self** parameter is automatically set to reference the newly created object that needs to be initialized.
+
+```py
+
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self):
+
+        self.x = 0
+        self.y = 0
+
+p = Point()         # Instantiate an object of type Point
+q = Point()         # and make a second point
+
+print("Nothing seems to have happened with the points")
+
+```
+
+in this program nothing happens as we have the values but we haven't asked the program to do anything with those points.
+
+however:
+
+```py
+
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self):
+
+        self.x = 0
+        self.y = 0
+
+p = Point()         # Instantiate an object of type Point
+q = Point()         # and make a second point
+
+print(p)
+print(q)
+
+print(p is q)
+
+```
+
+A function like 'point' that creates a new object instance is called a **constructor**
+
+the definition of the constructor function is done when you write the `py __init__ ` function(method) inside the class definition
+
+the class is a factory for making objects
+it contains the machinery to make the point instances
+everytime you call the instructor, you ask the factory for a new object
+as the object comes off the production line, its initialization method is executed to get the object properly set up with it's factory defualt settings.
+
+the process is called **instantiation**
+
+## adding parameters to the constructor
+
+adding oarameters and linking them to a changeble variable:
+
+```py
+
+class Point:
+    """ Point class for representing and manipulating x,y coordinates. """
+
+    def __init__(self, initX, initY):
+
+        self.x = initX
+        self.y = initY
+
+p = Point(7,6)
+
+```
+
+### coding challange 1
+
+```py
+
+class NumberSet:
+    def __init__(self, num1, num2):
+        self.num1 = num1
+        self.num2 = num2
+
+t = NumberSet(6, 10)
+
+```
+
+## adding other methods to a class
