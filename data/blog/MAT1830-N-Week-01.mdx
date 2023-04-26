@@ -114,3 +114,64 @@ Example:
 - gcd(30,45) = 15
 - gcd(13,21) = 1
 - gcd(15,21) = 3
+
+note: gcd(a,b) = gcd(b,a) for an intergers **a** and **b**
+
+## the greatest common divisor of two numbers
+
+this is dont with the euclidean algorithm:
+
+the **input** would be a **postive interger m, and n with m being more or equal too n**
+the **output** would be the **gcd of m and n**
+
+**a** = **m**, **b** = **n**
+**r** = remainder when **a** is divided by **b**
+while r **is not** equal to 0:
+
+- a = b
+- b = r
+- r = remainder when **a** is diveded by **b**
+
+the **end** would be **return b**
+
+example:
+
+```
+
+find gcd(165,120):
+
+165 = 1 * 120 + 45
+120 = 2 * 45 + 30
+45 = 1 * 30 + 15
+30 = 2 * 15 + 0
+
+so gcd(165,120) = 15
+
+```
+
+**Fact:** gcd(a-kb,b) = gcd(a.b) for any positive intergers a, b, k.
+
+**Proof:** if **d** is a common divisor of **a** and **b** then **d** is a common divisor of **a - kb** and **b**
+
+if **e** is a common divisor of **a - kb** and **b** then **d** is a common divisor and **b**(note a = (a - kb) + kb)
+
+So the list of common divisors of **a - kb** and **b** is exactly the same as the list of common divisors of **a** and **b**
+
+So the greatest common divisor of **a - kb** and **b** is equal to the greatest common divisor of **a** and **b**
+
+### The Euclidean algorithm works!
+
+we start with the precondition **m** is bigger or equal to **n** and **n** is bigger then 0
+then the divisor thereom tells us there is a remainder **r** that is bigger then **b** when **a** is equal to **m** is divided by **b** which is equal to **n**
+
+if we use the Euclidean algorith for gcd(a,b) = d the we can work backwards to find intergers **a** and **b**
+
+using **am** + **bn** = **d**
+
+find intergers **A** and **b** such that **353a** + **78b** = 1:
+
+353 = 4 _ 78 + 41
+78 = 1 _ 41 + 37
+41 = 1 _ 37 + 4
+37 = 9 _ 4 + 1
+4 = 4 \* 1 + 0
