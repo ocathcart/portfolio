@@ -1,0 +1,628 @@
+---
+title: 'FIT1045 N Week 09'
+date: '2023-05-02'
+tags: ['FIT1045, Notes, Week 9']
+draft: False
+summary:
+images: []
+---
+
+# introduction to test cases
+
+test cases express requirements for a program
+they allow us to
+
+- have in mind what the code should do
+- the test cases can provide feedback as to what the code should project
+- they can be broken into **unit test (1)** and **functional test (2)**. (1) being for smaller fragments of the program, and (2) being for larger or the program as a whole
+
+python provides a function called `py assert() `, following this there will be 'python expressions', if that expression evaluates to a boolean `py False ` then the interpreted willraise a runtime error. if the expression in `py True ` then the execution will go onto the next line
+
+# checking assumptions with assert
+
+when defining functions or methods its important to add a precondtion for example
+
+```py
+def cherry(boyfriend):
+    """
+    returns cherries current boyfriend
+
+    precondtion: boyfirned must exist
+    """
+def sumnums(lo, hi):
+    """returns the sum of the numbers in the range [lo..hi]
+
+    Precondition: lo <= hi
+    """
+```
+
+a preconditon places a constraint on the values of the parameters. precondtions are boolean values normally described in an if statement
+
+### defensive functions
+
+**defensive functions** are functions that check if the parameters are valid within the function and if they are not return a false value for the parameters along with some way of seeing the problem
+
+for example:
+
+```py
+
+def sumnums(lo, hi):
+    """returns the sum of the numbers in the range [lo..hi]
+
+    Precondition: lo <= hi
+    """
+
+    if lo > hi:
+        print('Alert: Invalid parameters to sumnums.')
+        return -1
+
+    sum = 0
+    for i in range(lo, hi+1):
+        sum += i
+    return sum
+
+print(sumnums(1, 3))
+print(sumnums(3, 1))
+
+
+```
+
+the if statments can create clutter so heres an example of the use of the assert function:
+
+```py
+x = 1 + 1
+assert x == 2
+print(x)
+
+def sumnums(lo, hi):
+    """returns the sum of the numbers in the range [lo..hi]
+
+    Precondition: lo <= hi
+    """
+
+    assert lo <= hi
+
+    sum = 0
+    for i in range(lo, hi+1):
+        sum += i
+    return sum
+
+print(sumnums(1, 3))
+print(sumnums(3, 1))
+```
+
+## checking assumptions about data type
+
+type error checking is useful, heres an example:
+
+```py
+assert type(9//5) == int
+assert type(9.0//5) == int
+
+lst = ['a', 'b', 'c']
+
+first_type = type(lst[0])
+for item in lst:
+    assert type(item) == first_type
+
+lst2 = ['a', 'b', 'c', 17]
+first_type = type(lst2[0])
+for item in lst2:
+    assert type(item) == first_type
+#will return an error for lst2 because not all elemnts are of the same type
+
+lst = ['a', 'b', 'c']
+
+assert len(lst) < 10
+#this will make sure that the lst has less then 10 elements
+```
+
+# testing conditionals
+
+heres an example of testing conditionals:
+
+```py
+x = 3
+y = 4
+if x < y:
+    z = x
+else:
+    if x > y:
+        z = y
+    else:
+        ## x must be equal to y
+        assert x==y
+        z = 0
+```
+
+# testing loops
+
+examples of loops being tested:
+
+```py
+nums = [1, 5, 8]
+
+accum = 0
+for w in nums:
+    accum = accum + w
+assert accum == 14
+
+nums = []
+
+accum = 0
+for w in nums:
+    accum = accum + w
+assert accum == None
+
+nums = []
+
+if len(nums) == 0:
+   accum = None
+else:
+   accum = 0
+   for w in nums:
+       accum = accum + w
+assert accum == None
+```
+
+# writing test cases for functions
+
+**edge cases** handle extreme or unsual test
+example edge test casae:
+
+```py
+
+def square(x):
+    return x*x
+
+assert square(3) == 9
+assert square(-1) == 1
+assert square(-2) == 4
+
+```
+
+sokmes times we need to make **side effect** test which test for a cheange in a mutable object:
+
+```py
+
+def update_counts(letters, counts_d):
+    for c in letters:
+        if c in counts_d:
+            counts_d[c] = counts_d[c] + 1
+
+
+counts = {'a': 3, 'b': 2}
+update_counts("aaab", counts)
+# 3 more occurrences of a, so 6 in all
+assert counts['a'] == 6
+# 1 more occurrence of b, so 3 in all
+assert counts['b'] == 3
+
+```
+
+# working with data files
+
+there are multiple ways to go about this in the example below
+
+```py
+#to open the file we designate a value and then use functionopen(), the using the r, this tells th computer that we want to read the file and not write in it
+f = open("olympics.txt", "r")
+# can also write these functions in a diffrent format using the with() function
+with open("olympic.txt", "r") as f:
+
+#there are multiple ways to read a file for example
+entire_file = f.read()
+print(entire_file)
+
+#another to read each line
+l = f.readline()
+print(l)
+print("This is a newline: \n")
+l = f.readline()
+print(l)
+
+#another method using for loops
+lines_list = f.radlines()
+    for line in lines_list:
+        print("line read: " + line)
+
+#once we are done we use the close(function)
+f.close()
+
+```
+
+the write() function adds a string to the end of the txt file
+
+# coding challange 1
+
+```py
+
+fileRef = open("school_prompt2.txt", "r")
+
+num_char = 0
+
+for c in fileRef.read():
+    num_char +=1
+
+fileRef.close()
+
+print(num_char)
+```
+
+basically just goling through the string of the txt file and adding 1 to a variable for every character that is passed overs
+
+# coding challange 2
+
+```py
+
+fileRef = open("travel_plans2.txt", "r")
+
+num_lines = 0
+for l in fileRef.readlines():
+    num_lines +=1
+
+print(num_lines)
+
+fileRef.close()
+
+```
+
+same thing but with ines
+
+# coding challange 3
+
+```py
+
+fileRef = open("emotion_words2.txt", "r")
+
+first40 = ""
+
+counter = 0
+for c in fileRef.read():
+    first40 = first40 + c
+    counter += 1
+    if counter == 40:
+        break
+
+fileRef.close()
+
+
+print(first40)
+
+```
+
+iterates over the file and stops once 40 charzacters have been printed
+
+# iterating over lines in a file
+
+```py
+
+olypmicsfile = open("olympics.txt", "r")
+
+for aline in olypmicsfile.readlines():
+    values = aline.split(",")
+    print(values[0], "is from", values[3], "and is on the roster for", values[4])
+
+olypmicsfile.close()
+
+```
+
+this
+
+# finding a file in your file system
+
+if your python file and used file are in the same directory(foulder/place) u can call them with a simple syntax like `py open('data1.txt', 'r')`. but a file in a diffrent directory `py open('../myData/data2.txt', 'r')`
+
+# using with for files
+
+sometimes the `py close() ` function is forgeton so to combat this we can use the `py with() ` function, the syntax of this is as shown:
+
+```py
+
+with <create some object that understands context> as <some name>:
+    do some stuff with the object
+    ...
+
+```
+
+# recipes for reading and processing a file
+
+erading and processing the files
+
+# writing txt files
+
+the only diffrence beween opening a file for writing instead of rading is the `py 'r' ` in the open function's second parameter which will instead by a `py 'w' ` for writing.
+
+```python
+
+filename = "squared_numbers.txt"
+outfile = open(filename, "w")
+
+for number in range(1, 13):
+    square = number * number
+    outfile.write(str(square) + "\n")
+
+outfile.close()
+
+```
+
+this writes a snippet of the squared numbers from 1 to 12
+
+# CSV format
+
+stands for **Comma seperated values** and cna be iterarted through to get specific values.
+
+# reading in data from CSV files
+
+example
+
+```py
+
+fileconnection = open("olympics.txt", 'r')
+lines = fileconnection.readlines()
+header = lines[0]
+field_names = header.strip().split(',') #splits the first row to get the field names
+print(field_names)
+for row in lines[1:]:
+    vals = row.strip().split(',') #split the other rows to get the values
+    if vals[5] != "NA":
+        print(f"{vals[0]}: {vals[4]}; {vals[5]}")
+
+```
+
+# coding challange 4
+
+```py
+
+avrMarklst = []
+avrMarksum = 0
+
+with open("class.csv", 'r') as fileref:
+    lines = fileref.readlines()
+    headers = lines[0]
+    fileNames = headers.strip().split(',')
+    for l in lines[1:]:
+        marks = l.strip().split(',')
+        avrMarklst.append(marks[1])
+
+for m in avrMarklst:
+    avrMarksum = int(m) + avrMarksum
+
+avrMark = avrMarksum/len(avrMarklst)
+
+print(avrMark)
+
+```
+
+finding the average mark in a CSV file
+
+# writing out data to a CSV file
+
+example of how to write to create a list of multiples of 12
+
+```py
+n = [0] * 12
+for i in range(1,13):
+    n[i-1] = i *12
+outfile = open("Multiples_of_12", "w")
+for j in range(0, len(n)):
+    outfile.write(str(j+1) + ',' + str(n[j]))
+    # +1 to j since the array starts at 0 and we start counting at 1
+    outfile.write('\n')
+outfile.close()
+
+```
+
+another example for writing diffrent tuples as rows
+
+```py
+olympians = [("John Aalberg", 31, "Cross Country Skiing"),
+             ("Minna Maarit Aalto", 30, "Sailing"),
+             ("Win Valdemar Aaltonen", 54, "Art Competitions"),
+             ("Wakako Abe", 18, "Cycling")]
+
+outfile = open("reduced_olympics.csv", "w")
+# output the header row
+outfile.write('Name,Age,Sport')
+outfile.write('\n')
+# output each of the rows:
+for olympian in olympians:
+    row_string = '{},{},{}'.format(olympian[0], olympian[1], olympian[2]) #format makes it clear that we are making a comma sepereated set of values
+    outfile.write(row_string)
+    outfile.write('\n')
+outfile.close()
+
+```
+
+analtered easier to read version of this
+
+```py
+
+olympians = [("John Aalberg", 31, "Cross Country Skiing, 15KM"),
+             ("Minna Maarit Aalto", 30, "Sailing"),
+             ("Win Valdemar Aaltonen", 54, "Art Competitions"),
+             ("Wakako Abe", 18, "Cycling")]
+
+outfile = open("reduced_olympics2.csv", "w")
+# output the header row
+outfile.write('"Name","Age","Sport"')
+outfile.write('\n')
+# output each of the rows:
+for olympian in olympians:
+    row_string = '"{}", "{}", "{}"'.format(olympian[0], olympian[1], olympian[2])
+    outfile.write(row_string)
+    outfile.write('\n')
+outfile.close()
+
+```
+
+# exceotions
+
+the `py try()` function executes a blok of code under the try function and then continues on if the blokc of code has no runtime errors
+
+if a runtime error does occur then it will skip the rest of the block code and execute the `py except() ` block code instead.
+
+```py
+try:
+   <try clause code block>
+except <ErrorType>: # if u write exception: all tiems of errors will be valid
+   <exception handler code block>
+
+```
+
+another example
+
+```py
+
+try:
+    items = ['a', 'b']
+    third = items[2]
+    print("This won't print")
+except Exception:
+    print("got an error")
+
+print("continuing")
+
+```
+
+a more specific example
+
+```py
+
+try:
+    items = ['a', 'b']
+    third = items[2]
+    print("This won't print")
+except IndexError:
+    print("error 1")
+
+print("continuing")
+
+try:
+    x = 5
+    y = x/0
+    print("This won't print, either")
+except IndexError:
+    print("error 2")
+
+
+print("continuing again")
+
+```
+
+this code will tell u the typoe fo error and why it is occuring:
+
+```py
+
+try:
+    items = ['a', 'b']
+    third = items[2]
+    print("This won't print")
+except Exception as e:
+    print("got an error")
+    print(e)
+
+print("continuing")
+
+```
+
+we can also manually raise erroers for exmaple:
+
+```py
+
+def notImplementedFunction():
+    raise NotImplementedError
+
+notImplementedFunction()
+
+```
+
+# unit testing
+
+a incorrect example running a unit test
+
+```py
+
+# The incorrectly(!) implemented preprocess_string function.
+def preprocess_string_2(input_string):
+    unwanted_characters = ".,:;!?()<>*{}()&^$#@+-_=/%"
+
+    for c in unwanted_characters:
+        input_string = input_string.replace(c, ".") # Incorrect replacement
+
+    previous_string = ""
+    while input_string != previous_string:
+        previous_string = input_string
+        input_string = input_string.replace("  ", " ")
+
+    return input_string.lower() # Missing strip() functionality
+
+```
+
+# unit test example
+
+python uses the unittest module which allows us to create a class that inherits properties from the unittest.Teatcase
+
+an example of how to write unit test:
+
+```py
+
+import unittest
+import random
+import string
+
+from submissions import preprocess_string
+
+def generate_100_size_50_strings():
+    test_strings = []
+    chars = string.ascii_letters + string.digits + string.punctuation + ' '
+    for _ in range(100):
+        test_string = ''
+        for _ in range(50):
+            test_string += chars[random.randint(0,len(chars)-1)]
+        test_strings.append(test_string)
+    return test_strings
+
+class PreprocessTestCase(unittest.TestCase):
+    test_strings = generate_100_size_50_strings()
+    def test1(self):
+        """ Requirement 1: Checking for unwanted characters on 100 random strings """
+        unwanted_characters = ".,:;!?()<>*{}()&^$#@+-_=/%"
+
+        for test_string in self.test_strings:
+            test_string = preprocess_string(test_string)
+
+            for i in range(len(test_string)):
+                assert test_string[i] not in unwanted_characters, "Unwanted characters are not removed."
+
+    def test2(self):
+        """ Requirement 2: Checking for double-spaces on 100 random strings """
+
+        for test_string in self.test_strings:
+            test_string = preprocess_string(test_string)
+
+            for i in range(len(test_string)-1):
+                assert test_string[i] != " " or test_string[i+1]  != " ", "Double-spaces are not removed."
+
+    def test3(self):
+        """ Requirement 3: Checking for white spaces in the beginning and the end of the string on 100 random strings """
+
+        for test_string in self.test_strings:
+            test_string = preprocess_string(test_string)
+
+            if len(test_string) > 0:
+                assert test_string[0].isspace() == False and test_string[-1].isspace() == False, ".strip() functionality is not implemented."
+
+    def test4(self):
+        """ Requirement 4: Checking for uppercase characters on 100 random strings """
+
+        for test_string in self.test_strings:
+            test_string = preprocess_string(test_string)
+
+            for i in range(len(test_string)):
+                assert test_string[i].isupper() == False, ".lower() functionality is not implemented"
+
+if __name__ == '__main__':
+    unittest.main()
+
+```

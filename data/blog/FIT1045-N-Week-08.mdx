@@ -1,0 +1,609 @@
+---
+title: 'FIT1045 N Week 08'
+date: '2023-04-29'
+tags: ['FIT1045, Notes, Week 8']
+draft: False
+summary:
+images: []
+---
+
+# Class Inheritance
+
+class can inheritmethods and calss varibles from other classes
+
+this allows you to change things withoput having to alter all that you have done
+
+```py
+
+from random import randrange
+
+class Pet:
+    boredome_decrement = 4
+    hunger_decrement = 6
+    boredom_thershold = 5
+    hunger_thershold = 10
+    sounds = ['Mrrp']
+
+    def __init__ (self, name = 'Kitty', pet_type = 'dog'):
+        self.name = name
+        self.hunger = randrange(self.hunger_threshold)
+        self.boredom = randrange(self.boredom_threshold)
+        self.sounfs[:]
+        self.pet_type = pet_type
+
+    def clock_tick(self):
+        self.boredom += 1
+        self.hunger += 1
+
+    def mood(self):
+        if self.hunger <= self.hunger_threshold and self.boredom <= self.boredom_threshold:
+            if self.pet_type == "dog": # if the pet is a dog, it will express its mood in different ways from a cat or any other type of animal
+                return "happy"
+            elif self.pet_type == "cat":
+                return "happy, probably"
+            else:
+                return "HAPPY"
+        elif self.hunger > self.hunger_threshold:
+            if self.pet_type == "dog": # same for hunger -- dogs and cats will express their hunger a little bit differently in this version of the class definition
+                return "hungry, arf"
+            elif self.pet_type == "cat":
+                return "hungry, meeeeow"
+            else:
+                return "hungry"
+        else:
+            return "bored"
+
+    def __str__(self):
+        state = "     I'm " + self.name + ". "
+        state += " I feel " + self.mood() + ". "
+        return state
+
+    def hi(self):
+        print(self.sounds[randrange(len(self.sounds))])
+        self.reduce_boredom()
+
+    def teach(self, word):
+        self.sounds.append(word)
+        self.reduce_boredom()
+
+    def feed(self):
+        self.reduce_hunger()
+
+    def reduce_hunger(self):
+        self.hunger = max(0, self.hunger - self.hunger_decrement)
+
+    def reduce_boredom(self):
+        self.boredom = max(0, self.boredom - self.boredom_decrement)
+
+```
+
+this is bad example as we've only defined dog and cat and other which takes away the uniqueness of those animals
+
+# inheriting variables and methods
+
+this is how we define a subclass
+
+```py
+
+from random import randrange
+
+# Here's the original Pet class
+class Pet:
+    boredom_decrement = 4
+    hunger_decrement = 6
+    boredom_threshold = 5
+    hunger_threshold = 10
+    sounds = ['Mrrp']
+    def __init__(self, name = "Kitty"):
+        self.name = name
+        self.hunger = randrange(self.hunger_threshold)
+        self.boredom = randrange(self.boredom_threshold)
+        self.sounds = self.sounds[:]  # copy the class attribute, so that when we make changes to it, we won't affect the other Pets in the class
+
+    def clock_tick(self):
+        self.boredom += 1
+        self.hunger += 1
+
+    def mood(self):
+        if self.hunger <= self.hunger_threshold and self.boredom <= self.boredom_threshold:
+            return "happy"
+        elif self.hunger > self.hunger_threshold:
+            return "hungry"
+        else:
+            return "bored"
+
+    def __str__(self):
+        state = "     I'm " + self.name + ". "
+        state += " I feel " + self.mood() + ". "
+        # state += "Hunger %d Boredom %d Words %s" % (self.hunger, self.boredom, self.sounds)
+        return state
+
+    def hi(self):
+        print(self.sounds[randrange(len(self.sounds))])
+        self.reduce_boredom()
+
+    def teach(self, word):
+        self.sounds.append(word)
+        self.reduce_boredom()
+
+    def feed(self):
+        self.reduce_hunger()
+
+    def reduce_hunger(self):
+        self.hunger = max(0, self.hunger - self.hunger_decrement)
+
+    def reduce_boredom(self):
+        self.boredom = max(0, self.boredom - self.boredom_decrement)
+
+# the new pet subclass
+
+# Here's the new definition of class Cat, a subclass of Pet.
+class Cat(Pet): # the class name that the new class inherits from goes in the parentheses, like so.
+    sounds = ['Meow']
+
+    def chasing_rats(self):
+        return "What are you doing, Pinky? Taking over the world?!"
+```
+
+example of implementation of cat class:
+
+```py
+# the following two lines of magic allow us to place the class definition at the bottom of the file. You should NOT adopt this style; it is done here only to have the interesting code at the top.
+if __name__ == "__main__":
+    from main import * # don't do this at home
+
+    p1 = Pet("Fido")
+    print(p1) # we've seen this stuff before!
+
+    p1.feed()
+    p1.hi()
+    print(p1)
+
+    cat1 = Cat("Fluffy")
+    print(cat1) # this uses the same __str__ method as the Pets do
+    cat1.feed() # Totally fine, because the cat class inherits from the Pet class!
+    cat1.hi()
+    print(cat1)
+    print(cat1.chasing_rats())
+    print(p1.chasing_rats()) # This line will give us an error. The Pet class doesn't have this method!
+
+############ THIS IS THE START OF THE ORIGINAL PET CODE ##########
+from random import randrange
+
+# Here's the original Pet class
+class Pet:
+    boredom_decrement = 4
+    hunger_decrement = 6
+    boredom_threshold = 5
+    hunger_threshold = 10
+    sounds = ['Mrrp']
+    def __init__(self, name = "Kitty"):
+        self.name = name
+        self.hunger = randrange(self.hunger_threshold)
+        self.boredom = randrange(self.boredom_threshold)
+        self.sounds = self.sounds[:]  # copy the class attribute, so that when we make changes to it, we won't affect the other Pets in the class
+
+    def clock_tick(self):
+        self.boredom += 1
+        self.hunger += 1
+
+    def mood(self):
+        if self.hunger <= self.hunger_threshold and self.boredom <= self.boredom_threshold:
+            return "happy"
+        elif self.hunger > self.hunger_threshold:
+            return "hungry"
+        else:
+            return "bored"
+
+    def __str__(self):
+        state = "     I'm " + self.name + ". "
+        state += " I feel " + self.mood() + ". "
+        # state += "Hunger %d Boredom %d Words %s" % (self.hunger, self.boredom, self.sounds)
+        return state
+
+    def hi(self):
+        print(self.sounds[randrange(len(self.sounds))])
+        self.reduce_boredom()
+
+    def teach(self, word):
+        self.sounds.append(word)
+        self.reduce_boredom()
+
+    def feed(self):
+        self.reduce_hunger()
+
+    def reduce_hunger(self):
+        self.hunger = max(0, self.hunger - self.hunger_decrement)
+
+    def reduce_boredom(self):
+        self.boredom = max(0, self.boredom - self.boredom_decrement)
+
+# Here's the new definition of class Cat, a subclass of Pet.
+class Cat(Pet): # the class name that the new class inherits from goes in the parentheses, like so.
+    sounds = ['Meow']
+
+    def chasing_rats(self):
+        return "What are you doing, Pinky? Taking over the world?!"
+
+```
+
+from this we can also create a subclass of the cubclass 'cat'
+
+```py
+
+class Cheshire(Cat): # this inherits from Cat, which inherits from Pet
+
+    def smile(self): # this method is specific to instances of Cheshire
+        print(":D :D :D")
+
+```
+
+here's an example of this in an actual program
+
+```py
+
+# the following two lines of magic allow us to place the class definition at the bottom of the file. You should NOT adopt this style; it is done here only to have the interesting code at the top.
+if __name__ == "__main__":
+    from main import * # don't do this at home
+
+    cat1 = Cat("Fluffy")
+    cat1.feed() # Totally fine, because the cat class inherits from the Pet class!
+    cat1.hi() # Uses the special Cat hello.
+    print(cat1)
+    print(cat1.chasing_rats())
+    new_cat = Cheshire("Pumpkin") # create a Cheshire cat instance with name "Pumpkin"
+    new_cat.hi() # same as Cat!
+    print(new_cat.chasing_rats()) # OK, because Cheshire inherits from Cat
+    new_cat.smile() # Only for Cheshire instances (and any classes that you make inherit from Cheshire)
+
+    # cat1.smile() # This would give you an error, because the Cat class does not have this method!
+
+    # None of the subclass methods can be used on the parent class, though.
+    p1 = Pet("Teddy")
+    p1.hi() # just the regular Pet hello
+    #p1.chasing_rats() # This would give you an error -- this method doesn't exist on instances of the Pet class.
+    p1.smile() # This gives you an error, too. This method does not exist on instances of the Pet class.
+
+
+
+
+
+
+############ THIS IS THE START OF THE ORIGINAL PET CODE ##########
+from random import randrange
+
+# Here's the original Pet class
+class Pet():
+    boredom_decrement = 4
+    hunger_decrement = 6
+    boredom_threshold = 5
+    hunger_threshold = 10
+    sounds = ['Mrrp']
+    def __init__(self, name = "Kitty"):
+        self.name = name
+        self.hunger = randrange(self.hunger_threshold)
+        self.boredom = randrange(self.boredom_threshold)
+        self.sounds = self.sounds[:]  # copy the class attribute, so that when we make changes to it, we won't affect the other Pets in the class
+
+    def clock_tick(self):
+        self.boredom += 1
+        self.hunger += 1
+
+    def mood(self):
+        if self.hunger <= self.hunger_threshold and self.boredom <= self.boredom_threshold:
+            return "happy"
+        elif self.hunger > self.hunger_threshold:
+            return "hungry"
+        else:
+            return "bored"
+
+    def __str__(self):
+        state = "     I'm " + self.name + ". "
+        state += " I feel " + self.mood() + ". "
+        # state += "Hunger %d Boredom %d Words %s" % (self.hunger, self.boredom, self.sounds)
+        return state
+
+    def hi(self):
+        print(self.sounds[randrange(len(self.sounds))])
+        self.reduce_boredom()
+
+    def teach(self, word):
+        self.sounds.append(word)
+        self.reduce_boredom()
+
+    def feed(self):
+        self.reduce_hunger()
+
+    def reduce_hunger(self):
+        self.hunger = max(0, self.hunger - self.hunger_decrement)
+
+    def reduce_boredom(self):
+        self.boredom = max(0, self.boredom - self.boredom_decrement)
+
+# Here's the new definition of class Cat, a subclass of Pet.
+class Cat(Pet): # the class name that the new class inherits from goes in the parentheses, like so.
+    sounds = ['Meow']
+
+    def chasing_rats(self):
+        return "What are you doing, Pinky? Taking over the world?!"
+############ THIS IS THE END OF THE ORIGINAL PET CODE ##########
+
+
+class Cheshire(Cat): # this inherits from Cat, which inherits from Pet
+
+    def smile(self): # this method is specific to instances of Cheshire
+        print(":D :D :D")
+
+```
+
+the interpreter will check to see if the created instance or accesed methods correspond to each class, starting grom the class the value was created in and going up till it finds a corresponding response.
+
+## overriding methods
+
+the python interpreter identifies methods the same as it idetifies subclass and treats them the same ways
+
+it will first check the method in the subclass that was called and then check the parent class if no corresponding method is found for example:
+
+```py
+
+# the following magic allows us to place the class definition at the bottom of the file. You should NOT adopt this style; it is done here only to have the interesting code at the top.
+if __name__ == "__main__":
+    from main import * # don't do this at home
+
+    c1 = Cat("Fluffy")
+    d1 = Dog("Astro")
+
+    c1.boredom = 1
+    print(c1)
+    c1.boredom = 3
+    for i in range(10):
+        print(c1)
+    print(d1)
+
+
+
+
+
+
+
+########## class definitions below ##############
+from random import randrange
+
+# Here's the original Pet class
+class Pet:
+    boredom_decrement = 4
+    hunger_decrement = 6
+    boredom_threshold = 5
+    hunger_threshold = 10
+    sounds = ['Mrrp']
+    def __init__(self, name = "Kitty"):
+        self.name = name
+        self.hunger = randrange(self.hunger_threshold)
+        self.boredom = randrange(self.boredom_threshold)
+        self.sounds = self.sounds[:]  # copy the class attribute, so that when we make changes to it, we won't affect the other Pets in the class
+
+    def clock_tick(self):
+        self.boredom += 1
+        self.hunger += 1
+
+    def mood(self):
+        if self.hunger <= self.hunger_threshold and self.boredom <= self.boredom_threshold:
+            return "happy"
+        elif self.hunger > self.hunger_threshold:
+            return "hungry"
+        else:
+            return "bored"
+
+    def __str__(self):
+        state = "     I'm " + self.name + ". "
+        state += " I feel " + self.mood() + ". "
+        # state += "Hunger %d Boredom %d Words %s" % (self.hunger, self.boredom, self.sounds)
+        return state
+
+    def hi(self):
+        print(self.sounds[randrange(len(self.sounds))])
+        self.reduce_boredom()
+
+    def teach(self, word):
+        self.sounds.append(word)
+        self.reduce_boredom()
+
+    def feed(self):
+        self.reduce_hunger()
+
+    def reduce_hunger(self):
+        self.hunger = max(0, self.hunger - self.hunger_decrement)
+
+    def reduce_boredom(self):
+        self.boredom = max(0, self.boredom - self.boredom_decrement)
+
+
+class Dog(Pet):
+    sounds = ['Woof', 'Ruff']
+
+    def mood(self):
+        if (self.hunger > self.hunger_threshold) and (self.boredom > self.boredom_threshold):
+            return "bored and hungry"
+        else:
+            return "happy"
+
+class Cat(Pet):
+    sounds = ['Meow']
+
+    def mood(self):
+        if self.hunger > self.hunger_threshold:
+            return "hungry"
+        if self.boredom <2:
+            return "grumpy; leave me alone"
+        elif self.boredom > self.boredom_threshold:
+            return "bored"
+        elif randrange(2) == 0:
+            return "randomly annoyed"
+        else:
+            return "happy"
+
+
+```
+
+the 'mood' method will be overriten by the subclasses mood method
+
+# invoking parent methods
+
+simple enough, we use the super function to call the parent class function and from that we are able to add further actions to that mathod:
+
+```py
+from random import randrange
+
+# Here's the original Pet class
+class Pet:
+    boredom_decrement = 4
+    hunger_decrement = 6
+    boredom_threshold = 5
+    hunger_threshold = 10
+    sounds = ['Mrrp']
+    def __init__(self, name = "Kitty"):
+        self.name = name
+        self.hunger = randrange(self.hunger_threshold)
+        self.boredom = randrange(self.boredom_threshold)
+        self.sounds = self.sounds[:]  # copy the class attribute, so that when we make changes to it, we won't affect the other Pets in the class
+
+    def clock_tick(self):
+        self.boredom += 1
+        self.hunger += 1
+
+    def mood(self):
+        if self.hunger <= self.hunger_threshold and self.boredom <= self.boredom_threshold:
+            return "happy"
+        elif self.hunger > self.hunger_threshold:
+            return "hungry"
+        else:
+            return "bored"
+
+    def __str__(self):
+        state = "     I'm " + self.name + ". "
+        state += " I feel " + self.mood() + ". "
+        # state += "Hunger %d Boredom %d Words %s" % (self.hunger, self.boredom, self.sounds)
+        return state
+
+    def hi(self):
+        print(self.sounds[randrange(len(self.sounds))])
+        self.reduce_boredom()
+
+    def teach(self, word):
+        self.sounds.append(word)
+        self.reduce_boredom()
+
+    def feed(self):
+        self.reduce_hunger()
+
+    def reduce_hunger(self):
+        self.hunger = max(0, self.hunger - self.hunger_decrement)
+
+    def reduce_boredom(self):
+        self.boredom = max(0, self.boredom - self.boredom_decrement)
+
+class Dog(Pet):
+    sounds = ['Woof', 'Ruff']
+
+    def feed(self):
+        super().feed()
+        print("Arf! Thanks!") # created there own addon to the parents method
+
+```
+
+this is often used for the '**init**' method as sometimes a new instance variable is created:
+
+```python
+
+class Bird(Pet):
+    sounds = ["chirp"]
+    def __init__(self, name="Kitty", chirp_number=2):
+        super().__init__(name) # call the parent class's constructor
+        self.chirp_number = chirp_number # now, also assign the new instance variable
+
+    def hi(self):
+        for i in range(self.chirp_number):
+            print(self.sounds[randrange(len(self.sounds))])
+        self.reduce_boredom()
+
+```
+
+# Abstract classes
+
+so basically an abstract class is one with unspecified data that will later be defined in a subclass that the method is specified to:
+
+```py
+
+from abc import ABC, abstractmethod
+from math import pi
+
+class Shape(ABC):
+
+    def __init__(self, name, shape_data):
+        self.name = name
+        self.shape_data = shape_data
+
+    def get_name(self):
+        return self.name
+
+    @abstractmethod
+    def get_area(self):
+        pass
+
+    @abstractmethod
+    def get_perimeter(self):
+        pass
+
+```
+
+# inheritance with abstract classes
+
+```py
+
+from abc import ABC, abstractmethod
+from math import pi
+
+class Shape(ABC):
+
+    def __init__(self, name, shape_data):
+        self.name = name
+        self.shape_data = shape_data
+
+    def get_name(self):
+        return self.name
+
+    @abstractmethod
+    def get_area(self):
+        pass
+
+    @abstractmethod
+    def get_perimeter(self):
+        pass
+
+class Square(Shape):
+
+    def get_area(self):
+        return self.shape_data**2
+
+    def get_perimeter(self):
+        return self.shape_data*4
+
+class Circle(Shape):
+
+    def get_area(self):
+        return pi*(self.shape_data**2)
+
+    def get_perimeter(self):
+        return 2*pi*self.shape_data
+
+my_circle = Circle('my circle', 3)
+print("The area of " + my_circle.get_name() + " is: " + str(my_circle.get_area()))
+print("The perimeter of " + my_circle.get_name() + " is: " + str(my_circle.get_perimeter()))
+
+my_square = Square('my square', 3)
+print("The area of " + my_square.get_name() + " is: " + str(my_square.get_area()))
+print("The perimeter of " + my_square.get_name() + " is: " + str(my_square.get_perimeter()))
+
+```
+
+as we can see the subclass overwrites the abstract metyhods within the parent class.
