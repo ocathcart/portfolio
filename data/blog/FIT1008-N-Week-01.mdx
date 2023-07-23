@@ -1,0 +1,318 @@
+---
+title: 'FIT1008 N Week 01'
+date: '2023-07-22'
+tags: ['FIT1008', 'Week 1', 'Notes']
+draft: false
+summary: ''
+images: []
+---
+
+# Pre Workshop notes
+
+## Algorithms and Complexity
+
+### Algorithms
+
+Q. What is an algorith and when is it needed:
+
+A01. general computational problem:
+
+    - Well-specified but this is (well designed instructions)
+    - Defines input-to-output relationship
+    - Various problem instances
+
+A02. Algorithm to solve it:
+
+    - A finite set of instructions
+
+        - Well-specified but subjective
+
+    - Correct
+
+        - Halts for any problem instances
+        - Correct input-to-output relationship
+
+#### Example
+
+Q. Given intergers _a_ and _b_, find thier **greatest common divisor**
+
+A01.
+
+```py
+
+def GCD(a: int , b: int ) -> int:
+
+GCD(45, 30) # will give output 15
+
+```
+
+### ALgorithmic Complexity
+
+- Time Complexity
+
+  - How much time does an algorith spend solving the corresponding problems
+
+    - usually measuer as the number of "elementary operations" performed
+
+- Space Complexity
+
+  - How much space does an algorithm spend solving the corresponding problem
+
+    - Usually measured as the amount of memory occupied simultaneously
+
+#### time complexity as a function of size
+
+- Algorithms time complexity can be measuer as a function of input size
+
+  - Given an inpu size of _n_, we can caluclate the value of _T(n)_...
+
+  - ... as the number of "_elementary_" steps (instructions) performed by the algorithm on the input of size _n_
+
+    - each elementary step contributes a 1 to the total value T(n)
+
+- The main question: "how does the algorithm perfom when n is large?"
+
+  - in other words, "how well does it scale?"
+
+  - we are mostly interested in the _"order of approximation"_ of T(n)
+
+  - i.e. _when n approches positive infinity_
+
+Q01. what is input size?
+
+- it depends on the type of input
+
+  - Numeric input:
+
+    - Length of its binary representation
+
+  - Collection (array, list, set, stack):
+
+    - Number of elements in collection
+
+  - String input:
+
+    - Number of characters
+
+  - _n_ x _m_ matrix:
+
+    - Number of rows N
+
+    - number of columns m
+
+  - Graph or tree:
+
+    - number of nodes
+
+## Asymptotics and Big O Notations
+
+### Rationale
+
+- In practice, we do not count the exact number of elementary steps
+
+  - it is difficult
+
+  - it is time-consuming
+
+  - it is error-prone
+
+- instead, we determine the most "expensive part fo the code"
+
+### Big O Notations
+
+Q01. What is O()
+
+    - assume we are given two functions f(n) and g(n), deifned on n for all natural numbers
+
+    - f(n) == O(g(n)) if the following conditions hold:
+
+        - there are two positive constants (n naut) and c such that for all n is bigger or even to (n naut)
+
+        ```py
+
+        0 =< f(n) =< c*g(n)
+
+        ```
+
+        - g(n) is reffered to as asymptotic upper bound for f(n) i.e. as n approches positive infinity
+
+            - asymptotic refers to it approching a limit.
+
+### Basic properties of Big-O
+
+- Constant growth rate:
+
+  - if c is any positive constant then c = O(1)
+
+- Sum of O()
+
+  - if f1(n) = O(g1(n)) and f2(n) = O(g2(n)) then f1(n) = O(max(g1(n),g2(n)))
+
+## Checking Knowledgs
+
+Q09. What does O(1) mean?
+
+    The timne taken by the algorithm does not depend on the size of the input
+
+Q10. What does O(n^2) mean in the context of time complexity analysis?
+
+    The time taken by the algorithm grows quadratically with the size of the input
+
+## Sorting
+
+Sorting List (increasing order):
+
+- [6,4,2,1,3,5] -> [1,2,3,4,5,6]
+
+input:
+
+    - A list of 'odered element types'
+    - for example, in python:
+
+    good list
+    ```py
+    the_list = [5,1.5,3,-4.0]
+    ```
+
+    bad list
+        unless u define your own comparrison function
+    ```py
+    the_list = [1, 'hj', 0, 'j']
+    ```
+
+output:
+
+    - A list with the same elements as the inpus list BUT sorted in increasing order
+
+Q01. Sorted according to what?
+
+    - right now, we will assume it is sorted by the element
+    - in the future, things will get a bit more interesting
+
+### Bubble sort
+
+**invariants**: property that remain unchanged.
+
+    - At a particular program point, or throughout an algorithm, a function, a module...
+
+In bubble sort there are many invariants:
+
+    - Example: after every traversal, the list has the same elements
+
+    - Also: in each traversal at most n-1 are performed, where n is the length of the list
+
+One invariant is particaulary interesting:
+
+    - After every traversal, the largest yet unsorted element gets to its final place
+
+It tells us the maximum number of traversals needed to sort
+
+    - n - 1
+
+#### Example:
+
+```py
+the_list = [19,5,12,7]
+
+# [5,19,12,7]
+
+# [5,12,19,7]
+
+# [5,12,7,19]
+```
+
+this shows how in the first traversal the 19 reaches its final place and in the follwoing 2 traversals 12 and 7 will reach their final places, reuslting in a number of traversals equal the 1 less then the number of elements
+
+Bubble sorting can be written as such:
+
+```py
+
+def bubble_sort(the_list):
+    n = len(the_list)
+    for a in range(n - 1): # a is never used explicitly in the code other then in this for loop (annonuymous variable)
+        for i in range(n-1):
+            if (the_list[i] > the_list[i+1]):
+                swap(the_list, i, i+1)
+
+def swap(the_list, i, j):
+    tmp = the_list[i]
+    the_list[i] = the_list[j]
+    the_list[j] = tmp
+
+```
+
+## Sorting Complexity
+
+a naive version of bubble sort:
+
+```py
+
+def bubble_sort(the_list):
+    n = len(the_list)  # constant-time
+    for _ in range(n - 1):  # n - 1 iterations
+        for i in range(n - 1):  # n - 1 iterations
+            if the_list[i] > the_list[i + 1]:  # constant-time comparison
+                swap(the_list, i, i + 1)  # swaps items at positions i and i + 1
+
+```
+
+a more optimisewd version of bubble sort:
+
+```py
+
+def bubble_sort(the_list):
+    n = len(the_list)  # constant-time
+    for mark in range(n - 1, 0, -1):
+        swapped = False  # constant-time
+        for i in range(mark):  # (a) iterate mark times rather than n - 1 times
+            if the_list[i] > the_list[i + 1]:
+                swap(the_list, i, i + 1)  # swaps items at positions i and i + 1
+                swapped = True  # constant-time
+        if not swapped:  # (b) early termination, if no swap is done this time
+            break
+
+```
+
+best case is O(n), worst case is O(n^2)
+
+### Selection sort
+
+finds the minimum elements and swaps it with the lowest position, the time complexity not constant:
+
+```py
+
+def selection_sort(the_list):
+    n = len(the_list)       # constant-time operation
+    for i in range(n - 1):  # n - 1 iterations
+        index_min = find_index_min(the_list, i)  # find index of i'th minimal item
+        swap(the_list, i, index_min)  # put i'th minimal item into place i
+
+```
+
+```py
+
+def find_index_min(the_list, start):
+    pos_min = start    # constant-time
+    n = len(the_list)  # constant-time
+    for i in range(start + 1, n):            # n - start - 1 times
+        if the_list[i] < the_list[pos_min]:  # constant-time comparison
+            pos_min = i                      # constant-time assignment
+    return pos_min
+
+```
+
+### Insertion sort
+
+```py
+
+def insertion_sort(the_list):
+    n = len(the_list)          # constant-time
+    for mark in range(1, n):   # n - 1 iterations
+        temp = the_list[mark]  # constant-time
+        i = mark - 1           # constant-time
+        while i >= 0 and the_list[i] > temp:  # number of times depends...
+            the_list[i + 1] = the_list[i]     # constant-time
+            i -= 1                            # constant-time
+        the_list[i + 1] = temp                # constant-time
+
+```
