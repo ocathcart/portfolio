@@ -1,0 +1,183 @@
+---
+title: 'FIT1047 N Week 01'
+date: '2023-07-24'
+tags: ['FIT1008', 'Week 1', 'Notes']
+draft: false
+summary: ''
+images: []
+---
+
+# What is a computer?
+
+Basiaclly all modern computers:
+
+    - are **digital** (work with 0's and 1's)
+
+    - use **eletrical circuits** to perfom calculations and data manipulation
+
+    - are controlled by **stored programs**
+
+most:
+
+    - Have a Centrqal Processing Unit (**CPU**)
+
+    - Random Access Memory (**RAM**)
+
+    - Input?Output device (**I/O**)
+
+Many are connected to a network
+
+Samllest unit:
+
+    - is a **bit** which is just a single 1 or 0
+
+Conventionally 8 bits are contanied within a **byte**, And a **word** is a block of bits of a particular size, depending on the concret computer architecture
+Most modern CPS's havea **word size** of either 32 or 64 bits
+
+Standar Sizing units are as such:
+
+    Bit **1**
+    Byte **8 Bits**
+    Word **32 Bits**
+    Kil **1024 Bytes**
+    Mega **1024 Kil**
+    Giga **1024 Mega**
+    Tera **1024 Giga**
+    Peta **1024 Tera**
+
+# Nunber Systems
+
+number systems are a way of representing numbers using digits
+
+The decimal system for example is:
+
+    - Where each number is represented by a sequence of digits
+    - Each digit is worth a multiple of a power of 10
+
+Computers use **binary numbers** (base 2 instead of base 10)
+
+basically to read binary:
+
+    - read from the right to left
+    - the right most number will be 2 to the power of what ever position it is in times the 1 or 0 that is associated with that position
+    - then these are added up
+
+    - to convert a decimal to binary, divide by 2, if there is a remained, then place a 1.
+    - place fromk left to right until there no numbers are left
+
+using **n** bits we can represent 2^**n** diffrent numbers
+
+# Signed Intergers
+
+just use another bit to represent the sign, This is called **Sign and Magnitude** representation.
+
+## 2's complement properties
+
+    - Leftmost bit is stil indeicating the sign
+    - Negative 1 is always 111...1
+    - The smallest negative number is 100...0
+    - The argest postivive number is 011...1
+    - regular long addition works
+
+overflows:
+
+    - if two positive numbwers ass up to a neagtive number (leading 1), we have an overflows
+
+    - If two negative numbers add up to a positive number (eading 0) we have an overflow
+
+# Floating Point Numbers
+
+using intergers, we **scale** both values so0 they are whole numbers
+or we coulder **round** to the nearest interger, but not likely
+
+    - representing these numbers, big numbers or small decimals, we can use two binary numbers, the **significand** (s) and the **exponent** (e) and a **extra sign bit**
+
+    - both s and e have fixed size (52 bits for s and 11 bits for e is defined in the IEEE 745 standard)
+
+    - Now we can represent very small and very large numbers
+
+    - Computers have special hardward for floating point calculations
+
+example:
+
+```
+
+6.25 in binary would be as such
+
+110.01
+
+as:
+
+    1 * 2^2 = 4
+    1 * 2^1 = 2
+    0 * 2^0 = 0
+    .
+    0 * 2^-1 = 0
+    1 * 2^-2 = 0.25
+
+so 4 + 2 + 0 . 0 + 0.25
+
+we normalise this number so that it starts with 1.:
+
+    1.1001 * 2^2 SN (scientific notation)
+
+the significand is s = 001001.
+
+```
+
+Floating opint numbers have **limited precision**
+
+in many computers, floating point numbers use 64 bis, but intergers also use 64 bits.
+
+Floating point numbers use **rounding**
+
+# Representing Text
+
+ASCII stands for The American Standard Code for Information Interchange
+
+It maps all character required for English texts, plus the numbers 0-9 and some extra symbols
+
+- Characters are encoted into numbers
+
+- ASCII and Unicode are the most common encodings
+
+- Unicode can represent over a million diffrent characters
+
+- Texts are stored and transferred as sequences of encoded characters
+
+```
+
+what is "hello world!" in binary?
+
+104 101 108 108 111 032 119 111 114 108 100
+h   e   l   l   o    _  w   o   r   l   d
+
+```
+
+# Transistors and Gates
+
+digital electronis work with two diffrent states: on (high) or off (low)
+
+**Transistors** are made from semiconductor materials such as silicon or germanium
+
+a **gate** is an eletronic circuit that performs a cimple **computation**
+
+Gates have **inputs** and **outputs** that can be high or low, representing ones and zeros
+
+**not** gate:
+
+    - if input is low, the output is high
+
+    - if input is high, output is low
+
+**or** gate:
+
+    - if either two input high, output is high
+
+    - if both input low, output is low
+
+**and** gate:
+
+    - if both input high, out high
+
+    - if both input low, output low
