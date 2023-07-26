@@ -8,3 +8,146 @@ images: []
 ---
 
 ## What are Databases?
+
+some things that may influence the creation of a database as to why you would need one are as such:
+
+    - the size of the database (can go from small to big)
+
+    - ease of updating the maintaining the database (what would happen is many people would start updating at the same time)
+
+    - the accuracy fo the database (what would prevent me from missing vital information or typing incorrectly)
+
+    - security of it (who would get to view and edit the data)
+
+    - redundancy (duplication of the data can create missinformation, (backup))
+
+    - imporatants of the data (how inportant is the data)
+
+Solutions?:
+
+    - scalable
+
+    - accessible
+
+    - accurate
+
+    - secure
+
+    - consistent
+
+    - permanent
+
+## Database Fundamentals
+
+# Textbook: Chapter 1:
+
+## Why databases?
+
+idk thye have a lot of shit in them and do a lot of shit kinda, its pretty cool, they stroe a ton of data that can be retrieved in seconds, CRAZY!
+
+## Data Versus information
+
+_Data_ consist of raw facts, A.K.A, they jahve yet to be processed to reveal their meaning
+
+there are four steps into transforming raw data:
+
+    - Data entry screening (caputers data through relevant fields like name, age , etc)
+
+    - Raw data is generated on the basis of information captured from the fields of the data entry screening
+
+    - the information gathered is presented in a summary format
+
+    - information is presented in a graphical format
+
+_information_ is the result of processing raw data
+
+## Introducing Databases:
+
+A _database_ is a shared, intergrated computer structure that stores a collection of the following:
+
+    - End-user data: this is, raw facts of interest to the end user
+
+    - Metadata, or data about data, through which the end-user data is intergradted and managed
+
+        - Metadata describes the data characteristics and the set of relationshps that links the data found within the database
+
+A _database managment system (DBSM)_ is a collection of programs that manages the database structure and contoles access to the data stored in the database.
+The database represents a filling cabinet and the DBSM represents a person who keeps it organized.
+
+### Role and Advantages if the DBMS
+
+The _DBSM servers_ are the intermediary between the user and the database.
+
+A DBMS offers many advantages:
+
+    - Improves data sharing: DBMS creates an enviroment in which end users have better access to more and better managed data.
+
+    - Improved data security: DBMS provides a framework for better enforcement of data privact and security policies.
+
+    - Better data intergration: it becomes much easier to see how actions in one segment of the compant affect other segments
+
+    - Minimized data inconsistency: *Data inconsistency* exist when diffrent versions of the same data appear in diffrent places
+
+    - Improved data access: The DBSM makes it possible to produce quick answers to ad hoc quesries
+
+        - A *query* is a specific request issued to the DBMS for data manipulation
+
+            - for example to read or update data
+
+        - A *ad goc query* is a spur-of-the-moment question
+
+        an answer to a query is called a *query result set*
+
+    - Improved decision making: *Data quality* is a comprehensive approach to promosting the accuracy, validity, and timeliness of the data. DBSM provides a framework to facilitate data quality initiatives
+
+    - Increased end-user productivity
+
+## Types of Databases
+
+Classification by number of users:
+
+    - A *single-user database* supports onle one user at a time. A single user database that runs on a personal computer is called a *desktop database*
+
+    - A *multiuser database* supports multiple users as the same time
+
+        - When the database supports a small amount of users in the database at the same time it is called a *workgroup database*.
+
+        - When the databse supports many users at the same time it is called a *enterprise database*
+
+Classification by locations:
+
+    - Databases that support data located at a single site are called *centralized databases*
+
+    - Databases that support data distributed across severel diffrent sites is called a *distributed/decentralized database*
+
+cloud databases:
+
+    - a *Cloud database* is a database that is created and maintained using cloud data services
+
+## Hierarchical and Network Models
+
+the _Hierarchical model_ is a flipped around tree where the top splits into many _segments_. Each segment can have many children but a _child segment_ can have only one _parent segment_
+
+The _network model_ is confusing :)
+
+    - the *schema* is the conceptual orginization of the entire database as viwed by the database administrator
+
+    - The *subchema* defines the portion of the database "seen" by the application programs that actually produce the desired information from the daya within the database
+
+    - A *data manipulation language (DML)* defines the environment in which data can be manages and is used to work with the data in the database
+
+    - A schema *data definition language (DDL)* eneables the database administrator to define the schema components
+
+## The relation model
+
+The relation model is a database model
+
+    - a *relation/table* can be thought of as a two-dimentional structure composed of intersecting rows and columns.
+
+        - Each row in a relation is called a *tuples*
+
+        - Each column represents an attribute
+
+the relation data model is implemented though the _relational database managment system (RDBMS)_. the RDBMS does the same things at the Hierarchical and network model but more and better
+
+# Workshop
