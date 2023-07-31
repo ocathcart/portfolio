@@ -2,7 +2,7 @@
 name: Oscar Cathcart
 avatar: /static/images/avatar.png
 occupation: Student at Monash University
-company: #Stanford University
+company: #Monash University
 email: oscarcathcart04@outlook.com
 twitter: https://twitter.com/Twitter
 linkedin: https://www.linkedin.com
