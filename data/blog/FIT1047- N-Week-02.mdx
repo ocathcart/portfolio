@@ -127,3 +127,22 @@ Logic:
 | 1   | 0   | 1   | 1      | 1   |
 | 0   | 1   | 1   | 1      | 1   |
 | 1   | 1   | 1   | 0      | 0   |
+
+# From Functions to Circuits
+
+A truth table **uniquely defines** a Boolean function
+
+### The Sum-Of-Products method:
+
+we want to find an expression that's True exactly for the rows where `F(X,Y,Z) = 1` from this truth table:
+
+| X   | Y   | Z   | F(X,Y,Z) |
+| --- | --- | --- | -------- |
+| 0   | 0   | 0   | 0        |
+| 0   | 0   | 1   | 0        |
+| 0   | 1   | 0   | 1        |
+| 0   | 1   | 1   | 1        |
+| 1   | 0   | 0   | 1        |
+| 1   | 0   | 1   | 0        |
+| 1   | 1   | 0   | 1        |
+| 1   | 1   | 1   | 1        |
