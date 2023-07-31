@@ -146,3 +146,29 @@ we want to find an expression that's True exactly for the rows where `F(X,Y,Z) =
 | 1   | 0   | 1   | 0        |
 | 1   | 1   | 0   | 1        |
 | 1   | 1   | 1   | 1        |
+
+from this table we can gather:
+
+![Truth_to_function](/static/images/FIT1047/Truth_to_function)
+
+As a diagram this is represented as such:
+
+-[bigCircuit](/static/images/FIT1047/BigCircuit01.jpg)
+
+# Boolean Algebra
+
+they help us come up with a small boolean function resulting in a:
+
+    - more efficient circuit
+    - faster citcuit
+    - etc...
+
+the laws od equivalance are as such:
+
+| /                 | "AND" form  | "OR" form    |
+| ----------------- | ----------- | ------------ |
+| Identify          | 1X = X      | 0 + X = X    |
+| Null              | 0X = 0      | 1 + X = 1    |
+| Idempotent        | XX = X      | X + X = X    |
+| Inverse           | X N(X) = 0  | X + N(X) = 1 |
+| Double Complement | N(N(X)) = X |              |
