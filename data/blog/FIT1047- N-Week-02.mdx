@@ -45,7 +45,13 @@ F(X,Y,Z) = X and not Z or Y = ((not X) and Z) + Y
 # Y can borrow the car
 ```
 
-| X   | Y   | Z   | NOT Z | X AND Y |
+this can also be represented as:
+
+![XYZ_sequence][/static/images/fit1047/xyzsequence.jpg]
+
+this is called a circuit, a chip that containg multiple circuits is called an intergrated citcuits
+
+| X   | Y   | Z   | NOT Z | XZ OR Y |
 | --- | --- | --- | ----- | ------- |
 | 0   | 0   | 0   | 1     | 1       |
 | 1   | 0   | 0   | 1     | 0       |
@@ -58,4 +64,32 @@ F(X,Y,Z) = X and not Z or Y = ((not X) and Z) + Y
 
 logic -> circuits
 
+### Logic gates
+
 ![Boolean_logic_circuit](/static/images/FIT1047/Boolean_Logic_Circuits.jpg)
+
+A OR B is the same as NOT (NOT A AND NOT B)
+
+    - basically we don't need OR gates
+
+| X   | Y   | ?   |
+| --- | --- | --- |
+| 0   | 0   | 1   |
+| 0   | 1   | 1   |
+| 1   | 0   | 1   |
+| 1   | 1   | 0   |
+
+this table represents the NOT AND gate:
+
+![NOT_AND_gate](/static/images/FIT1047/NOTANDsymbol.jpg)
+
+this is called a _Universal gate_ (NAND (NOT AND))
+
+     - A universal gate is one that can represent all other boolean circuits
+
+```
+(X NAND Y)  NAND ( X NAND Y) = X AND Y
+```
+
+represented as a citcuit:
+![NAND_circuit](/static/images/FIT1047/NANDcircuit.jpg)
