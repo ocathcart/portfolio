@@ -228,8 +228,56 @@ using k-maps:
 
     - find groups of 1's in the map
 
-        - groups must be as larage as possible
-        - group size must be a power of 2
-        - contain only ones, no zeros
+        - Groups must be as larage as possible
+        - Group size must be a power of 2
+        - Contain only ones, no zeros
         - All ones must be in at lease one group
         - Groups can overlap
+        - Group's must be rectangles
+        - Groups may wrap around the border
+
+| XY \ Z | 0   | 1   |
+| ------ | --- | --- |
+| 00     | 0   | 0   |
+| 01     | 1   | 1   |
+| 11     | 1   | 1   |
+| 10     | 1   | 0   |
+
+in this example, we can see that we have one group contaning 1's from 11/0 and 10/0
+
+this gives us the equasion:
+
+```
+XY N(Z) + X N(Y) N(Z)
+
+the Y cancels out because it is both positive nad negative
+
+= X N(Z)
+```
+
+for the next group containing 1's from 01/0, 01/1, 11/0, 11/1
+
+this gives us:
+
+```
+N(X) Y N(Z) + N(X) YZ + XY N(Z) + XYZ
+
+simplified and through canceling out we get:
+
+= Y
+```
+
+from these two we can get the equasion of the function because to get 1, we either have to have X N(Z) or Y.
+
+F(X,Y,Z) = X N(Z) + Y
+
+# Workshop stuff:
+
+## Pre.reading 2.4:
+
+| BC \ A | 0   | 1   |
+| ------ | --- | --- |
+| 00     | 0   | 0   |
+| 01     | 0   | 1   |
+| 11     | 1   | 1   |
+| 10     | 0   | 0   |
