@@ -165,10 +165,71 @@ they help us come up with a small boolean function resulting in a:
 
 the laws od equivalance are as such:
 
-| /                 | "AND" form  | "OR" form    |
-| ----------------- | ----------- | ------------ |
-| Identify          | 1X = X      | 0 + X = X    |
-| Null              | 0X = 0      | 1 + X = 1    |
-| Idempotent        | XX = X      | X + X = X    |
-| Inverse           | X N(X) = 0  | X + N(X) = 1 |
-| Double Complement | N(N(X)) = X |              |
+| /                 | "AND" form              | "OR" form                 |
+| ----------------- | ----------------------- | ------------------------- |
+| Identify          | 1X = X                  | 0 + X = X                 |
+| Null              | 0X = 0                  | 1 + X = 1                 |
+| Idempotent        | XX = X                  | X + X = X                 |
+| Inverse           | X N(X) = 0              | X + N(X) = 1              |
+| Double Complement | N(N(X)) = X             |                           |
+| Communative       | XY = YX                 | X + Y = Y + X             |
+| Associative       | (XY)Z = X(YZ)           | (X + Y) + Z = X + (Y + Z) |
+| Distributive      | X + YZ = (X + Y)(X + Z) | X(Y + Z) = XY + XZ        |
+| Absorption        | X(X + Y) = X            | X + XY = X                |
+| DoMorgand's       | N(X) N(Y) = N(X) + N(Y) | N(X) N(+) N(Y) = N(XY)    |
+
+Application of simplifying:
+
+```
+N(AB)A + A N(B)
+= (N(A) + N(B))A + A N(B) - DeMorgan's law
+= A(N(A) + N(B)) + A N(B) - Communative law
+= A N(A) + A N(B) + A N(B) - Distruptive law
+= 0 + A N(B) + A N(B) - Inverse law
+= A N(B) + A N(B) - Identity law
+= A N(B) - idempotent law
+```
+
+# Karnaugh Maps
+
+is a algorithmic approach to producting simpler circuits
+
+    - manual but systematic
+
+    - best for as most 6 variables
+
+    - will produce the sum-of-products
+
+normal representation:
+
+| X   | Y   | Z   | F(X,Y,Z) |
+| --- | --- | --- | -------- |
+| 0   | 0   | 0   | 0        |
+| 0   | 0   | 1   | 0        |
+| 0   | 1   | 0   | 1        |
+| 0   | 1   | 1   | 1        |
+| 1   | 0   | 0   | 1        |
+| 1   | 0   | 1   | 0        |
+| 1   | 1   | 0   | 1        |
+| 1   | 1   | 1   | 1        |
+
+K-Map representation:
+
+| XY \ Z | 0   | 1   |
+| ------ | --- | --- |
+| 00     | 0   | 0   |
+| 01     | 1   | 1   |
+| 11     | 1   | 1   |
+| 10     | 1   | 0   |
+
+note: 11 is in the thirs position because in karnaugh maps we only want to flip 1 bit, and going from 01 to 10 would involve flipping 2 bits
+
+using k-maps:
+
+    - find groups of 1's in the map
+
+        - groups must be as larage as possible
+        - group size must be a power of 2
+        - contain only ones, no zeros
+        - All ones must be in at lease one group
+        - Groups can overlap
