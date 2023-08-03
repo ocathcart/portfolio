@@ -6,3 +6,295 @@ draft: false
 summary: ''
 images: []
 ---
+
+# Abstract Data Types (ADT's) and Stack ADT
+
+## Data types
+
+- Common concepts in lower level langagues
+- Refers to a classification that determines:
+
+  - The possible **values** for that types
+  - The **meaning** of those values
+  - The **operations** that can be done on them
+  - The way those values are **implemented**
+
+An **abstract** data type:
+
+    - provides information regarding:
+
+        - The possible values of the type and their meaning
+        - The operations that can be done on them
+
+    - But **not** on its implementation, i.e how:
+
+        - The values are stored
+        - The operations are implemented
+
+    - Users interact with the data **only** through the provided operations
+
+Advantages of ADT:
+
+    - Build programs without knowing their implementation
+    - The implementation can change without affecting you
+    - If several ADT's available, you could easily use any
+    - Diffrent compilers can use diffrent implementation'
+
+## DATA Structure:
+
+- At some point we must give ADT's an implementation
+
+- Some ADT's (like Lists) contain several data fields
+
+- That is what a **data structure** provides
+
+  - A particular way in which data **is physically** organised (so that certain operations can be performed efficiently)
+
+# Stack ADT's
+
+what makes a stack?:
+
+    - Its operations follow the Last in First Out (LIFO) processed
+
+        - The last element to be added, is the first to be deleted
+
+    - Access to any other element is uneccesary (and thus not allowed)
+
+        - If you need to access another element, choose a diffrent ADT
+
+The key operations are:
+
+    - Stack: create a stack
+    - Push: add an item to the top
+    - Pop: Take an item off the top
+    - Loo at the item on the Top/Peek:
+    - what is its Length
+    - is the stack Empty
+    - is the stack Full
+    - Clear: empty the stack
+
+the first step for creating stacks is creating a base stack class:
+
+we do this by
+
+```py
+from typing import TypeVar, Generic # imports two types from typing
+from abc import ABC, abstractmethod
+
+T = TypeVar('T') # uses TypeVar to create type variable T; will represent the type of the elements
+
+class Stack (ABC, Generic[T]): # generic let's us to use type vars, ABC idicates that the class is abstracted
+     def __init__(self) -> None:
+        self.length = 0
+
+    @abstractmethod # indicates the method is abstract, and this its implementation is not defined
+    def push(self,item:T) -> None:
+        pass
+
+    @abstractmethod
+    def pop(self) -> T:
+        pass
+
+    @abstractmethod
+    def peek(self) -> T:
+        pass
+
+    def __len__(self) -> int:
+        return self.length
+    def is_empty(self) -> bool:
+        return len(self) == 0
+
+    @abstractmethod
+    def is_full(self) -> bool:
+        pass
+    def clear(self) -> None:
+        self.length = 0
+```
+
+the big O complexiy is equal to O(1)
+
+# Stack Arrays
+
+stacks implemented with arrays often use two elements:
+
+    - An array to store the items in the order which they arrive
+
+        - Then length of the array indicates the maximum capacity of the stack
+
+    - An interger indicating the first empyt space in the array
+
+Incariants of such implementation:
+
+    - Valid data appears in the 0...length-1 position od the array
+
+    - Element at the top of the stack is the element in position length-1
+
+Basic ideas with arrays:
+
+- Create a new stack: initiially no elements in the array
+  - Max xapacity = 6
+  - length = 0 - 5
+
+implementation:
+
+```py
+from typing import TypeVar, Generic # imports two types from typing
+from abc import ABC, abstractmethod
+
+T = TypeVar('T') # uses TypeVar to create type variable T; will represent the type of the elements
+
+class Stack (ABC, Generic[T]): # generic let's us to use type vars, ABC idicates that the class is abstracted
+     def __init__(self) -> None:
+        self.length = 0
+
+    @abstractmethod # indicates the method is abstract, and this its implementation is not defined
+    def push(self,item:T) -> None:
+        pass
+
+    @abstractmethod
+    def pop(self) -> T:
+        pass
+
+    @abstractmethod
+    def peek(self) -> T:
+        pass
+
+    def __len__(self) -> int:
+        return self.length
+    def is_empty(self) -> bool:
+        return len(self) == 0
+
+    @abstractmethod
+    def is_full(self) -> bool:
+        pass
+    def clear(self) -> None:
+        self.length = 0
+
+class ArrayStack(Stack):
+
+```
+
+# Implementing the Stack ADT array:
+
+- Add a class `ArrayStack` derived from `Stack` that implemnts all methods
+
+- Download `referential_array.py` fom moodle
+
+- Then import the `ArrayR` class adding to your moduke the line
+
+```py
+from referential_array import ArrayR
+```
+
+from then on you can use it as such
+
+    - **Create** an array of a given size `array = ArrayR(4)`
+    - **Access** the element at a given **postion**. `element = array[2]`
+    - **Set** the value of the element at a given **position**. `array[3] = value`
+    - Obtain its **length**. `length = len(array)`
+
+the implementation will look like this
+
+```py
+
+from referential_array import ArrayR
+from abstract_stack import Stack, T
+
+class ArrayStack(Stack[T]):
+    MIN_CAPACITY = 1 # minimum capacity of the array. Createsd as class variable, since it is the same for all objects.
+
+    def __init__(self, max_capacity: int) -> None: #O(max_capacity)
+        Stack.__init__(self) # uses the implementation of the parent class # O(1)
+        self.array = ArrayR(max(self.MIN_CAPACITY, max_capacity))
+
+    def is_full(self) -> bool:
+        return len(self) == len(self.array) # O(1)
+
+```
+
+# Stack implementated with arrays:
+
+implementing the push method:
+
+```py
+def push(self, item: T) -> None:
+   if self.is_full():
+       raise Exception("Stack is full")
+
+   self.array[len(self)] = item
+   self.length += 1 #O(1)
+```
+
+implementing pop:
+
+```py
+def pop(self) -> T:
+   if self.is_empty():
+       raise Exception ("Stack is empty")
+
+   self.length -= 1
+   return self.array[self.length] #O(1)
+```
+
+implementing peek:
+
+```py
+def peek(self) -> T:
+   if self.is_empty():
+       raise Exception("Stack is empty")
+
+   return self.array[self.length-1]
+```
+
+# Using our ArrayStack
+
+reversing a array:
+
+- given array `a b c d`
+
+```py
+from referential_array import ArrayR
+from abstract_stack import Stack, T
+
+class ArrayStack(Stack[T]):
+    MIN_CAPACITY = 1 # minimum capacity of the array. Createsd as class variable, since it is the same for all objects.
+
+    def __init__(self, max_capacity: int) -> None: #O(max_capacity)
+        Stack.__init__(self) # uses the implementation of the parent class # O(1)
+        self.array = ArrayR(max(self.MIN_CAPACITY, max_capacity))
+
+    def is_full(self) -> bool:
+        return len(self) == len(self.array) # O(1)
+
+    def push(self, item: T) -> None:
+        if self.is_full():
+            raise Exception("Stack is full")
+
+        self.array[len(self)] = item
+        self.length += 1 #O(1)
+
+     def pop(self) -> T:
+        if self.is_empty():
+            raise Exception ("Stack is empty")
+
+        self.length -= 1
+        return self.array[self.length] #O(1)
+
+    def peek(self) -> T:
+        if self.is_empty():
+            raise Exception("Stack is empty")
+
+        return self.array[self.length-1]
+
+-----------------------------------------------------
+
+my_stack.push('a') # a
+my_stack.push('b') # a b
+my_stack.push('c') # a b c
+my_stack.push('d') # a b c d
+
+my_stack.pop() # d
+my_stack.pop() # d c
+my_stack.pop() # d c b
+my_stack.pop() # d c b a
+```
