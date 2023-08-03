@@ -1,6 +1,6 @@
 ---
 title: 'FIT1008 N Week 02'
-date: '2023-07-22'
+date: '2023-08-3'
 tags: ['FIT1008', 'Week 2', 'Notes']
 draft: false
 summary: ''
@@ -50,7 +50,7 @@ Advantages of ADT:
 
   - A particular way in which data **is physically** organised (so that certain operations can be performed efficiently)
 
-# Stack ADT's
+## Stack ADT's
 
 what makes a stack?:
 
@@ -113,7 +113,7 @@ class Stack (ABC, Generic[T]): # generic let's us to use type vars, ABC idicates
 
 the big O complexiy is equal to O(1)
 
-# Stack Arrays
+## Stack Arrays
 
 stacks implemented with arrays often use two elements:
 
@@ -174,7 +174,7 @@ class ArrayStack(Stack):
 
 ```
 
-# Implementing the Stack ADT array:
+## Implementing the Stack ADT array:
 
 - Add a class `ArrayStack` derived from `Stack` that implemnts all methods
 
@@ -212,7 +212,7 @@ class ArrayStack(Stack[T]):
 
 ```
 
-# Stack implementated with arrays:
+## Stack implementated with arrays:
 
 implementing the push method:
 
@@ -246,7 +246,7 @@ def peek(self) -> T:
    return self.array[self.length-1]
 ```
 
-# Using our ArrayStack
+## Using our ArrayStack
 
 reversing a array:
 
@@ -298,3 +298,5 @@ my_stack.pop() # d c
 my_stack.pop() # d c b
 my_stack.pop() # d c b a
 ```
+
+# Set ADT's
