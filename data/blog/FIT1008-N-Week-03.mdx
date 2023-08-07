@@ -6,3 +6,240 @@ draft: false
 summary: ''
 images: []
 ---
+
+# Queue ADT
+
+- An ADT that is used to **store** items
+- And its operations follow a **F**irst in **F**irst **O**ut (FIFO) processed
+
+  - The first element to be added, is the first to be deleted (to be processed)
+
+- And access to any other element is **unecessary** (and **not allowed**)
+
+  - If you need to access another element, choose a diffrent ADT...
+
+## Main Queue Operations
+
+- The key operations are:
+
+  - **Queue**: Create the queue
+  - **Append**: add an item to the backup
+  - **Serve**: take an item off the front
+
+- Others:
+
+  - what is its **length**
+  - is the queue **empty**
+  - is the queue **full**
+  - **Clear**: Empty the queue
+
+### Abstract base Queue class:
+
+```py
+from abc import ABC, abcstract method
+from typing import TypeVar, Generic
+T = TypeVar('T')
+
+class Queue(ABC, Generic[T]):
+    def init(self) -> None:
+        self.length = 0
+
+    @abstractmethod
+    def append(self,iteme:T) -> None:
+        pass
+
+    @abstractmethod
+    def serve(self) -> T:
+        pass
+
+    @abstractmethod
+    def __len__(self) -> int:
+        return self.length
+
+    @abstractmethod
+    def empty(self) -> bool:
+        return len(self) == 0
+
+    @abstractmethod
+    def is_full(slef) -> bool:
+        pass
+
+    @abstractmethod
+    def clear(self):
+        self.length = 0
+```
+
+# Linear Queues
+
+- We need to
+
+  - Add items at the rear of the queue (append)
+  - Take items from the front (serve)
+
+- Can we use length to mark the rear? as we will see, no we cannot.
+
+- We will implement quesues using:
+
+  - An array to store the items in the order they arrive
+  - An interger marking the **front** of the queue
+
+    - Points to the **first elements** to be served
+
+  - An interger marking the **rear** of the queue
+
+    - Points to the **first empty cell** at the rear
+
+  - An interger indicating the number of items in the queue (the inherited length)
+
+# Linear Queue implementation
+
+implementing LinearQueue:
+
+```py
+from referential_array import ArrayR
+from abstract_queue import Queue, T
+
+class LinearQueue(Queue[T]):
+    def __init__(self, max_capacity:int) -> None:
+        Queue.__init__(self)
+        self.front = 0
+        self.rear = 0
+        self.array = ArrayR(max(self.MIN_CAPACITY, max_capacity))
+
+    def clear(self) -> None:
+        Queue.__init__(self)
+        self.front = 0
+        self.rear = 0
+
+    #How do we implement append?
+    def append(self, item: T) -> None:
+        if self.is_full():
+            raise Exception("Queue is full")
+
+        self.array[self.rear] = item
+        self.length += 1
+        self.rear += 1
+
+    #Implementing Server
+    def server(self) -> T:
+        if self.is_empty():
+            raise Exception("Queue is empty")
+
+        self.length -= 1
+        item = self.array[self.front]
+        self.front += 1
+        return item
+
+    #defining is_full
+    def is_full(self) -> T:
+        return self.rear == len(self.array)
+
+    #this is incorrect as it waste space and creates issue when defining if the queue is full
+
+```
+
+# Circular Queues
+
+allows rear and front to wrap around each other
+
+implementation:
+
+```py
+from referential_array import ArrayR
+from abstract_queue import Queue, T
+
+class CircularQueue(Queue[T]):
+    def __init__(self, max_capacity:int) -> None:
+        Queue.__init__(self)
+        self.front = 0
+        self.rear = 0
+        self.array = ArrayR(max(self.MIN_CAPACITY, max_capacity))
+
+    def clear(self) -> None:
+        Queue.__init__(self)
+        self.front = 0
+        self.rear = 0
+
+    #How do we implement append?
+    def append(self, item: T) -> None:
+        if self.is_full():
+            raise Exception("Queue is full")
+
+        self.array[self.rear] = item
+        self.length += 1
+        self.rear = (self.rear + 1) % len(self.array) #O(1)
+
+    #Implementing Server
+    def server(self) -> T:
+        if self.is_empty():
+            raise Exception("Queue is empty")
+
+        self.length -= 1
+        item = self.array[self.front]
+        self.front = (self.front+1) % len(self.array) #O(1)
+        return item
+
+    #defining is_full
+    def is_full(self) -> T:
+        return len(self) == len(self.array)
+```
+
+# Extending and using our Queue
+
+let's implement a method that extends the class to print elements from front to rear
+
+we do this by implementing a method called `print_items`:
+
+```py
+def print_items(self) -> None:
+    indes = self.front
+    for _ in range(len(self)):
+        print(self.array[index])
+        index = (index + 1) % len(self.array)
+```
+
+complexity:
+
+- single loop that is always executed `len(self)` times
+
+  - best = worst
+
+- Inside the loop, the number of operations is fixed except:
+
+  - `print`: its the number of operations for print depends on the size `m` of the item, eng the length of a string, the number of intergers in a matrix etc.
+
+- `len(self)*(K*m) ~ len(self)*m`
+- which gives `best = worst = O(len(self)*m)`
+
+Using queue:
+
+define a function
+
+`def greater(q1: Queue, q2: Queue) -> bool`
+
+that returns true if:
+
+    - q2 is at least as long as q1
+    - and every element in q1 is less or equal than the element in the same position in q2
+
+Is empty and serve implementation
+
+```py
+def greater(q1: Queue, q2: Queue) -> bool:
+    while not q1.is_empty() and not q2.is_empty:
+        if q1.serve() > q2.serve():
+            return False
+        return is_empty(q1)
+```
+
+len() implementation
+
+```py
+def greater(q1: Queue, q2: Queue) -> bool:
+    if len(q1) <= len(q2):
+        for _ in range(len(q1)):
+            if q1.serve() > q2.serve():
+                return False
+        return True
+    return False
+```
