@@ -138,3 +138,62 @@ ALU Circuit:
         - Then choose the desired result based on op-code
 
 ![ALU_circuit](/static/images/FIT1047/ALU_circuit.jpg)
+
+# Programs
+
+computers are **programmable**, the programming can be **changed**, that's what makes them useful.
+
+examples:
+Python
+
+```py
+import sys
+name = sys.argc[1]
+print('hello, ' + name + '!')
+```
+
+C++
+
+```C++
+#include <iostream>
+
+int main(void) {
+    std: :cout << "hello world" << std: :endl;
+    return 0;
+}
+```
+
+java
+
+```java
+public class HelloWorld{
+    public static void main(string[] args){
+        System.out.println("hello, World");
+    }
+}
+```
+
+the CPU can't execute these programs directly, they need to be **compiled** or **interpreted** - sometimes both! CPUs can only execute **machine code**
+
+## Machine code
+
+- A very simple computer language
+- Diffrent for each computer architecture
+
+  - diffrent code for your phone, your laptop, your smart lights
+
+- Machine code programs are
+
+  - Sequence of instructions
+  - Stored in memory
+  - Each instruction is one or more words
+
+## Instruction Set Architecture
+
+The set of instructions that a particular type of CPU understands is called its **Instruction Set Architecture (ISA)**
+
+What kinds of instructions?:
+
+    - Do some **maths** (add, subtract, multiply, compare)
+    - **Move** data between memory, register and I/O
+    - Execute **conditionals** and **loops**

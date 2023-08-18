@@ -1,0 +1,117 @@
+---
+title: 'FIT1047 N Week 04'
+date: '2023-08-014'
+tags: ['FIT1047', 'Week 4', 'Notes']
+draft: false
+summary: ''
+images: []
+---
+
+# Memory
+
+- Stores both **data** and program **code**
+- connected to CPU via a **bus**
+- CPU can read and write words from/to Memory
+
+memory is **external to the CPU** Think of it as a sequemce of boxes.
+![memory](/static/images/FIT1047/memory.jpg)
+Each box contains a value
+This could be a machine code instruction, or data
+we give each box an address: the number of the box, starting from 0.
+
+## What do we sotre in memory
+
+![memory_storage](/static/images/FIT1047/Memory_storage.jpg)
+
+## Addressing
+
+most architectures store **one byte per memory location**:
+Each byte has its own adress.
+Theses architectures are called **byte-addressable**
+
+Some architectures (including MARIE) store **one word per location**:
+Each word has its own address
+This is called **word-addressable**
+
+## how much memory can we address
+
+Easy: n bits can represent 2^n diffrent addresses!
+
+- MARIE addresses are 12 bits long
+- That's 2^12 diffrent addresses
+- MARIE is word-addressable, each address contains a 12-bit (2-byte) value
+- so MARIE can address 2 \* 2^12bytes = 8,192 bytes = 8 kibibyte of memory
+
+## Random Access Memory (RAM)
+
+- Computer main memory is often called RAM
+- Random assecc mean we can read and write data at any address, in any order
+- In contrast to storage such as magnetic tapes, disks, DVD's etc..
+  - disks read/write heads need to move to the right place
+
+## RAM module Addressing
+
+example address(17 bit):
+
+    - 01011000010010011
+
+    - 010 row 2
+    - 110 column 6
+    - 00010010011 select byte
+
+# The memory hierachy
+
+## The memory Bottleneck
+
+Registers are very, very fast:
+
+    - can be rad/written as part of a single CPU cycle
+    - Main memory is up to 100x slower
+    - consider this code for doubling the value stored at address `1A0`:
+
+```
+Load 1A0
+Add 1A0
+Store 1A0
+```
+
+## Caching
+
+A **chache** sits between the register and the RAM:
+
+- Additional memory in the CPU
+- Faster than RAM, slower than register
+- Smaller than RAM, larger than registers
+- Keeps recently loaded values close to the CPU
+
+- Fully implemented in hardware
+- Transparent for the program:
+
+  - `Load 1A0` load from cache if possible, from RAM otherwise
+  - `Store 1A0` may store only to chache (for later tansfer to RAM) or both to cache and RAM, or only to RAM
+
+## Caching Tricks
+
+- programs often access consecutive addresses e.g:
+
+  - Searching through some text form start to finish
+  - making all pixes in an image prighter
+  - playing video or audio data
+
+- When you `load` a value that's not yet in the chache, the cache will already load the next few values as well
+- When cache is full, the oldest values are thrown out,
+
+  - Less likely to need those again
+
+## What makes cachin tricky
+
+- "Cache misses" can make a program go 100x slower!
+- Performance of code
+
+  - may be difficult to predict
+  - may depend heavily on CPU chace architecture
+
+- High-performance code may have to be written with cache in Mind
+- Remember: programs themselves are stored in RAM (and therefor also cache)
+
+## dealing with big data
