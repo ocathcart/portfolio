@@ -1,0 +1,493 @@
+---
+title: 'FIT1008 N Week 05'
+date: '2023-08-21'
+tags: ['FIT1008', 'Week 5', 'Notes']
+draft: false
+summary: ''
+images: []
+---
+
+# Linked list and iterators
+
+## When to use linked nodes:
+
+Linked storage: - unknown list size (no need to resize by copying)
+
+        - If memory is a huge issue though and time is not a problem at all…
+
+    - Many insertions and deletions needed within (rather than at the end)
+
+        - If one does not have direct access to the positions though…
+
+    - Most operations need traversal of the list from the first element
+
+Contiguous Storage: - Known number of elements (no need for links) - Few insertions and deletions needed within (no shuffling) - Lots of searches on a sorted list (can use binary search, which is faster) - Access to elements by their positions (constant time)
+
+# Motivating iterators
+
+![double_list](/static/images/FIT1008/double_list.jpg)
+
+Implementation:
+
+```py
+def double(self) -> None:
+    current = self.head
+    for _ in range(len(self)):
+        new_node = Node(current.item)
+        new_node.link = current.link
+        current.link = new_node
+        current = new_node.link
+    self.length *= 2
+```
+
+![example](/static/images/FIT1008/exm_double_list.jpg)
+
+# Implementing iterators
+
+We need a way of creating an iterator object to start the iterations:
+
+    - An object *other than the list* because:
+
+        - It needs to change (move through the list) without changing the list
+        - We might need several iterators on a list
+
+    - In Python, iterator objects are returned by method `__iter__`
+
+This means we need an iterator _class_ to create the objects:
+
+    - Its __init__ performs the “beginning-of-iteration” initialisation
+
+        - In our example: it makes sure we start from 3
+
+The class needs a way of returning the _next_ element:
+
+    - In our example, first 3, then 7, then 13, and then StopIteration
+    - In Python, this is implemented by the `__next__` method
+
+## How do we make the LinkList class iterable?
+
+We need to create an iterator class for the list:
+
+    - A class with the `__init__`, `__iter__` and `__next__` methods
+
+```py
+class LinkedListIterator(Generic[T]):
+    def __init__(self, node: Node[T]) -> None:
+        self.current = node
+
+    def __iter__(self):
+        return self
+
+    def __next__(self) -> T:
+```
+
+Implementing `__next__`
+
+![__next__](static/images/FIT1008/__next__.jpg)
+
+```py
+def __next__(self) -> T:
+    if self.current is not None:
+        item = self.current.item
+        self.current = self.current.link
+        return item
+    else:
+        raise StopIteration
+```
+
+or
+
+```py
+def __next__(self) -> T:
+    try:
+        item = self.current.item
+    except AttributeError:
+        raise StopIteration
+    else:
+        self.current = self.current.link
+        return item
+```
+
+# A modifying iterator
+
+We started this to be able to define the function double(a_list)
+
+    - And do so from outside the class
+
+Can we now do that? What do we need?
+
+    - To traverse the list and add new nodes as we do so
+
+Can our iterator add nodes?:
+So we need to create a different kind of iterator:
+
+    - One that allows us to modify the iterable object
+
+Additional operations we will define: - _delete:_ returns the item pointed by current and deletes the node - _add:_ adds an item right before current (to do in the pracs) - _has_next:_ returns True if there is a next item to be processed (i.e., if current is
+not at the end of list) - peek: returns the next item (the one pointed by current) without moving along.
+Raises StopIteration if there is no next.
+Since we need to add and delete: - We are going to need not only a current but also a _previous_ - Plus some times we will need to change the head of the list
+• We are also going to keep the list itself
+
+```py
+class LinkListIterator(Generic[T]):
+    def __init__(self, a_list: LinkList[T]) -> None:
+        self.list = a_list
+        self.previous = None
+        self.current = a_list.head
+
+    def __iter__(self):
+        return self
+
+    def __next__(self) -> T:
+        if self.current is not None:
+            item = self.current.item
+            self.previous = self.current
+            self.current = self.current.link
+            return item
+        else:
+            raise StopIteration
+```
+
+Implementing `has_next`:
+
+```py
+def has_next(self):
+    return self.current is not None
+```
+
+Implementing delete:
+
+```py
+def delete(self) -> T:
+    if not self.has_next(): # we reached the end
+            raise StopIteration("no more elements in list")
+    else:
+        item = self.current.item
+        self.current = self.current.link
+        if self.previous is None: #it is the first element
+            self.list.head = self.current
+        else: #not the first element
+            self.previous.link = self.current
+        self.list.length -= 1
+        return item
+```
+
+# Basics of Higher Order Functions in Python
+
+Being a first-class object means being like any other object:
+
+    - *Functions* can then be *assigned* to variablesnext
+    - *Passed* as arguments to a function/method
+    - *Returned* by a function/method
+
+A _higher order function_ is one that:
+
+    - *Takes* another function as argument and/or
+    - *Returns* another function as argument
+
+In Python functions (and thus methods) are first class objects
+
+    - So you can define higher order functions
+
+# Linked Stacks
+
+Stacks = last in first out (LIFO principle)
+
+remember Abstrack stack class:
+
+```py
+from abc import ABC, abstractmethod
+from typing import TypeVar, Generic
+T = TypeVar('T')
+
+class Stack(ABC, Generic[T]):
+    def __init__(self) -> None:
+        self.length = 0
+
+    @abstractmethod
+    def push(self, item: T) -> None:
+        pass
+
+    @abstractmethod
+    def pop(self) -> None:
+        pass
+
+    @abstractmethod
+    def peek(self) -> T:
+        pass
+
+    def __len__(self) -> int:
+        return self.length
+
+    def clear(self):
+        self.length = 0
+
+    def is_empty(self) -> bool:
+        return len(self) == 0
+
+    @abstractmethod
+    def is_full(self) -> bool:
+        pass
+
+    @abstractmethod
+    def __toString__(self) -> str:
+        pass
+```
+
+Class for linked Stacks:
+
+```py
+from typing import TypeVar
+from abstract_stack import Stack
+from node import Node
+T = TypeVar('T')
+
+class LinkStack(Stack[T]): # no fixed size
+    def __init__(self):
+        Stack.__init__(self)
+        self.top = None
+
+    def is_full(self):
+        return False
+
+    def clear(self):
+        Stack.clear()
+        self.top = None
+```
+
+# Push method for Linked Stacks
+
+Push: Algorithm
+
+In the _array_ implementation: - If the array is full: raise exception (or resize, if we wanted to do that) - Else:
+
+        - Add the item in the position marked by top (was the same as the length of the list)
+        - Increase top
+
+In a _linked_ data structure:
+
+    - Create a new node that contains the item
+    - We link it to the current top
+     Make the new node the new top
+
+No need for `is_full` check
+If no more memory can be allocated:
+
+    - The system will raise an *exception*
+
+Basically:
+
+- Create a new node for item
+- Link it to the current top node
+- Make the new node the new top
+
+```py
+def push(self, item: T):
+    new_node = Node(item)
+    new_node.link = self.top
+    self.top = new_node
+    self.length += 1
+```
+
+# Pop method for linked stacks
+
+Pop: Algorithm
+
+Array implementation: - If it is empty: raise exception - Else: - Remember the top item - Decrease top - Return the item
+Linked nodes: - Almost identical - We simply move top along, rather than increase it
+
+Basic:
+
+- Check if the stack is empty
+- Remember the item in the top node
+- Make the next node the new top
+- Return the item
+
+```py
+# O(1)
+def pop(self) -> T:
+    if not self.is_empty():
+        item = self.top.item
+        self.top = self.top.link
+        self.length -= 1
+        return item
+    else:
+        raise ValueError("Stack is empty")
+```
+
+## Advantages/disadvantages of stacks
+
+Main advantages:
+
+    - Good to *resize*:
+
+        - Push: never full so no need to copy, just add element at top
+        - Pop: uses less memory when elements are popped
+
+    - Needs *less space* than the array, *if the array is relatively empty* (less than half)
+
+Main disadvantage:
+
+    - Needs *more space* (for the links) than the array, if the array is relatively full
+
+Other disadvantages:
+
+    - A bit *slower*
+
+        - Still constant time but a bigger constant (create nodes, etc)
+
+Implementing `reverse`:
+
+```py
+def reverse(string: str) -> str:
+    my_stack = ArrayStack(len(string)) / LickedStack()
+
+    for char in string:
+        my_stack.push(char)
+
+    output = ""
+
+    while not my_stack.is_empty():
+        char = my_stack.pop()
+        output += char
+
+    return output
+```
+
+# Linked Queues
+
+Remember Quese ADT:
+
+```py
+from abc import ABC, abstractmethod
+from typing import TypeVar, Generic
+T = TypeVar('T')
+class Queue(ABC, Generic[T]):
+    def __init__(self) -> None:
+        self.length = 0
+    @abstractmethod
+    def append(self, item: T) -> None:
+        pass
+    @abstractmethod
+    def serve(self) -> None:
+        pass
+    def __len__(self) -> int:
+        return self.length
+    def clear(self):
+        self.length = 0
+    def is_empty(self) -> bool:
+        return len(self) == 0
+    @abstractmethod
+    def is_full(self) -> bool:
+        pass
+```
+
+Class for linked Queses:
+
+```py
+from typing import TypeVar
+from abstract_queue import Queue
+from node import Node
+T = TypeVar('T')
+
+class LinkQueue(Queue[T]):
+    def __init__(self):
+        Queue.__init__(self)
+        self.front = None
+        self.rear = None
+
+    def is_empty(self) -> bool:
+        return self.front is None
+
+    def is_full(self) -> bool:
+        return False
+
+    def clear(self) -> None:
+        Queue.clear()
+        self.front = None
+        self.rear = None
+```
+
+# Linked Queue append
+
+Append: algorithm
+
+Linear array implementation:
+
+    - If it is full: raise exception
+    - Else:
+
+        - Increase rear
+        - Add item at position marked by rear
+
+In a linked list:
+
+    - Create a new node that contains item and points to None
+    - Link the current rear to it
+    - Make the new node the new rear
+
+Again, no need for `is_full` check
+
+Basic:
+
+- Create a new node for item
+- Make a link from the current rear to the new node
+- The new node becomes the new rear
+
+implementing `append`:
+
+```py
+# O(1)
+def append(self, item: T) -> None:
+    new_node = Node(item) # create new node
+    if self.is_empty():
+        self.front = new_node # move head
+    else:
+        self.rear.link = new_node #link it in
+    self.rear = new_node # move rear to new node
+    self.length += 1
+```
+
+# Linked Queues Serve
+
+Serve: algorithm
+
+Linear array implementation:
+
+    - If it is empty: raise exception
+    - Else:
+
+        - Remember item to return
+        - Increase front
+        - Return item
+
+In a linked list
+
+    - Almost identical
+    - We simply move front along rather than increase it
+
+Basic:
+
+- Remember the item in the front node
+- Make the next node the new front
+  -Return the item
+
+implemnting `serve`:
+
+```py
+# O(1)
+def serve(self) -> T:
+    if not self.is_empty():
+        item = self.front.item # store the item to serve
+        self.front = self.front.link # move front
+        self.length -= 1
+        if self.is_empty(): # if now empty
+            self.rear = None # move rear
+        return item
+    else:
+        raise ValueError("Queue is empty")
+
+```
+
+# using linked quese
