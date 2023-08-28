@@ -95,7 +95,7 @@ images: []
 
 A hash function is a mapping from a set of keys K to a set of hash values H
 
-![hashview](/static/images/Fit1008/hashview.jpg)
+![hashview](/static/images/FIT1008/hashview.jpg)
 
 ## Hash function properties
 
@@ -188,7 +188,7 @@ Consider again the key is a word of up to ten letters
 - Might exceed the capability of our table (or overflow our index)
 - Too big for our 50,000 words: lots of _empty_ hashes (positions in the array)
 
-![hashex3](/static/images/FIT1008/hasex3.jpg)
+![hashex3](/static/images/FIT1008/hashex3.jpg)
 
 - _Fourth observation_:
   - We want something in the range of our TABLESIZE
@@ -198,7 +198,7 @@ Consider again the key is a word of up to ten letters
 - But careful, we might have overflow/underflow! - Not in Python (arbitrary precision) - In our example: base 26 number could overflow in Java
 - Possible solution: mod/multiply at each step
 
-![hasex3](/static/images/FIT1008/hashex4.jpg)
+![hasex3](/static/images/FIT1008/hasex4.jpg)
 
 ## how to define has function
 
