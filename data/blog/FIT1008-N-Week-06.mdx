@@ -1,0 +1,358 @@
+---
+title: 'FIT1008 N Week 06'
+date: '2023-08-28'
+tags: ['FIT1008', 'Week 6', 'Notes']
+draft: false
+summary: ''
+images: []
+---
+
+# Hash tables i
+
+## Container ADT's
+
+- Store and remove items independent of contents
+- Examples include:
+  - List ADT
+  - Stack ADT
+  - Queue ADT
+- Core operations:
+  - Add
+  - Delete
+  - Search (for lists)
+
+# Dictionary ADT
+
+- Yet another kind of _container type_ to store objects
+- Main difference: objects are _uniquely identified_ by a label or key
+- Defined in Python either using curly brackets or calling `dict()`
+- Accessed with the usual square brackets (as lists)
+
+![exampledic](/static/images/FIT1008/dictionaries.jpg)
+
+## operations of dictionaries
+
+- Operations:
+  - Search (already seen with x["Name"])
+  - Add
+  - Delete
+  - Update
+
+![anotherdicex](/static/images/FIT1008/dicex2.jpg)
+
+# Motivation behind Hash tables
+
+- Assume we want to _store_ a very significant amount of data (a big N)
+- Assume we will need to perform the following operations relatively often:
+  - _Search_ for an item
+  - _Add_ a new item (or update its data)
+  - You might also want to _delete_ an item (optional)
+- But we do _not_ need to traverse them in a _particular order_ or sort them (at
+  least not often) - traversing all is fine as long as the order is irrelevant - If you often need to traverse in a particular order, use a different ADT
+- What data types have we seen suitable for this?
+
+## Data types we ahve seen in deapth
+
+- Stacks: follow LIFO
+  - Therefore, not suitable for searching/deleting
+- Queues: follow FIFO
+  - Therefore, not suitable for searching/deleting
+- Unsorted Lists (N = len(list)):
+  - Search: O(N \* Compeq) worst in linked list and array
+  - Add: O(1) worst in linked list (first element) and arrays (last element)
+  - Delete: O(N \* Compeq) worst in linked lists and arrays
+- Sorted Lists (N = len(list)):
+  - Search: O(N \* Comp>eq) worst in linked lists; O(log N) in array
+  - Add: O(N \* Comp>eq) worst in linked lists and arrays
+  - Delete: O(N \* Comp>eq) worst in linked lists and arrays
+
+## Hash tables: aim
+
+- Can we go further? Can we have O(1) for adding, searching and deleting?
+- This is what Hash Tables promise:
+  - Constant time operations (O(1) is the expected;
+  - Worst case can still O(N) if not careful – need to construct the hash table well
+- How?
+  - Using arrays: constant time access to a given position
+  - But this means, each item must have an assigned position
+
+## Hash table Data Types
+
+- Data :
+  - Items to be stored
+  - Each item must have a unique key (symbolic like “Kate”, numeric, etc)
+- Data Structure to implement the Hash Table:
+  - Large array (also referred to as the Hash Table)
+- Basic operations:
+  - Hash Function: maps a unique key to an array position
+  - Add
+  - Search
+  - Delete
+
+# Hash Functions
+
+## High-level view
+
+A hash function is a mapping from a set of keys K to a set of hash values H
+
+![hashview](/static?images/Fit1008/hashview.jpg)
+
+## Hash function properties
+
+- Basic properties:
+  - Type dependent: depends on the type of the item's key
+  - Return value within array's range (0 .. TABLESIZE-1)
+- Desirable:
+
+  - Fast, a slow hash function will degrade performance
+    - So, should not have too many arithmetic operations
+  - Minimises collisions (two keys mapped to same hash value)
+    - Distributes keys by hash values uniformly
+      - Special case: maps every key into a different hash (perfect hashing)
+
+- Perfect hash functions are rare:
+  - Rely on very particular properties of the keys
+  - Almost impossible to get in practice
+- Universal hashing is also nice in theory:
+
+  - Applies a family of hash functions �, such that |�| = �
+  - Given a key, picks a hash function from � at random
+  - Guarantees the chance of a collision to be ≤ `1/tablsize`
+
+- Good functions aim at getting closer to universal hashing
+  - “Emulate” a random function's behaviour
+  - Reduce the chance of a collision through distributing the keys by hashes uniformly
+
+## How to define Hash Function
+
+- If the key is an integer randomly distributed:
+  - Position = key % TABLESIZE is random and fast
+- Often it is not, and then what?
+- Consider the key where:
+  - 033: Supplier number (1..999, currently up to 70)
+  - 400: Category code (100,150,200, 250, up to 850)
+  - 03: Month of introduction (1..12)
+  - 94: Year of introduction (00 to 99)
+  - 530: Checksum (sum of other fields module 100)
+- First observation: don't use non-data
+
+  - Modify the key until all bits count:
+    - Checksum should not be considered & category codes should be changed to 0..15
+
+- Consider the key is a words of up to ten letters
+- One possibility:
+  - Convert _each character_ into a number (0..25)
+  - _Add the first two_ characters to obtain the hash value
+- Example:
+  - _maria_ → 12 + 0 = 12
+  - _bernd_ → 1 + 4 = 5
+  - _malena_ → 12 + 0 = 12
+- Not a great hash function: all words starting with the same two characters go to the same hash
+- _Second observation_:
+  - The more elements (characters, digits, etc.) in the key you use, the better the hash function (in terms of collisions)
+  - Careful though: considering all might be too slow
+
+Consider again the key is a word of up to ten letters
+
+- Another possibility:
+  - Convert each character into a number (0..25)
+  - _Add all of them_ to obtain the hash value
+- Example:
+  - _maria_ → 12 + 0 + 17 + 8 + 0 = 37
+  - _bernd_ → 1 + 4 + 17 + 13 + 3 = 38
+  - _malena_ → 12 + 0 + 11 + 4 + 13 + 0 = 40
+- Smallest hash value: word _a_ → 0 = 0
+- Biggest: word _zzzzzzzzzz_ → 10\*25= 250
+- Say we have about 50,000 words in our dictionary!
+- Many _collisions_: each hash value contains 200 words on average!
+
+  - Which words?
+  - Anagrams since _position_ is disregarded
+
+- _Third observation_:
+  - Using all elements is not enough to guarantee a _good spread_ of possible hashes
+  - Need something that uses all elements & takes into account its _position_ in the key
+- Have you seen this before…?
+
+  - Think about the relationship between binary strings and decimal numbers
+
+- Consider again a key of up to ten letters
+- Another possibility (base 26):
+  - Convert each character into a number (0..25)
+  - Multiply it by 26p where p is the character position
+  - Add them to obtain the array position:
+- Example:
+  - _maria_ → 12*264+0*263+17*262+8*261+0\*260 = 5,495,412
+  - _zzzzzzzzzz_ is greater than 269 > 5,000,000,000,000
+- Good discrimination: unique hash per word
+- Might exceed the capability of our table (or overflow our index)
+- Too big for our 50,000 words: lots of _empty_ hashes (positions in the array)
+
+![hashex3](/static/images/FIT1008/hashex3.jpg)
+
+- _Fourth observation_:
+  - We want something in the range of our TABLESIZE
+- Possible solution:
+  - If the number is too big: use % TABLESIZE
+  - If it is too small: convert to 0..1 and \* TABLESIZE
+- But careful, we might have overflow/underflow! - Not in Python (arbitrary precision) - In our example: base 26 number could overflow in Java
+- Possible solution: mod/multiply at each step
+
+![hasex3](/static/images/FIT1008/hashex4.jpg)
+
+## how to define has function
+
+- Horner's method:
+  - Recall h = (( …(a0x + a1)x+…+an-3)x +an-2)x +an-1)x+ an
+  - Mods at each step, thus casting out multiples of TABLESIZE
+  - Assume 101 is our TABLESIZE (yes, too small, but good to visualise some pitfalls)
+
+```py
+def hash(word: str) -> int:
+    value = 0
+    for char in word:
+        value = (value*31 + ord(char)) % 101
+    return value
+```
+
+example: Consider the word “Aho”
+27
+'A' = 65 'h' = 104 'o' = 111
+
+```
+value = (31 * 0 + 65) % 101 = 65
+value = (31 * 65 + 104) % 101 = 99
+value = (31 * 99 + 111) % 101 = 49
+```
+
+```
+65*(312) + 104*(311) + 111 = 65800
+65800 % 101 = 49
+```
+
+same result as modding once
+
+## definging hash function
+
+- We said, if the key is randomly distributed:
+  - Position = key % TABLESIZE is random and fast
+- If the key is not random: use a prime table size (from a pre-computed table
+  - closest to the actual size you need)
+  - If many values and TABLESIZE share _common factors_ they will hash to the same position. Consider TABLESIZE=10:
+    - Extreme example: if all keys finish in 0, then all are hashed to 0.
+    - Even if not all finish in 0: any key X = 5\*Y with the same value for Y%2 is hashed to the same hash (only discriminates even/odd)
+  - Primes avoid this: this is the reason to chose 101 as TABLESIZE
+- If you are multiplying by another constant and modding:
+  - Make sure they are _relatively prime/co-prime_ (no common factors)
+  - This is the reason to choose 31 as the base (rather than 26)
+
+![badex](static/images/FIT1008/hashex5.jpg)
+
+## effects on common factors
+
+Let's see in detail how it works for the word “Aho”
+30
+'A' = 65 'h' = 104 'o' = 111
+
+```
+value = (1024 * 0 + 65) % 128 = 65
+value = (1024 * 65 + 104) % 128 = 104
+value = (1024 * 104+ 111) % 128 = 111
+```
+
+![explanation](static/images/FIT1008/expl1.jpg)
+
+more examples:
+
+![example](/static/images/FIT1008/hashex6.jpg)
+
+![example](/static/images/FIT1008/hashex7.jpg)
+
+## defining fucntions
+
+- Even more effective than selecting a single coefficient, like 31:
+  - Choose your coefficients in a (pseudo-)random fashion
+  - Use a different coefficient for each key position
+- For our string hash, a _uniform_ hash function is:
+
+```py
+def hash(word: str, TABLESIZE: int) -> int:
+    value = 0
+    a = 31415
+    b = 27183
+    for char in word:
+        value = (ord(char) + a*value) % TABLESIZE
+        a = a * b % (TABLESIZE-1)
+    return value
+```
+
+![hashfinal](/static/images/FIT1008/hash8.jpg)
+
+## Recap
+
+- Type dependent
+- Must return value _within_ array's _range_
+- Should _minimise collisions_ (each position equally likely)
+  - Don't use non-data
+  - Use all elements (or a reasonable subset - odd/even positions)
+  - Use the position of each element
+  - Avoid common factors if modding
+- Should be _fast_:
+  - So, should not have too many arithmetic operations
+  - Still, it will be linear in the length of the element in the key
+- And of course, it _must be a function_!
+  - Always return the same value for the same input
+
+# Conflict Resolution
+
+## How to handle collision
+
+- Open addressing (several schemes exist)
+  - To be covered in detail in the next lesson!
+- Separate chaining
+  - Simple to implement
+  - Applies a _linked list_ (or a _balanced tree_) to represent colliding keys:
+
+![hashfinal](/static/images/FIT1008/hash9.jpg)
+
+## Seperate chaining
+
+![hashfinal](/static/images/FIT1008/Hash10.jpg)
+
+# Test Your Knowledge:
+
+Q What of the following operations is not important for a Dictionary?
+
+    - A: Traversal
+
+    - *Exp:Dictionaries don't have an order, therefore traversal is generally not important.*
+
+Q Which of the following statements is correct with respect to Dictionaries?
+
+    - A: Our aim si to have constant time operations O(1) is expected
+
+    - *Exp: Dictionaries require all operations to be fast. This is delivered (at least in theory) by Hash Tables. However, in order to keep the O(1) promise, we need to use a fast and good hash function.*
+
+Q Is it possible to define a perfect hash function?
+
+    - A: Yes, for some specific sets of keys (if we know the sets of keys in advance)
+
+    - Exp: *Although perfect hash functions are mostly a theoretical concept, we can still define them for some specific sets of keys if we know all the keys in advance. But this is practically extremely difficult to achieve.*
+
+Q Is it possible to define a universal hash function?
+
+    - A: Yes, but we have to "emulate" a fmaily hash functions and pick them at random
+
+    - Exp: *Universal hash functions exist in practice although they are still hard to implement in practice. This is because universal hashing is represented by a family of **k** hash functions to be chosen for a key at random in such a way that the probability of a collision is guaranteed to be ≤ **k**/TABLESIZE. Providing such guarantees is simple only in theory. However, uniform hashing tries to get as close to universal hashing as possible*.
+
+Q Given a family of 10 hash functions to be selected at random for a set of keys of size 50 and a hash table size 100, what probability of collision should this family of hash functions guarantee?
+
+    - A: ≤ 1/10
+
+    - Exp: Recall that the collision probability should guaranteed to be ≤ **H/k** where **k** is the number of hash functions in the family and **H** is the table size.
+
+Q What numbers should be ideally used as parameters in a good hash function?
+
+    - A: Larg enough prime numbers
+
+    - Exp: Although in a concrete practical application you may get lucky with any of the above, in general a good hash function should try to take into account all the necessary bits of information from a key to hash and avoid collisions as much as possible by distributing the keys among the hash values **uniformly**. This can be normally achieved using large enough prime numbers to serve as table size as well as all the internal parameters used in the hash function (this helps us avoid the issue like **zero divisors**).
