@@ -95,7 +95,7 @@ images: []
 
 A hash function is a mapping from a set of keys K to a set of hash values H
 
-![hashview](/static?images/Fit1008/hashview.jpg)
+![hashview](/static/images/Fit1008/hashview.jpg)
 
 ## Hash function properties
 
@@ -188,7 +188,7 @@ Consider again the key is a word of up to ten letters
 - Might exceed the capability of our table (or overflow our index)
 - Too big for our 50,000 words: lots of _empty_ hashes (positions in the array)
 
-![hashex3](/static/images/FIT1008/hashex3.jpg)
+![hashex3](/static/images/FIT1008/hasex3.jpg)
 
 - _Fourth observation_:
   - We want something in the range of our TABLESIZE
@@ -246,7 +246,7 @@ same result as modding once
   - Make sure they are _relatively prime/co-prime_ (no common factors)
   - This is the reason to choose 31 as the base (rather than 26)
 
-![badex](static/images/FIT1008/hashex5.jpg)
+![badex](/static/images/FIT1008/hashex5.jpg)
 
 ## effects on common factors
 
@@ -260,7 +260,7 @@ value = (1024 * 65 + 104) % 128 = 104
 value = (1024 * 104+ 111) % 128 = 111
 ```
 
-![explanation](static/images/FIT1008/expl1.jpg)
+![explanation](/static/images/FIT1008/expl1.jpg)
 
 more examples:
 
@@ -313,7 +313,7 @@ def hash(word: str, TABLESIZE: int) -> int:
   - Simple to implement
   - Applies a _linked list_ (or a _balanced tree_) to represent colliding keys:
 
-![hashfinal](/static/images/FIT1008/hash9.jpg)
+![hashfinal](/static/images/FIT1008/Hash9.jpg)
 
 ## Seperate chaining
 
