@@ -197,3 +197,126 @@ What kinds of instructions?:
     - Do some **maths** (add, subtract, multiply, compare)
     - **Move** data between memory, register and I/O
     - Execute **conditionals** and **loops**
+
+# MARIE programming
+
+## MARIE architecture
+
+![marie_architecture](/static/images/FIT1047/mariearch.jpg)
+
+## MARIE machine model
+
+- Each memory location (“box”) holds a 16-bit word
+
+  - The CPU has only one general purpose register:
+
+- The accumulator AC
+
+  - Each instruction is a 16-bit word composed of
+
+    - a 4-bit op-code (what to do)
+    - and a 12-bit address (which memory location to use)
+
+  - Example: 0001000110001110
+    - 0001 Op-code: LOAD
+    - 000110001110 Address: 18E(16)
+
+## MARIE instructions
+
+![marieinstruction](/static/images/FIT1047/marieinstructions.jpg)
+
+# More MARIE programming
+
+![moremarieinstructions](/static/images/FIT1047/moremarinst.jpg)
+
+# Control
+
+## The marie architecture
+
+![more_marie_arch](/static/images/FIT1047/mariearch2.jpg)
+
+## The control unit
+
+- Needs to **coordinate** registers, ALU and memory based on the **program**
+
+- For each instruction, the control unit performs three steps:
+  - Fetch the next instruction from memory
+  - Decode the instruction
+  - Execute the instruction
+
+## The Clock
+
+- Computers can't execute each step as quickly as possible
+- Each step needs to take a fixed amount of time
+- This time is determined by the **clock**
+  - An _oscillator circuit_: output constantly changes from 0 to 1 and back
+  - Each such change is called a **clock cycle**
+  - Number of cycles per second: Hertz (Hz)
+  - Typical clock speeds: billions of cycles per second (GHz)
+
+**What happens during one clock cycle?**
+
+- Depends a lot on the CPU
+- Some instructions only need a single cycle
+- Some may need hundreds! (E.g. loading from main memory)
+- We will make a simplifying assumption:
+  - Each move between registers, ALU, memory takes one cycle
+
+## Control signals
+
+Each control signal is a “wire” inside the CPU
+
+- Which register to read/write?
+- Whether to read or write from/to the memory?
+- Which operation to perform in the ALU?
+
+Which signals need to be on and off is determined by
+
+- The current step (fetch, decode, execute)
+- The current instruction
+
+## Register Transfer Language (RTL)
+
+Let's break down instructions into even smaller steps:
+
+- The CPU performs one step per clock cycle.
+- Each step transfers data between registers and/or memory.
+
+ex:
+
+![RTL_fetch](/static/images/FIT1047/RTLfetch.jpg)
+
+![RTL_decode](/static/images/FIT1047/RTLdecode.jpg)
+
+![RTL_execute](/static/images/FIT1047/RTLexecute.jpg)
+
+complete:
+
+```
+1. MAR <- PC
+2. MBR <-M[MAR]
+3. IR <- MBR
+4. PC <- PC+1
+5. MAR <- x
+6. MBR <- M[MAR]
+7. AC <- AC + MBR
+```
+
+## Control Signals and RTL
+
+Each RTL step determines which control signals to switch on and off.
+Example: `MBR` ← `M[MAR]`
+(load memory value from address stored in MAR into MBR)
+
+- Switch register file to write into MBR
+- Switch memory into read mode
+
+Each RTL step determines which control signals to switch on
+and off.
+
+Example: `AC` ← `AC` + `MBR`
+(add value in MBR to value stored in AC, store result in AC)
+
+- Switch register file to read from AC
+- Switch register file to write into AC
+- Switch ALU into “Add” mode (ALU always reads one operand from MBR)
