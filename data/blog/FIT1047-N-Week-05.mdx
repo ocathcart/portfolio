@@ -1,0 +1,432 @@
+---
+title: 'FIT1047 N Week 05'
+date: '2023-08-30'
+tags: ['FIT1047', 'Week 5', 'Notes']
+draft: false
+summary: ''
+images: []
+---
+
+# Input Output
+
+## Input/Output
+
+- Anything else connected to the computer
+- Keyboard, touch screen, mouse, sound, GPS, gyroscope, printer, hard disk, USB, …
+
+## Early I/O
+
+The first computers had very limited I/O.
+
+- Punched paper tape or cards
+- Teleprinters
+
+## Modern I/O
+
+- **Input**: Keyboard, mouse, touch pad, touch screen, microphones, cameras, gestures, accelerometers, barometers, GPS, LIDAR, …
+  **Output**: Screens, printers, audio, vibration motors, smart home appliances, robots, … Also: storage (hard disks, SSDs, SD cards), network devices (WiFi, 4G/5G, Ethernet, Bluetooth, …)
+
+## Modern I/O interfaces
+
+I/O devices are now usually connected
+via **interfaces**:
+
+- Standardised connectors and protocols
+- Can be internal or external Examples: USB, PCIe, HDMI, ...
+
+## I/O characteristics
+
+Why have **different standards**?
+I/O interfaces can't be good at everything at once:
+
+- **Convenience** (e.g. simple, robust plug)
+- **Speed** (keyboard, touchpad need low data rates, graphics card needs extremely high data rate)
+- **Cost** (interface for a $5 USB drive needs to be cheap, but for a $1,000 graphics card can be more expensive)
+- **Compatibility** (use external device with multiple computers and over long timeframe)
+
+# I/O and the CPU
+
+## I/O and the CPU
+
+The CPU needs to receive data from and send data to I/O devices.
+Why send to input devices?
+
+- E.g. set sensitivity, calibrate, switch on/off, …
+
+Why receive from output devices?
+
+- E.g. check if ready, check if successful, …
+
+## I/O register
+
+Each I/O device has its own **registers**.
+
+- E.g. keyboard: register holds the currently pressed key.
+
+How can the CPU access these registers?
+Two (main) methods:
+
+- memory-mapped I/O
+- port-mapped I/O
+
+## Memory-mapped I/O
+
+Each I/O register is **“mapped”** to a special memory address.
+Use `Load/Store` to access the device.
+Example: keyboard register mapped to `A000`.
+
+- Load A000 loads currently pressed key into `AC` register.
+
+  - Example: printer register is mapped to `A100`.
+
+- Store `A100` stores current AC value in printer register (which then gets printed out).
+
+## Memory-mapped I/O
+
+Advantages:
+
+- No new instructions needed
+- Simple
+
+Disadvantages:
+
+- Uses up some memory addresses (overall amount of addressable memory is reduced)
+- Programs may accidentally access I/O (when the program has a bug)
+
+## port-mapped I/O
+
+- Add special I/O instructions to the ISA
+- Each I/O register still has an address (as in memory-mapped I/O)
+- But these addresses are now separate from memory, and called **port**
+- For example
+
+  - Load `A000` loads from memory address `A000`
+  - Input `A000` loads from I/O register `A000` (e.g. the keyboard)
+
+- Also known as instruction-based I/O
+
+## Memory- vs port-mapped I/O
+
+Early PCs:
+
+- 1 MB of memory addressable (2^20 addresses)
+- But only 640 kB usable for programs, rest partly used for I/O
+- ISA could handle both port-mapped and memory-mapped
+
+Modern computers:
+
+- 64 bit address space leaves more than enough room for memory-mapped I/O
+- Small embedded microcontrollers may still use ports
+
+# Polling, Interupts and DMA
+
+## when to perform I/O
+
+Now we know how the CPU can talk to an I/O device.
+But I/O devices are **much, much slower** than the CPU.
+So **when** should the CPU communicate?
+
+- How does it know that a key has been pressed?
+- How does it know that a printer is ready to receive the next character?
+
+Two methods: programmed and interrupt-based I/O.
+
+## programmed I/O
+
+The programmer writes code that **periodically checks** I/O (also called polling I/O).
+Example code:
+
+```py
+while True:
+    if keyboardRegister.canRead():
+        processKeyboardRegister()
+    elif printerRegister.canWrite():
+        processPrinterRegister()
+    normalProgramCode()
+```
+
+Advantages:
+
+- Very simple (no extra hardware needed)
+- Programmer is in full control (e.g. poll 10,000 times/s for network, 10 times/s for keyboard?)
+
+Disadvantages:
+
+- Program must poll regularly
+- Program is “I/O-driven” (constructed around I/O)
+- CPU is constantly busy (high power consumption)
+
+Programmed I/O is mostly used in embedded special-purpose systems.
+
+## Interrupts
+
+Opposite of **polling**:
+
+- CPU is **notified** by hardware when it should communicate with I/O
+- CPU interrupts current program, executes special **interrupt handler** code, then continues normal program
+- Programmer can write separate code for main program and interrupt handler (better separation of concerns)
+
+## Interupts signals
+
+I/O device **notifies** CPU using special signal (“wire”) that it wants to interrupt.
+CPU checks before each fetch-decode-execute:
+
+- Does a device request an interrupt?
+  - **Yes**: call interrupt handler.
+  - **No**: continue with normal fetch-decode execute.
+
+## Interupt handlers
+
+Can run at any time, just before any instruction.
+Handlers must **leave CPU in the same state** as before the interrupt when they return!
+This is called a **context switch**. It can be achieved by
+
+- **Hardware: shadow registers** CPU switches to a separate register file while processing an interrupt
+- **Software**: handler must be written so it restores all registers as required
+
+## Interupt in old PCs
+
+Original IBM PC design:
+
+- 15 interrupt request (IRQ) signals
+- Hardware must be configured to use the correct IRQ
+- May result in conflicts
+- Devices have to share IRQs
+
+## Modern Interrupts
+
+Computers now use **Advanced Programmable** Interrupt Controllers (APICs).
+
+- Integrated into CPU
+- Support more IRQs (which results in fewer conflicts)
+- Include high-resolution timers
+  - E.g. cause an interrupt every millisecond
+  - We will see later why that's useful!
+
+## Disadvantages of interrupts
+
+Different devices may need different priorities
+
+- E.g. keyboard (very low) vs graphics card (very high priority)
+- Can be achieved using different interrupt signals
+
+**All memory transfers** run through the CPU
+
+- E.g. read byte from disk, store into memory; or
+- Read byte from memory, transfer to graphics card
+  I/O devices are fully controlled by CPU
+
+## Direct Memory access (DMA)
+
+Modern CPUs can delegate memory transfer to a **dedicated controller**.
+
+- Hard disk controller can transfer data directly to RAM
+- Graphics card can fetch image directly from RAM
+- CPU is free to perform other tasks
+
+CPU and DMA controller share the data and address bus:
+
+- Only one can perform memory transfer at the same time
+
+# Computer Deconstruction
+
+![typicalCPU](/static/images/FIT1047/typicalCPU.jpg)
+
+![CPU](/static/images/FIT1047/CPU.jpg)
+
+![RAM](/static/images/FIT1047/RAM.jpg)
+
+![CPUtime](/static/images/FIT1047/CPUtimer.jpg)
+
+![harddisk](/static/images/FIT1047/harddisk.jpg)
+
+# Operating systems
+
+## What does a OS do?
+
+An OS is a **level of abstraction** between hardware and
+software:
+
+![OS](/statuc/images/FIT1047/OS.jpg)
+
+## Modern OS
+
+- Hundreds of processes running simultaneously
+- Provide access to diverse range of hardware
+- Full networking support built-in
+- Are somewhat related to UNIX
+
+  - Linux: free re-implementation of UNIX
+  - macOS: based on BSD UNIX
+  - Windows: not directly related but heavily influenced
+
+- Usually come with lots of helper applications
+
+## Main goal: Ease of use
+
+For end users:
+
+- Provide consistent user interface
+- Manage multiple processes / applications simultaneously
+- Protect user from malicious / buggy code
+
+For programmers:
+
+- Provide programming interface
+- Enable access to hardware and I/O devices
+- Manage resources (memory, disk, network)
+
+This introduces a level of abstraction between hardware and software.
+
+## abstraction
+
+Probably the **most important concept in IT**!
+
+- Hide complexity from users
+- Provide clean, well-defined interfaces to functionality
+
+Examples:
+
+- Calling **print** in a Python program doesn't require any knowledge of how printing works, how it's implemented, whether it's going to print into a window or a file
+- Requesting a web page doesn't require any knowledge of whether the Internet connection uses WiFi, Ethernet, 4G, …
+
+## The OS kernel
+
+The core abstractions managed by any OS are
+
+- Process management
+- Memory management
+- I/O management
+
+These are implemented in the OS kernel.
+
+## Abstraction in OS
+
+**Virtualisation**
+
+- Provide **virtual** form of each **physical** resource for each **process**
+
+This means you can write code as if your program
+
+- has the entire CPU to itself
+- has a large contiguous block of memory to itself
+- can use system resources through library functions (e.g. keyboard, graphics, disk, network)
+
+# Multi-processing
+
+## Multiple current processes
+
+Lots of processes are running simultaneously here. But CPUs can only execute one instruction at a time! How does that work?
+
+## Timesharing
+
+The solution:
+
+- OS kernel **switches periodically** between processes.
+- If switching is fast and occurs often, it creates the **illusion of concurrency**!
+- This illusion works for both programmers and end users.
+
+![preocessstates](/static/images/FIT1047/processstates.jpg)
+
+Multi-processing exaple:
+
+![MPexample](/static/images/FIT1047/MPexample.jpg)
+
+## Challanges
+
+Performance:
+
+- Switching should not create a huge overhead Control:
+  - CPU must stay in control
+  - Enable fair scheduling (each process gets fair amount of time)
+  - Protect against malicious and buggy code
+
+## Solution: User vs Kernel mode
+
+CPUs have two different modes of operation.
+**Kernel mode**:
+
+- Code runs with **no restrictions**, full access to hardware
+- The OS runs in kernel mode
+- Any **interrupt** triggers a switch into kernel mode and runs the interrupt handler (part of the OS)
+
+**User mode**:
+
+- Only **limited subset of instructions** is allowed
+- E.g. **no I/O instructions**
+- Normal applications run in user mode
+
+## System calls
+
+So how can a user program perform I/O?
+It calls a library function that's part of the OS!
+This is called a **system call**.
+Usually implemented using a **special instruction**.
+System calls switch from user to kernel mode.
+
+## Timers
+
+How can the CPU stop a running process to switch to a different one?
+
+Use a **timer circuit** that generates **regular interrupts**.
+
+Remember: interrupts switch to kernel mode and run the OS's interrupt handler.
+
+This interrupts the current process, puts the OS in control and allows it to switch to a different process.
+
+## When to swtich?
+
+The OS should switch between processes frequently to create the illusion of concurrency.
+
+One method for achieving a **fair schedule** of process switches is **round-robin time-slicing**.
+
+We'll just look at an example.
+
+# Virutal memory
+
+## Memory safety
+
+Let's assume our two processes from before: a web browser and a media player app.
+
+Both store data in memory.
+
+What prevents the media player from accessing memory used by the browser and steal e.g. your banking details?
+
+**Virtual memory**!
+
+## Virtual memory
+
+Goal: no process can access any memory except its own.
+
+Mechanism:
+
+- Each process has its own address space
+- Addresses used by user programs are called virtual addresses
+- The OS maps virtual addresses to physical addresses in RAM
+
+## Virtual-memory - OS + hardware
+
+How does a process know which addresses to use?
+
+- Process **requests** memory from OS via system call
+- OS sets up mapping from virtual to physical addresses in a special hardware module, the memory management unit (MMU)
+- OS returns virtual start address of memory block to the process
+
+So what happens when the CPU executes e.g. `Load 1A20`?
+
+- The MMU translates virtual 1A20 address into the physical RAM address
+- MMU also checks whether the physical address belongs to the current process (if not, creates interrupt so OS can shut down the process)
+
+## Huge virtual memory
+
+RAM is limited.
+
+E.g. 8GB or 16GB may not be enough for code and data of all running processes.
+
+Use **virtual memory**:
+
+- Save **currently unused** blocks of RAM to external storage
+- When a process tries to access this block, the MMU will raise an interrupt (**"page fault"**)
+- OS handles the interrupt and loads block back into RAM after storing another block to external storage to make space (called **“swapping”** the blocks)
+
+This works well if swapping isn't too frequent!

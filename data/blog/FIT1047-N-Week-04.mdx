@@ -127,3 +127,207 @@ What to do when you don't have enough RAM?
 ## Modern Memory Hierarchy
 
 ![modernmemoryhierachy](/static/images/FIT1047/modmemhie.jpg)
+
+# Indirect Addressing
+
+## Addresses in MARIE
+
+Many MARIE instructions include an **address**:
+
+`Store X` Store current AC into memory at address X
+`Load X` Load value from memory at address X into AC
+`Add X` Add value at memory address X to current AC
+`Jump X` Continue execution at address X
+**Problem**: Address X is fixed in the program! Not very flexible.
+
+## Indirect addressing
+
+Use the **address stored at address** `X`.
+Example:
+`Load X`:
+Load value v from memory at address X into AC.
+Result: `AC = v`.
+`LoadI X`:
+Load value `v` from address `X`, then **load value w from address v** into AC.
+Result: `AC = w`
+
+## Direct addressing
+
+```
+Load 100
+Output
+Load 101
+Output
+Load 102
+Output
+Load 103
+Output
+Load 104
+Output
+Load 105
+Output
+```
+
+![directaddressing](/static/images/FIT1047/directaddressing.jpg)
+
+## Indirect addressing
+
+```
+LoadI 200
+Output
+Load 200
+Add One
+Store 200
+```
+
+![indirectaddressing](/static/images/FIT1047/indirectaddressing.jpg)
+
+# Array and Strings
+
+## Arrays
+
+Programs need to deal with **sequences** of data all the time:
+Text is a sequence of characters, an image is a sequence of
+rows of pixels (and a row is a sequence of pixels), a video is
+a sequence of images, …
+The most common implementation of lists or sequences is an
+**array**: data stored at consecutive addresses in memory.
+
+## Adding up an array of numbers
+
+First example:
+We have an array of numbers in memory.
+The address of the first number is stored at `Start`.
+The length of the array is stored at `Length`.
+We have to compute and output the sum of all numbers.
+
+```
+Loop, Load Temp
+  AddI Start
+  Store Temp
+
+  Load Start
+  Add One
+  Store Start
+
+  Load Length
+  Subt One
+  Store Length
+  SkipCond 400
+  Jump Loop
+
+  Load Temp
+  Output
+  Halt
+```
+
+```
+Start, Adr Array
+Length, DEC 5
+
+Array, DEC 1
+ DEC 2
+ DEC 3
+ DEC 4
+ DEC 5
+
+One, DEC 1
+Temp, Dec 0
+```
+
+## Strings
+
+A string is a sequence of characters (e.g. ASCII or Unicode).
+In a common representation, instead of storing the length of
+the string, the end is marked by a 0 (zero) character.
+Let's output a string that's 0-terminated.
+
+sample code:
+
+```MARIE
+
+Loop, LoadI StringStart
+  SkipCond 800
+  Halt
+  Output
+  Load StringStart
+  Add One
+  Store StringStart
+  Jump Loop
+
+StringStart, Adr String
+
+String, HEX 46
+  HEX 49
+  HEX 54
+  HEX 31
+  HEX 30
+  HEX 34
+  HEX 37
+  HEX 0 / end of string
+
+One, DEC 1
+```
+
+# Subroutines
+
+Also known as **procedures**, **functions**, **methods**, …
+A piece of code that:
+
+- has a well-defined **functionality**
+- needs to be executed **often**
+- we can call, passing **arguments** to it
+- **returns** to where it was called from
+
+## Subroutiens in machine code
+
+ISAs provide special instructions for:
+
+- jumping to a subroutine, but remembering the current PC
+- returning from a subroutine to the remembered PC
+
+In MARIE:
+
+- `JnS X`:
+  - Store PC at address `X`, then jump to `X+1`
+- `JumpI X`:
+  - Jump to address stored at address `X`
+
+## Double subroutine
+
+```
+# Main program
+
+Input
+Store DoubleArg
+JnS Double
+Load DoubleArg
+Output
+Halt
+```
+
+```
+/ Subroutine
+
+DoubleArg, DEC 0
+Double, HEX 0
+  Load DoubleArg
+  Add DoubleArg
+  Store DoubleArg
+  JumpI Double
+```
+
+## Output string subroutine
+
+```
+OutputStringArg, HEX 0
+OutputString, HEX 0
+Loop, LoadI OutputStringArg
+      SkipCond 800
+      JumpI OutputString
+      Output
+      Load OutputStringArg
+      Add One
+      Store OutputStringArg
+      Jump Loop
+```

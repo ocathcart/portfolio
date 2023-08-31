@@ -1,0 +1,138 @@
+---
+title: 'FIT1047 MARIE SYNTAX'
+date: '2023-08-014'
+tags: ['FIT1047', 'PROGRAMMING', 'CHEATS', MAIRE/ LANGUAGE]
+draft: false
+summary: ''
+images: []
+---
+
+# SOME BASIC SYNTAX
+
+`INPUT`: take the useres input and stores it in the AC
+`STORE X` : Stores the value stored in the AC to variable, X.
+`LOAD X` : Loads the value stored in X to the AC.
+`HALT` : Ends the execution of the program.
+`ADD X` : Adds the number stored in X to the number stored in AC and stores the resulting value at AC.
+`X, HEX/DEC 0` : X is equal to Hexadecimal/Decimal 0. It should be one of them, either HEX OR DEC.
+`Subt X` : Subtracts the number stored in X to the number stored in AC and stores the resulting value at AC.
+
+```
+Input      Takes user input
+Store X    Stores user input to X
+Input      Takes user input
+Store Y    Stores user input to Y
+Load X     Load X to AC
+Add Y      Add Y to X
+Store Z    Store addition to Z
+Output     Print Z
+HALT       End program
+
+           Variable decleration
+Z, HEX 0
+X, HEX 0
+Y, HEX 0
+```
+
+`JUMP`: used to jump from one line to another line of code
+
+## MAIRE 'if' statements
+
+`Skipcond 000`: Skips the next instruction if value in AC < 0
+`Skipcond 400`: Skips the next instruction if value in AC = 0
+`Skipcond 800`: Skips the next instruction if value in AC > 0
+
+precondition example:
+
+```
+Input
+Store X
+Input
+Store Y
+Input
+Store Z
+Skipcond 400
+Jump Subt
+
+Adder, Load X
+	Add Y
+	Output
+
+END, Halt
+
+Subt, Load X
+	Subt Y
+    Output
+	Jump END
+
+Z, HEX 0
+X, HEX 0
+Y, HEX 0
+```
+
+another precondition example:
+
+```
+Begin, Load X
+	Output
+	Add one
+    Store X
+    Subt ten
+    Skipcond 400
+    Jump Begin
+    Halt
+
+X, DEC 0
+ten, DEC 10
+one, DEC 1
+```
+
+loop:
+
+```
+begin, Load X
+	Output
+    Add one
+    Store X
+    jump begin
+
+X, DEC 0
+one, DEC 1
+```
+
+# Other SYNTAX
+
+`ADDI`: add indirect, use teh value at X as the actual address of the data operand to add to AC
+`CLEAR`: `AC <- 0`
+
+comparing values:
+
+```
+Input
+Store X
+Input
+Store Y
+
+compare1, Load X
+	Subt Y
+    Skipcond 000
+    Load X
+    Skipcond 000
+    Output
+    Skipcond 000
+   	Halt
+
+compare2, Load Y
+	Subt X
+    Load Y
+    Output
+	Halt
+
+X, DEC 0
+Y, DEC 0
+```
+
+## Subroutines
+
+`JnS X`: Store PC at address `X`, then jump to `X+1`
+`JumpI X`: Jump to address stored at address `X`
