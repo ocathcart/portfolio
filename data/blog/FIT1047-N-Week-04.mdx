@@ -135,21 +135,27 @@ What to do when you don't have enough RAM?
 Many MARIE instructions include an **address**:
 
 `Store X` Store current AC into memory at address X
+
 `Load X` Load value from memory at address X into AC
+
 `Add X` Add value at memory address X to current AC
+
 `Jump X` Continue execution at address X
+
 **Problem**: Address X is fixed in the program! Not very flexible.
 
 ## Indirect addressing
 
 Use the **address stored at address** `X`.
+
 Example:
-`Load X`:
-Load value v from memory at address X into AC.
-Result: `AC = v`.
-`LoadI X`:
-Load value `v` from address `X`, then **load value w from address v** into AC.
-Result: `AC = w`
+
+- `Load X`:
+  - Load value v from memory at address X into AC.
+  - Result: `AC = v`.
+- `LoadI X`:
+  - Load value `v` from address `X`, then **load value w from address v** into AC.
+  - Result: `AC = w`
 
 ## Direct addressing
 
@@ -187,11 +193,10 @@ Store 200
 ## Arrays
 
 Programs need to deal with **sequences** of data all the time:
-Text is a sequence of characters, an image is a sequence of
-rows of pixels (and a row is a sequence of pixels), a video is
-a sequence of images, …
-The most common implementation of lists or sequences is an
-**array**: data stored at consecutive addresses in memory.
+
+- Text is a sequence of characters, an image is a sequence of rows of pixels (and a row is a sequence of pixels), a video is a sequence of images, …
+
+The most common implementation of lists or sequences is an **array**: data stored at consecutive addresses in memory.
 
 ## Adding up an array of numbers
 
