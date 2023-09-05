@@ -1,0 +1,357 @@
+---
+title: 'FIT1008 N Week 07'
+date: '2023-09-05'
+tags: ['FIT1008', 'Week 7', 'Notes']
+draft: false
+summary: ''
+images: []
+---
+
+# Conflict Resolution with Linear Probing
+
+# Conflict Resolution Add
+
+## Hash Table operations: Add
+
+- Apply the hash function to get a hash value (position) N
+- Try to add key at position N
+- Deal with collision / conflict if any
+
+For clarity:
+
+- We shall refer to a situation of ℎ��ℎ(���1) = ℎ��ℎ(���2) as a
+  collision while a conflict is assumed to occur when a position in the
+  hash table we attempt to use for a given key is already occupied.
+
+Example: Add
+
+![hashconflict](static/images/FIT1008/hashconflict01.jpg)
+
+![hashconflict](static/images/FIT1008/hashconflict02.jpg)
+
+![hashconflict](static/images/FIT1008/hashconflict03.jpg)
+
+![hashconflict](static/images/FIT1008/hashconflict04.jpg)
+
+## Revision: two main approaches to conflict resolution
+
+- Separate chaining:
+  - Each array position contains a **linked list** of items
+  - Upon collision, either update (same key) or add the element to the linked list
+- Open addressing:
+  - Each array position contains a **single item**
+  - Upon collision, either update (same key) or use an empty space to store the new
+    item (which empty space depends on the technique)
+  - As we will see:
+    - Requires an array of at least **double the size** of the number of elements
+    - Thus, we must be able to estimate in advance the number of elements (or risk a
+      dynamic resize)
+
+## Open Addressing: Linear Probing
+
+- Add item with hash value N:
+  - If array[N] is empty: put item there
+  - If there is already an item there with:
+    - A different key:
+  - search for the first empty space in the array from N+1
+  - add the item there (if any)
+    - Same key: update the data associated to the key
+- Basically: linear search from N until an empty slot is found
+- But careful, you must deal with:
+  - Full table (to avoid going into an infinite loop)
+  - Restarting from position 0 if the end of table is reached
+
+Example: conflict resolution
+
+![hashcoflictresolution](/static/images/FIT1008/hashconflictadd01.jpg)
+
+![hashcoflictresolution](/static/images/FIT1008/hashconflictadd02.jpg)
+
+![hashcoflictresolution](/static/images/FIT1008/hashconflictadd03.jpg)
+
+![hashcoflictresolution](/static/images/FIT1008/hashconflictadd04.jpg)
+
+implementation:
+
+```py
+from typing import TypeVar, Generic
+T = TypeVar('T')
+
+class LinearProbeTable(Generic[T]):
+    def __init__(self, size: int = 7919) -> None:
+        self.count = 0
+        self.table = ArrayR(size)
+
+    def __len__(self) -> int:
+        return self.count
+
+    def hash(self, key: str) -> int:
+        value = 0
+        a = 31415
+        b = 27183
+        for char in key:
+            value = (ord(char) + a*value) % len(self.table)
+            a = a * b % (len(self.table)-1)
+
+        return value
+```
+
+explanation:
+
+![hashaddimplementation](/static/images/FIT1008/hashaddimpl.jpg)
+
+## Reminder: Adding in Linear Probing
+
+- Add item with hash value N:
+
+  - If array[N] is empty: put item there
+  - If there is already an item there with:
+
+    - A different key:
+
+      - search for the first empty space in the array from N+1
+      - add the item there (if any)
+
+    - Same key: update the data associated to the key
+
+- Basically: linear search from N until an empty slot is found
+- But careful, you must deal with:
+  - **Full** table (to avoid going into an infinite loop)
+  - Restarting from position 0 if the end of table is reached
+
+## Adding algorithm for Linear Probing
+
+- The algorithm for add(key,data) for linear probing is as follows
+- Get the **position** N using the hash function N = hash(key)
+- If **array[N] is empty**, just put the item (key, data) there
+- Else, if there is **already an item** there:
+  - If the item has the same key: update the data
+  - If it has a different key, keep looking in next cell (wrapping around)
+    - What if we never find it and there is no empty spot?
+    - Then we need to rehash: create a bigger array and reinsert all items
+- We must traverse the table before we can rehash:
+  - Even if it is known to be full, in case the key is already in (we are doing an update)
+  - Also, as we will see later, rehash in Linear Probing should happen much earlier
+    than when the table is full…
+
+```py
+def __setitem__(self, key: str, data: T) -> None:
+    position = self.hash(key) # get the position using hash
+
+    for _ in range(len(self.table)): # start traversing
+        if self.table[position] is None: # found empty slot
+            self.table[position] = (key, data)
+            self.count += 1
+            return
+
+        elif self.table[position][0] == key:# found key
+            self.table[position] = (key, data)
+            return
+
+        else: # not found, try next
+            position = (position+1) % len(self.table)
+
+    self.rehash() # move everything to a new, larger table
+    self.__setitem__(key, data) #try again
+```
+
+![hashsetitem](/static/images/FIT1008/hashsetitemimpl.jpg)
+
+implementing `__str__`
+
+```py
+def __str__(self) -> str:
+    result = ""
+    for item in self.array:
+        if item is not None:
+            (key, value) = item
+            result += "(" + str(key) + "," + str(value) + ")\n"
+    return result
+```
+
+# Conflict Resolution Search
+
+## Searching in Linear Probing
+
+- Search for an item with hash value N:
+  - Perform a linear search from array[N] until either the item or an empty space is
+    found (if so, raise a KeyError(key) exception)
+- But careful, you must deal again with:
+  - Full table (to avoid going into an infinite loop)
+  - Restarting from position 0 if the end of table is reached
+
+## Searching algorithm for Linear Probing
+
+- The algorithm for search(key,data) is as follows
+- Get the position N using the hash function N = hash(key)
+- If array[N] is empty, raise a KeyError(key) exception
+- Else, if there is already an item there:
+  - If the item has the same key: return the associated data
+  - If it has a different key, keep looking
+    - What if we never find the key and there is no empty spot?
+    - Then we raise a `KeyError(key)` exception
+- We used `__setitem__` for adding
+- We will use `__getitem__` for searching
+
+implementing `__getitem__`
+
+```py
+def __getitem__(self, key: str) -> T:
+    position = self.hash(key) # get the position using hash
+
+    for _ in range(len(self.table)): # start traversing
+        if self.table[position] is None: # found empty slot
+            raise KeyError(key) # so the key is not in
+        elif self.table[position][0] == key:# found key
+            return self.table[position][1] #return data
+        else: # there is something but not the key, try next
+            position = (position+1) % len(self.table)
+    # At this point, I have gone through the table and not found
+    raise KeyError(key)
+```
+
+combine the `__setitem__` and `__getitem__` to get the `linear_probe` function
+
+```py
+def __linear_probe(self, key: str, is_search: bool) -> int:
+    position = self.hash(key)
+
+    for _ in range(len(self.table)):
+        if self.table[position] is None: # found empty slot
+            if is_search: # if searching
+                raise KeyError(key) # key is not in
+            else:
+                return position # if adding, return position
+        elif self.table[position][0] == key: # found key
+            return position
+        else: # there is something but not the key, try next
+            position = (position + 1) % len(self.table)
+
+    raise KeyError(key)
+
+def __getitem__(self, key: str) -> T:
+    position = self.__linear_probe(key, True)
+
+    return self.table[position][1]
+
+def __setitem__(self, key: str, data: T) -> None:
+    try:
+        position = self.__linear_probe(key, False)
+
+    except KeyError:
+        self.__rehash()
+        self.__setitem__(key, data) # try again
+
+    else:
+        if self.table[position] is None: # if it’s a new item
+            self.count += 1
+        self.table[position] = (key, data)
+```
+
+![exlinearprobae](/static/images/FIT1008/hashexlinearprobe01.jpg)
+
+![exlinearprobae](/static/images/FIT1008/hashexlinearprobe02.jpg)
+
+# Conflict Resolution Delete
+
+## Deleting in Linear Probing
+
+- What about delete?
+  - Use the search function to find the item
+  - If found at N, then what?
+- Should we simply delete it and leave it empty?
+  - No, as empty spots have meaning in linear probing…
+- Should we shuffle everything from N+1 upwards?
+  - From N+1 to what?
+    - To the first empty position
+  - Is shuffling a good idea though?
+    - No, we might move items that were in the correct positions!
+
+![hashbaddelete](static/images/FIT1008/hashbaddelete.jpg)
+One possibility: - If found at N, reinsert every item from N+1 to the first empty position - Time consuming! (though should not be many)
+
+implementation: good delete
+
+```py
+def __delitem__(self, key: str) -> None:
+    pos = self.__linear_probe(key, False)
+    self.table[pos] = None
+    self.count -= 1
+
+    pos = (pos + 1) % len(self.table)
+    while self.table[pos] is not None:
+        item = self.table[pos]
+        self.table[pos] = None
+        self.count -= 1
+        self[str(item[0])] = item[1]
+        pos = (pos + 1) % len(self.table)
+```
+
+## Conflict Resolution Open Addressing
+
+## Open Addressing: Linear Probing
+
+- Another possibility for delete:
+  - Use a special symbol (a sentinel) to denote delete
+  - Modify add and search to take that symbol into account
+    - For search: treat the sentinel as you would treat a cell with a key different to the one
+      you are searching for (keep on looking) - If found, you could move it to the first deleted cell you found - What else would need to be done?
+    - For add: treat it as empty and add it in the first deleted cell
+      - But this only works for new keys (those not already in the table)
+      - If you want updates… think about it!
+
+## Open Addressing: Linear Probing
+
+- Load factor: total number of items/TABLESIZE
+- Cluster: sequence of full hash table slots (i.e., without an empty slot)
+- Cluster can form even when the load is small
+- Once a cluster forms, it tends to grow larger
+  - Items that hash to a value within the cluster, get added at the end making it bigger
+  - This might involve more than one hash value
+
+### Example of cluster
+
+- All 4 elements are part of a cluster
+- Two of them have the same hash value:
+  - Kruse and Horowtiz (5)
+- The other two have different hash values (0 and 1)
+- From then on, any element mapped to 0,1,5 or 6
+  will be part of the cluster. And adding elements
+  mapped to 0,1,2,4,5, or 6 will make it grow.
+
+![excluster](/static/images/FIT1008/excluster.jpg)
+
+## Linear Probing: Problems
+
+- Tendency for clustering to occur as the load is > 0.5
+- Low speed on clustering:
+  - Adding a key with hash value N can drastically increase the search time for keys
+    with values other than N
+  - Deletion can also be time consuming, as the entire cluster needs to be rehashed
+  - This means we start to under-deliver on the O(1) promise
+- If implemented in arrays - table may become full fairly quickly, resizing is
+  time and resource consuming
+
+## Open Addressing
+
+- You must keep the load under 2/3
+  - Otherwise the probe length (i.e.,
+    number of items visited before the
+    element is found/not found) is too
+    high
+- Even better: under 1/2
+
+![openaddressing](/static/images/FIT1008/openaddressing.jpg)
+
+# Conclusion
+
+- Hash Tables are one of the most used data types, as they have expected
+  O(1) complexity for adding, deleting and searching, if built properly
+
+- You have a very good chance of using them in your professional career
+- They are very simple conceptually
+- But they are also very “empirical”:
+  - A significant amount of experimental evaluation is usually needed to fine tune the
+    hash function and the TABLESIZE
+- A good choice of hash function, collision handling and load factor are
+  crucial to maintaining an efficient hash table (i.e., keep the O(1) promise)
