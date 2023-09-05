@@ -355,3 +355,10 @@ def __delitem__(self, key: str) -> None:
     hash function and the TABLESIZE
 - A good choice of hash function, collision handling and load factor are
   crucial to maintaining an efficient hash table (i.e., keep the O(1) promise)
+
+# Workshop
+
+**collision**: when two diffrent hash keys passed to a hash function produce the same hash value
+
+**Conflict**: This occurs when attempting to add or update a value in the hash table, when visiting the initial hash position, if the keys do not mathch, a conflic has occured
+this is caused by a previous collision (directly or indirectly)
