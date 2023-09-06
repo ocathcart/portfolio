@@ -1,0 +1,69 @@
+---
+title: 'FIT3171 N Week 04'
+date: '2023-09-06'
+tags: ['FIT3171', 'Notes', 'Week 04']
+draft: False
+summary:
+images: []
+---
+
+# Normilisation
+
+## INSERT, UPDATE and DELETE Anomalies
+
+- INSERT Anomaly
+  - When adding data to a relation you are required to add other (related) data
+  - Danger: other data may not be available so cannot proceed with the insert
+- UPDATE Anomaly
+  - Changing a value for an attribute requires multiple tuples to be changed
+  - Danger: only some tuples will be updated leading to inconsistent data
+- DELETE Anomaly
+  - When a tuple in a relation is deleted, all tuple data is removed
+  - Danger: related data, which may be the only such data will be lost
+
+## INSERT, UPDATE and DELETE Anomalies Example
+
+![tableupdate](/static/images/FIT3171/tableupdate.jpg)
+
+## Data Normalisation
+
+- Relations MUST be normalised in order to avoid anomalies which may
+  occur when inserting, updating and deleting data.
+- Normalisation is a systematic series of steps for progressively refining the
+  data model.
+- A formal approach to analysing relations based on their primary key /
+  candidate keys and functional dependencies.
+- Used:
+  - as a design technique "bottom up design", and
+  - as a way of validating structures produced via "top down design" (ER model
+    converted to a logical model - see next week)
+  - for this unit only concerned with conversion to third normal form - higher
+    normal forms exist (Boyce Codd Normal Form, fourth normal form … )
+
+## The Normalisation Process Goals
+
+- Creating valid relations, i.e. each relation meets the properties of the
+  relational model. In particular: - Entity integrity - Referential integrity - No many-to-many relationship - Each cell contains a single value (is atomic).
+- In practical terms when implemented in an RDBMS:
+  - Each table represents a single subject
+  - No data item will be unnecessarily stored in more than one table (remember
+    some redundancy still exists - minimal redundancy).
+  - The relationship between tables can be established (via PK and FK pairs).
+  - Each table is void of insert, update and delete anomalies.
+
+## Representing a form as a relation
+
+- This process follows a standard approach:
+  - arrive at a name for the form which indicates what it represents (its subject)
+  - determine if any attribute is multivalued (repeating) for a given entity
+    instance of the forms subject - if an attribute (or set of attributes) appears multiple times then the group
+    of related attributes need to be shown enclosed in brackets to indicate
+    there are multiple sets of these values for each instance
+- Looking at our DRUG data
+  - Name: DRUG_SLSREP
+    - DRUG_SLSREP (drug_code, drug_name, slsrep_id, slsrep_name,
+      slsrep_mobile)
+- i.e. the form consists of repeating rows (instances) of drugs assigned to
+  sales representatives data
+
+## Unnormalised Form (UNF)
