@@ -1,0 +1,249 @@
+---
+title: 'FIT3171 N Week 03'
+date: '2023-09-06'
+tags: ['FIT3171', 'Notes', 'Week 03']
+draft: False
+summary:
+images: []
+---
+
+# The Relational Database Model
+
+## The Relational Model
+
+- Introduced by CODD in 1970 - the fundamental basis for the relational DBMS
+- Basic structure is the mathematical concept of a RELATION mapped to the
+  'concept' of a table (tabular representation of relation) - Relation - abstract object - Table - pictorial representation - Storage structure - "real thing" - eg. isam file of 1's and 0's
+
+- Relational Model Terminology
+  - DOMAIN - set of atomic (indivisible) values
+  - Examples (name, data type, data format):
+    - customer_number domain - 5 character string of the form xxxdd
+    - name domain - 20 character string
+    - address domain - 30 character string containing street, town & postcode
+    - credit_limit domain - money in the range $1,000 to $99,999
+
+## A relation
+
+- A relation consists of two parts
+  - heading
+  - body
+- **Relation Heading**
+  - Also called Relational **Schema** consists of a fixed set of attributes
+    - R (A1,A2,.......An)
+      - R = relation name, Ai = attribute i
+  - Each attribute corresponds to one underlying domain:
+    - Customer relation heading:
+      - CUSTOMER (custno, custname, custadd, custcredlimit)
+        - dom(custno) = customer_number
+        - dom(custname) = name
+        - dom(custadd) = address
+        - dom(custcredlimit) = credit_limit
+
+## | CUSTNO | CUSTNAME | CUSTADD | CUSTCREDITLIMIT |
+
+## Relational body
+
+- **relational body**
+
+  - Also called Relation Instance (state of the relation at any point in time)
+
+    - r(R) = {t1, t2, t3, ...., tm}
+    - consists of a time-varying set of n-tuples
+
+      - Relation R consists of tuples t1, t2, t3 .. tm
+      - m = number of tuples = **relation cardinality**
+
+    - each n-tuple is an ordered list of n values
+    - t = < v1, v2, ....., vn>
+      - n = number of values in tuple (no of attributes) = **relation degree**
+
+  - In the tabular representation:
+    - Relation heading ⇨ column headings
+    - Relation body ⇨ set of data rows
+
+## | custno | custname | custadd | custcredlimit |
+
+| SMI13 | SMITH | Wide Rd, Clayton, 3168 | 2000 |
+| JON44 | JONES | Narrow St, Clayton, 3168 | 10000 |
+| BRO23 | BROWN | Here Rd, Clayton, 3168 | 10000 |
+
+## Relation Properties
+
+- **No duplicate tuples** - by definition sets do not contain duplicate elements - hence tuples must be unique -** Tuples are unordered within a relation** - by definition sets are not ordered - hence tuples can only be accessed by content
+- **No ordering of attributes within a tuple**
+  - by definition sets are not ordered
+
+## Relation Properties cont'd
+
+- **Tuple values are atomic** - cannot be divided
+
+  - EMPLOYEE (eid, ename, departno, dependants)
+    - not allowed: dependants (dep_name, dep_age) multivalued
+  - hence no multivalued (repeating) attributes allowed, called the first
+    normal form rule
+
+- COMPARE with tabular representation - normally nothing to prevent duplicate rows - rows are ordered - columns are ordered
+  - tables and relations are not the same 'thing'
+
+## Functional Dependancy
+
+- Functional Dependency:
+  - A set of attributes A functionally determines an attribute B if, and only if, for
+    each A value, there is exactly one value of B in the relation. It is denoted as A - B (A determines B, or B depends on A) - orderno → orderdate - prodno → proddesc - orderno, prodno → qtyordered
+
+## Relational Model Keys
+
+- A **superkey** of a relation R is an attribute or set of attributes which exhibits only
+  the uniqueness property - No two tuples of R have the same value for the superkey (Uniqueness
+  property) - t1[superkey] ≠ t2[superkey]
+
+- A **candidate key (CK)** of a relation R is an attribute or set of attributes which
+  exhibits the following properties: - Uniqueness property (as above), and - No proper subset of CK has the uniqueness property
+  (Minimality or Irreducibility property) ie. a minimal superkey
+- One candidate key is chosen to be the primary key (PK) of a relation. Remaining
+  candidate keys are termed alternate keys (AK).
+
+## Selection of a Primary key
+
+- A primary key must be chosen considering the data that may be added to
+  the table in the future - Names, dates of birth etc are rarely unique and as such are not a good
+  option - PK should be free of 'extra' semantic meaning and security compliant,
+  preferably a single attribute, preferably numeric (see Table 5.3 Coronel &
+  Morris) - Natural vs Surrogate primary key - ENROLMENT (unitcode, student_id, enrol_sem, enrol_year,
+  enrol_mark, enrol_grade) - Superkey - CK - PK - Issues with PK?
+
+![desirablecharacteristics](/static/images/FIT3171/desirablecharacteristicstable.jpg)
+
+## Null in the Relational Model Implementation
+
+- NULL is a concept created and implemented by SQL, does not exist in classical
+  relational algebra
+- NULL is NOT a value - is a representation of the fact that there is NO VALUE
+- Reasons for a NULL:
+  - VALUE NOT APPLICABLE -
+    - EMP relation - empno, deptno, salary, commission
+      - commission only applies to staff in sales dept
+  - VALUE UNKNOWN -
+    - Joe's salary is NULL, Joe's salary is currently unknown
+  - VALUE DOES NOT EXIST -
+    - Tax File Number - is applicable to all employees but Joe may not have a number at
+      this time
+  - VALUE UNDEFINED -
+    - Certain items explicitly undefined eg. divide by zero
+      - Columns Number_of_payments, Total_payments
+      - Column Average_payment_made
+      - If Number_of_payments = 0 => Average undefined
+
+## Writing Relations
+
+- Relations may be represented using the following notation:
+  - RELATION_NAME (attribute1, attribute2,…)
+- Relation_name must not be pluralised (is a set name)
+- The primary key is underlined.
+
+- Example:
+  - STAFF (staff_id, staff_surname, staff_initials, staff_address,
+    staff_phone)
+
+## Relational Database
+
+- A relational database is a collection of normalised relations.
+- Normalisation is part of the design phase of the database
+  and will be discussed next week.
+
+Example relational database:
+
+**ORDER (order_id, order_date)
+ORDER_LINE (order_id, prod_id, ol_quantity)
+PRODUCT (prod_id, prod_desc, prod_uprice)**
+
+## Foreign Key (FK) - Implementation
+
+- FK: An attribute/s in a relation that exists in the same, or another relation
+  as a Primary Key.
+- Referential Integrity
+  - A Foreign Key value must either match the full primary key in
+    a relation or be NULL.
+- The pairing of PK and FK creates relationships (logical connections)
+  between tables when implemented in a RDBMS. Hence the abstraction
+  away from the underlying storage model.
+
+![foreignkey](/static/images/FIT3171/foreignkey.jpg)
+
+## Data Integrity - Implementation
+
+- Entity integrity
+  - Primary key value must not be NULL.
+    - No duplicate tuple property then ensures that each primary key
+      must be unique
+    - Implemented in the RDBMS via a unique index on the PK
+- Referential integrity
+  - The values of FK must either match a value of a full PK in the
+    related relation or be NULL.
+- Column/Domain integrity
+  - All values in a given column must come from the same domain
+    (the same data type and range).
+
+## Relational DMLs
+
+- Relational Calculus
+- Relational Algebra
+- Transform Oriented Languages (e.g. SQL)
+- Graphical Languages
+- Exhibit the “closure” property - queries on relations produce
+  relations
+
+## Relational Calculus
+
+- Based on mathematical logic.
+- Non-procedural.
+- Primarily of theoretical importance.
+- May be used as a yardstick for measuring the power of
+  other relational languages (“relational completeness”).
+- Operators may be applied to any number of relations.
+
+# Relational Algebra
+
+## Relational Algebra
+
+- Relationally complete.
+- Procedural.
+- Operators only apply to at most two relations at a time.
+- 8 basic operations:
+  - single relation: selection, projection
+  - two relations:
+    - cartesian product, join
+    - union
+    - intersection
+    - difference
+    - division
+    - Standard/pure RA form has no concept of NULL (Database unit uses standard RA)
+
+## Relational Operation PROJECT
+
+**PRDETAIL (project_code, project_manager, project_bid_price)**
+
+![relationalproject](/static/images/FIT3171/relationalproject.jpg)
+
+## JOIN
+
+- Join operator used to combine data from two or more
+  relations, based on a common attribute or attributes.
+- For conventional relational algebra, different types of joins
+  are: - theta-join - equi-join - natural join
+
+## THETA JOIN (Generalised join)
+
+**(Relation_1) ⨝F (Relation_2)**
+
+- F is a predicate (i.e. truth-valued function) which is of the
+  form Relation_1.ai θ Relation2.bi - CUSTOMER.cust_no θ ORDER.cust_no
+- θ is one of the standard arithmetic comparison operators,
+  < ≤ = ≥ >
+- Most commonly, θ is equals (=), but can be any of the
+  operators - EMPLOYEE.emp_sal > SALARYSCALE.step_5
+
+## NATURAL JOIN
+
+![naturaljoin](/static/images/FIT3171/naturaljoin.jpg)
