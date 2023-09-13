@@ -1,0 +1,294 @@
+---
+title: 'FIT3171 N Week 06'
+date: '2023-09-06'
+tags: ['FIT3171', 'Notes', 'Week 06']
+draft: False
+summary:
+images: []
+---
+
+# Considering Personal Data in Database Design Creating & Altering the Database
+
+## Considering Personal Data in Database Design Not Assessed
+
+## Collecting personal customer data for drone rental
+
+- When a company/ business collects personal
+  information they must take reasonable steps to
+  tell you what they will do with it
+- Some personal information is considered
+  “sensitive” and requires explicit consent to be
+  collected
+- Privacy, Equal Opportunity and Discrimination
+  laws govern the collection and use of personal
+  data (see Week 1)
+
+### What personal customer data should you collect?
+
+- Name (do you need to collect first, last and middle name?)
+- Preferred name (do you need to know how customers want to be addressed?)
+- Contact details (address, phone, email?)
+- Preferred method of contact (from above)
+- Age or Date of Birth (does a renter need to be over 18?)
+- Title (will you be sending them formal mail or correspondence?)
+- Gender (do you want to understand who your customer base is and how to
+  reach all genders?)
+- Language spoken at home (do you want to reach potential customers in multiple
+  languages?)
+- Special needs/ accessibility (do you want to cater for customers with special
+  needs or accessibility requests?)
+
+### What personal data should you collect for Drone customers?
+
+- Based on the Drone case study, discuss some attributes that you may suggest to
+  the client that will benefit their business - What are the attributes you would recommend to your client? - How will these attributes benefit the owner of HiFlying drone in developing
+  their future business? - What are the risks of collecting data about the attributes? - What are the risks of not collecting data about the attributes?
+
+### Adding attributes that record personal information
+
+- When adding an attribute that records personal information such as
+  gender you must consider whether: - the attribute can be null or not (e.g. how important is the data?) - visualised by null or not null sign - the possible values for the attribute: - Fixed values, such as 'M' for Men, 'W' for Women, or 'U' for
+  Undisclosed - implemented by check constraint - Extendable values, such as Men, Women, and other options - implemented by look up table
+
+![checkconstraint](/static/images/FIT3171/checkconstraint.jpg)
+
+```SQL
+ALTER TABLE customer ADD CONSTRAINT chk_custgender
+CHECK ( cust_gender IN ( 'M', 'F', 'U' ));
+```
+
+![lookuptable](/static/images/FIT3173/lookupconstraint.jpg)
+
+### What do you really need to collect?
+
+- Titles are a proxy for gender, so you may not need to ask for both
+- If titles and gender are not integral to your business - get rid of them entirely
+- If titles are somewhat important, but you suspect your customers are unlikely to
+  require more unusual options - go for Mr, Mrs, Ms, Miss, Mx and perhaps other
+- If titles are vital and you know you have some customers with unusual titles - use
+  a free text box instead of a drop down
+
+Blog: https://www.zuko.io/blog/titles-in-online-forms-how-inclusive-should-you-be
+
+## Creating & Altering the Database
+
+![editmodel](/static/images/FIT3171/editmodel.jpg)
+
+### SQL general syntax
+
+- A single statement is ended with SEMICOLON.
+- Predefined KEYWORDs represent clauses (components) of a statement.
+- Keywords are NOT case sensitive.
+- Examples:
+
+```SQL
+CREATE TABLE unit
+    (
+        unit_code CHAR(7)NOT NULL,
+        unit_name VARCHAR2(50)CONSTRAINT uq_unit_name UNIQUE NOT NULL,
+        CONSTRAINT pk_unit PRIMARY KEY (unit_code)
+    );
+SELECT * FROM unit;
+```
+
+### SQL Statements
+
+- Data Definition Language (DDL)
+  - Creating database structure
+    - CREATE TABLE, ALTER TABLE, DROP TABLE
+- Data Manipulation Language (DML)
+  - Adding and Manipulating database contents (rows)
+    - INSERT, UPDATE, DELETE
+  - Retrieving data from database
+    - SELECT
+- Data Control Language (DCL)
+  - Set permissions on objects
+    - GRANT
+
+## CREATE A TABLE (DDL)
+
+### Common ORACLE data types
+
+- **Text**: CHAR(size), VARCHAR2(size)
+  - e.g., CHAR(10), VARCHAR2(10)
+  - CHAR(10) → ‘apple’ = ‘apple ‘
+  - VARCHAR2(10) → ‘apple’ != ‘apple ‘
+- **Numbers**: NUMBER(precision, scale)
+  - Weight NUMBER(7) or NUMBER(7,0) → Weight = 7456124
+  - Weight NUMBER(9,2) → Weight = 7456123.89
+  - Weight NUMBER(8,1) → Weight = 7456123.9
+- **Date/Time**: DATE, TIMESTAMP
+  - DATE can store a date and time (time to seconds), stored as Julian date
+  - TIMESTAMP can store a date and a time (up to fractions of a second)
+  - TIMESTAMP WITH TIME ZONE
+
+### Column VS Table Level Constraints
+
+```SQL
+CREATE TABLE training (
+    train_code CHAR(5) NOT NULL,
+    train_desc VARCHAR2(100) NOT NULL,
+    train_hrs NUMBER(2) NOT NULL,
+    CONSTRAINT training_pk PRIMARY KEY (train_code)
+);
+```
+
+```SQL
+CREATE TABLE customer (
+    cust_id NUMBER(4) NOT NULL,
+    cust_fname VARCHAR2(25) NOT NULL,
+    cust_lname VARCHAR2(25) NOT NULL,
+    cust_phone CHAR(12) NOT NULL,
+    CONSTRAINT customer_pk PRIMARY KEY ( cust_id )
+);
+```
+
+```SQL
+CREATE TABLE cust_train (
+    ct_id NUMBER(4) NOT NULL,
+    train_code CHAR(5) NOT NULL,
+    cust_id NUMBER(4) NOT NULL,
+    ct_date_start DATE NOT NULL,
+    ct_date_expire DATE NOT NULL,
+    CONSTRAINT cust_train_pk PRIMARY KEY ( ct_id ),
+    CONSTRAINT cust_train_uq UNIQUE ( train_code, cust_id, ct_date_start ),
+    CONSTRAINT training_cust_train FOREIGN KEY ( train_code )
+        REFERENCES training ( train_code ),
+    CONSTRAINT customer_cust_train FOREIGN KEY ( cust_id )
+        REFERENCES customer ( cust_id )
+);
+```
+
+![tableconstraint](/static/images/FIT3171/tableconstraint.jpg)
+
+### Alternative (BETTER) method of defining FKs
+
+```SQL
+CREATE TABLE cust_train (
+    ct_id NUMBER(4) NOT NULL,
+    train_code CHAR(5) NOT NULL,
+    cust_id NUMBER(4) NOT NULL,
+    ct_date_start DATE NOT NULL,
+    ct_date_expire DATE NOT NULL
+);
+ALTER TABLE cust_train
+    ADD
+        (CONSTRAINT cust_train_pk PRIMARY KEY ( ct_id ),
+        CONSTRAINT training_cust_train FOREIGN KEY ( train_code )
+        REFERENCES training ( train_code ),
+        CONSTRAINT customer_cust_train FOREIGN KEY ( cust_id )
+        REFERENCES customer ( cust_id ),
+        CONSTRAINT cust_train_uq UNIQUE ( train_code, cust_id, ct_date_start));
+```
+
+### Referential Integrity
+
+- To ensure referential integrity, SQL defines three possible actions for
+  FKs in relations when a deletion of a primary key occurs: - RESTRICT (Oracle No Action basically equivalent) - Deletion of tuples is NOT ALLOWED for those tuples in the table
+  referred by the FK (the table containing PK) if there is corresponding
+  tuple in the table containing the FK.
+- CASCADE
+  - A deletion of a tuple in the table referred by the FK (the table containing
+    PK) will result in the deletion of the corresponding tuples in the table
+    containing the FK.
+- NULLIFY
+  - A deletion of a tuple in the table referred by the FK (the table containing
+    PK) will result in the update of the corresponding tuples in the table
+    containing the FK to NULL.
+
+### What Referential Integrity Constraint to implement?
+
+- Use the model to decide on what referential integrity constraint to
+  implement. - Mandatory vs Optional participation.
+
+- The constraints must be decided at the design phase.
+
+### COMPOSITE FK's
+
+Returning to the DRONE case before a surrogate key for
+CUST_TRAIN was added
+
+What PK for cust_train and FK for the "authorises" relationship is
+required?
+
+### COMPOSITE FK's
+
+PK for CUST_TRAIN
+
+```SQL
+ALTER TABLE cust_train
+    ADD CONSTRAINT cust_train_pk PRIMARY KEY ( train_code,
+        cust_id,
+        ct_date_start );
+```
+
+Mapping of "authorises" relationship (FK in RENTAL)
+
+```SQL
+ALTER TABLE rental
+    ADD CONSTRAINT cust_train_rental FOREIGN KEY ( train_code,
+        cust_id,
+        ct_date_start )
+    REFERENCES cust_train ( train_code,
+        cust_id,
+        ct_date_start );
+```
+
+### ALTER TABLE
+
+- Used to change a tables structure.
+- For example:
+  - Adding column(s).
+  - Removing column(s).
+  - Adding constraint(s) - used previously for FK's, but can be any
+    constraint
+  - Removing constraint(s)
+
+Add a new attribute to store whether training courses are paid(P) or free(F):
+
+```SQL
+ALTER TABLE training_course ADD (
+    traincourse_type CHAR(1) DEFAULT 'P' NOT NULL,
+    CONSTRAINT chk_traincourse_type CHECK ( traincourse_type IN ( 'P', 'F' ) )
+);
+```
+
+### Manipulate Constraints
+
+- Turn constraint ON or OFF to temporarily disable
+  - ALTER TABLE cust_train
+  ```SQL
+  DISABLE CONSTRAINT training_cust_train;
+  ```
+  - ALTER TABLE cust_train
+    ```SQL
+    ENABLE CONSTRAINT training_cust_train;
+    ```
+- Remove/re add constraint to modify constraint
+  - ALTER TABLE cust_train
+    ```SQL
+    DROP CONSTRAINT training_cust_train;
+    ```
+  - ALTER TABLE cust_train
+    - ADD
+    ```SQL
+    ( CONSTRAINT training_cust_train FOREIGN KEY ( train_code )
+    REFERENCES training ( train_code ) ON DELETE CASCADE);
+    ```
+
+### DELETING A TABLE
+
+- Use the DROP statement.
+- Examples:
+
+```SQL
+DROP TABLE customer PURGE;
+```
+
+    - will not work, why?
+
+```SQL
+DROP TABLE customer CASCADE CONSTRAINTS PURGE;
+```
+
+- Constraints purge leaves data in CUST_TRAIN removes FK constraint:

@@ -1,0 +1,462 @@
+---
+title: 'FIT1008 N Week 08'
+date: '2023-09-11'
+tags: ['FIT1008', 'Week 8', 'Notes']
+draft: false
+summary: ''
+images: []
+---
+
+# Recursion
+
+## Motivation behind Recursion
+
+### Revision: recursive algorithms
+
+- Solve a large problem by reducing it to one or more sub-problems that are:
+  - Of the same kind as the original
+  - Simpler to solve
+- Each of the sub-problems is itself solved using the same algorithm …
+  … until the sub problems are so “simple” that they can be solved without
+  further reductions (base cases)
+
+### Examples
+
+- To find a route from A to B:
+  - if they are “very close” (e.g., one step), easy to find (the one step); - else …
+    - find a place C “between” A and B;
+    - find a smaller route from A to C;
+    - find a smaller route from C to B;
+    - put the two routes together
+- To wash up a pile of dirty dishes:
+  - if there are no dishes in the pile, easy to do (stop); - else …
+    - take one dish, wash it up, and then …
+    - wash up the remaining pile of dirty dishes
+
+### Candidate problems for recursion
+
+1. Must be possible to decompose them into simpler similar problems
+2. At some point, the problems must become so simple that can be solved
+   without further decomposition
+3. Once all subproblems are solved, the solution to the original problem
+   can be computed by combining these solutions
+
+### General recursive structure
+
+- That of a function that calls itself (directly or via others):
+
+```py
+def solve(problem):
+    if problem is simple:
+        # Solve problem directly
+    else:
+        # Decompose problem into subproblems p1, p2,…
+        solve(p1)
+        solve(p2)
+        solve(p3)
+        …
+        # Combine the subsolutions to solve problem
+```
+
+![recursionex](/static/images/FIT1008/recursionex1.jpg)
+
+## Recursion example Factorials
+
+### Example: factorials
+
+- Determine the number of permutations of a given number of distinct
+  elements
+- For example: consider the letters
+  - a b c d e
+- How many permutations of these 5 letters can we make? - 5! = 5 x 4 x 3 x 2 x 1 = 120
+  since there are 5 choices for the first letter, 4 for the second, 3 for the
+  third, etc.
+
+![recursion2](/static/images/FIT1008/recursion02.jpg)
+
+### Factorials: how do we program it?
+
+- We assume n ≥ 0 and factorial of 0 = 1
+- We start by looking at examples:
+
+```
+0! = 1
+1! = 1
+2! = 1*2
+3! = 1*2*3
+4! = 1*2*3*4
+…
+n! = 1*2*3*4*…*(n-1)*n
+```
+
+### Factorial: an iterative approach
+
+```py
+def factorial(n: int) -> int:
+    result = 1
+    for i in range(1,n+1):
+        result = result * i
+    return result
+```
+
+- What is the value of result before and after each iteration if n=5?
+  1*1;
+  1*2;
+  2*3;
+  6*4;
+  24\*5;
+
+thus, it would correctly return result=120
+
+![recursion2](/static/images/FIT1008/recursion03.jpg)
+
+### Factorials: what about recursively?
+
+- We start by looking at examples:
+
+```
+0! = 1
+1! = 1
+2! = 1*2
+3! = 1*2*3
+4! = 1*2*3*4
+…
+n! = 1*2*3*4*…*(n-1)*n
+    (n-1)!
+
+n! = (n-1)! * n
+```
+
+### Factorial: recursive approach
+
+```py
+def factorial(n: int) -> int:
+    if n == 0: # base case
+        return 1
+    else:
+        return n*factorial(n-1) # recursive call
+```
+
+What would the execution be like? Cascading calls
+
+- 5 \* factorial(4)
+  - 4 \* factorial(3)
+    - 3 \* factorial(2)
+      - 2 \* factorial(1)
+        - 1 \* factorial(0)
+
+### Recursive procedure/method
+
+- Must have the following components:
+  - At least one base case
+  - At least one recursive call whose result is combined
+  - Convergence to base case (must be “simpler”)
+- In factorial:
+  - if n==0:
+  - factorial(n-1)and \*
+  - (n-1)
+- What happens if
+  - no base case?
+  - no convergence? (e.g., we code `n*factorial(n)`)
+
+```py
+def factorial(n: int) -> int:
+    if n == 0:
+        return 1
+    else:
+        return n*factorial(n-1)
+```
+
+## Iteration versus Recursion
+
+![recursion4](/static/images/FIT1008/recursion04.jpg)
+
+### Recursion versus iteration
+
+- Can every iterative function be implemented using recursion?
+
+  - Yes, it is straightforward
+    - Iterations are replaced by function calls
+    - The base case is the (negated) condition of the loop
+  - Often needs an auxiliary function to prepare the converging arguments (see later)
+
+- Can every recursive function be implemented using iteration?
+  - Yes, BUT you might also need to store past results in either
+    - Accumulators, or
+    - A stack (recall how the run-time stack is also used to implement recursive functions)
+
+### Example: from iteration to recursion
+
+- Consider an iterative method in LinkList to compute the length, if the
+  class did not have self.length:
+
+```py
+def __len__(self) -> int:
+    current = self.head
+    count = 0
+    while current is not None:
+        current = current.link
+        count += 1
+    return count
+```
+
+![recursion05](/static/images/FIT1008/recursion05.jpg)
+
+### Example: from iteration to recursion
+
+```py
+def __len__(self) -> int:
+    return self.len_aux(self.head)
+
+def len_aux(self, current: Node) -> int:
+    if current is None: # base case
+        return 0
+    else:
+        return 1 + self.len_aux(current.link)
+```
+
+## Recursion example Length
+
+### Length: recursive approach
+
+```py
+def __len__(self) -> int:
+    return self.len_aux(self.head)
+
+def len_aux(self, current: Node) -> int:
+    if current is None: # base case
+        return 0
+    else:
+        return 1 + self.len_aux(current.link)
+```
+
+## Recursion example Contains
+
+### Another example: iteration to recursion
+
+- Consider an iterative method in LinkList for checking if an item is in the
+  linked list or not, again assuming we do not have the length:
+- Iterative version:
+
+```py
+def __contains__(self, item: T) -> bool:
+    current = self.head
+    while current is not None:
+        if current.item == item:
+            return True
+        current = current.link
+    return False
+```
+
+- Complexity?
+
+  - Best case when found first: O(1)\*CompEq where
+
+    - CompEq is the complexity of == (or **eq**)
+    - Often this is O(1)\*O(m), so O(m) where m is the maximum size for an item
+
+  - Worst case when not found: O(n)\*CompEq where
+    - n is the length of the list
+    - Often this is O(n)*O(m), so O(n*m)
+
+- Let's think how to implement it recursively
+
+### Alternative coding for the same method
+
+```py
+def __contains__(self, item: T) -> bool:
+    return self.contains_aux(self.head, item)
+
+def contains_aux(self, current: Node, item: T) -> bool:
+    if current is None: # base case
+        return False
+    elif current.item == item
+        return True
+    else:
+        return self.contains_aux(current.link, item)
+```
+
+# Recursion II
+
+## Recursion notation
+
+### Some Recursive Notation
+
+- Unary, binary, n-ary recursion:
+  - Unary: a single recursive call (all previous code)
+  - Binary: two recursive calls (“find a route” example)
+  - n-ary: n recursive calls
+- Direct vs Indirect recursion:
+  - Direct: recursive calls are calls to the same function (all previous examples)
+  - Indirect (or mutual): recursion through two or more methods (e.g., method p calls
+    method q which in turn calls p again)
+- Tail-recursion:
+  - Where the result of the recursive call is the result of the function:
+    - That is: nothing is done in the “way back”
+  - Closest to iteration: can be straightforwardly transformed into it
+
+#### Is it tail recursive?
+
+```py
+def factorial(n: int) -> int:
+    if n == 0:
+        return 1
+    else:
+        return n*factorial(n-1)
+```
+
+### But we can make it tail recursive by using an accumulator
+
+```py
+def factorial(n: int) -> int:
+    return factorial_aux(n,1)
+
+def factorial_aux(n, result: int) -> int:
+    if n == 0:
+        return result
+    else:
+        return factorial_aux(n-1, result*n)
+```
+
+## From Recursion to Iteration: Accumulators
+
+### Binary recursion: Fibonacci
+
+- Some things are easier to define recursively
+  - They are not simple iterations
+- Mathematical definition for Fibonacci:
+
+```
+        0                        if n = 0
+fib(n)  1                        if n = 1
+        fib(n-1) + fib(n-2) if      n > 1
+```
+
+- Defined almost identically in most programming languages
+
+### Fibonacci’: binary recursive approach
+
+```py
+def fib(n: int) -> int:
+    if n == 0 or n == 1:
+        return n
+    else:
+        return fib(n-1) + fib(n-2)
+```
+
+### fibonacci's execution: call tree
+
+![fibonaccicalltree](/static/images/FIT1008/fibcalltree.jpg)
+
+complexty: O(2^n)
+
+### Why 2n: think about the call tree
+
+- n is the DEPTH of the binary tree
+
+![fibcalltree](/static/images/FIT1008/fibcalltree2.jpg)
+
+### Fibonacci: recursion with accumulators
+
+```py
+def fib(n: int) -> int:
+    return fib_aux(n, 0, 1)
+
+def fib_aux(n: int, fm2: int, fm1: int) -> int:
+    if n == 0:
+        return fm2
+    else:
+        return fib_aux(n-1, fm1, fm2+fm1)
+```
+
+![fibcalltree](/static/images/FIT1008/fibcalltree3.jpg)
+
+### Fibonacci: clarity vs efficiency
+
+- First recursive version is:
+
+  - Very clear
+  - Valuable as a description of mathematical properties
+  - Poor as a solving algorithm
+
+- Second recursive version (using accumulators) is:
+  - Much less clear
+  - Much more efficient
+  - It can be easily transformed into an iterative version
+
+## From Recursion to Iteration: Stack
+
+### Example: from recursion to iteration
+
+- Consider a method which computes Xn
+- It can be done iteratively: a for loop on n
+- It can also be done recursively. If you have:
+
+  - X8 can be done as X4 \* X4 (=X4+4=X8)
+  - X12 can be done as X6 \* X6 (=X6+6=X12)
+  - X25 can be done as X _ X12 _ X12 (=X1+12+12=X25)
+
+- Thus, compute Xn//2 (convergence by n//2) and if
+
+  - n is even: multiply the result by itself
+  - n is odd: multiply the result by itself and by X
+
+- Base case: n=0 return 1
+
+### Example: from recursion to iteration
+
+```py
+def power(x: int, n: int) -> int:
+    tmp = 1
+    if n > 0:
+        tmp = power(x, n//2)
+        if n % 2 == 0:
+            tmp = tmp*tmp
+        else:
+            tmp = tmp*tmp*x
+    return tmp
+```
+
+### Recall: recursion with the Runtime Stack
+
+- The system implements recursion by using the runtime stack
+- Each recursive call reserves a new stack area
+
+  - For the parameters and local variables
+
+- Control is then given to the function
+
+  - To modify its variables according to its definition
+
+- Each time a call finishes
+  - Area is removed after transferring the return value to its place
+
+### Direct iterative stack simulation :
+
+```py
+def power(x: int, n: int) -> int:
+    the_stack = Stack(n)
+    while n > 0:
+        the_stack.push(n)
+        n = n//2
+
+    tmp = 1
+    while not the_stack.is_empty():
+        if the_stack.pop() % 2 == 0:
+            tmp = tmp*tmp
+        else:
+            tmp = tmp*tmp*x
+
+    return tmp
+```
+
+### Advantages/Disadvantages of Recursion
+
+- Advantages:
+  - Some times it is more natural (e.g., Fibonacci)
+  - Easier to prove correct (due to its mathematical foundations)
+  - Easier to analyse (due to its mathematical foundations)
+- Disadvantages:
+  - Run-time overhead (for tail-recursion, this will depend on the quality of the
+    compiler)
+  - Memory overhead (fewer local variables versus stack space for function call)
